@@ -10,9 +10,9 @@ import { ThemeProvider } from 'styled-components'
 
 // Components //
 import NavigationBar from './App/Layout/NavigationBar'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import { SpacingContainer } from './App/components'
 import Footer from './App/Layout/Footer'
+import ContentContainer from './App/Layout/ContentContainer'
 
 
 
@@ -30,6 +30,7 @@ function App() {
           
           <SpacingContainer height="100vh" textAlign="center" direction="column">
             <NavigationBar/>
+            <ContentContainer />
             <Footer themeSwitcher={themeSwitcher}/>
           </SpacingContainer>
 
