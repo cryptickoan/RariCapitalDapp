@@ -1,0 +1,28 @@
+.poolInfoButton {
+    width: 30px;
+    align-self: flex-start;
+    margin: 0 0 10px 10px;
+    opacity: .7;
+}
+
+.poolLogo {
+    display: flex;
+    height: 100px;
+    width: 100px; 
+    transition: all 0.4s;
+}
+
+.PoolCards:hover .poolLogo {
+    height:110px;
+    width: 110px;
+}
+
+.openPoolButton {
+    border: none !important;
+    height: 30px;
+    margin-top: 5px;
+}
+
+select {
+    appearance:none;
+}

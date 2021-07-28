@@ -38,8 +38,8 @@ const NavigationBar = () => {
     return (
         <>
         <Sidebar show={show} handleClose={handleClose}  handleModalShow={handleModalShow} />
-        <SpacingContainer height="20%" margin="20px 20px 0px 20px" justifyContent="space-between">
-            <SpacingContainer width="20%">
+        <SpacingContainer height="10%" margin="20px 20px 0px 20px" justifyContent="space-between">
+            <SpacingContainer width="10%">
                 { state.isAuthed
                 ? ( 
                     <SidebarButton >
@@ -57,7 +57,7 @@ const NavigationBar = () => {
                 <Link to="/fuse/all">Fuse</Link>
             </SpacingContainer>
 
-            <SpacingContainer width="20%">
+            <SpacingContainer width="10%">
                 <RightSide state={state} login={login}/>
             </SpacingContainer>
         </SpacingContainer>
@@ -92,10 +92,10 @@ export const ConnectButton = styled.button.attrs(( ) => ({tabIndex: 0}))`
     color: ${({ theme }) => theme.light ? "white" : "black"};
     transition: all 0.3s;
 
+    margin: 0 50% 0 0;
+
     &:hover {
-        box-shadow: ${({ theme }) => theme.light 
-                            ? "0 0 10px black, 0 0 5px black, 0 0 0px black, inset 0 0 10px white" 
-                            : "0 0 10px white, 0 0 5px white, 0 0 0px white, inset 0 0 10px black"};
+        box-shadow: ${({ theme }) => theme.light ? "0 0 20px black" : "0 0 20px white"};
     }
 `
 

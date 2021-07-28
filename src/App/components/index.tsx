@@ -39,7 +39,7 @@ export const SpacingContainer = styled.div<SpacingContainerProps>`
     overflow-x: ${props => props.overflowX};
 
     color: ${props => props.color ?? props.theme.light ? "black" :"white" };
-    text-align: ${props => props.textAlign}
+    text-align: ${props => props.textAlign};
 
     margin-bottom: ${props => props.marginBottom ?? "0"};
     margin: ${props => props.margin};
@@ -78,12 +78,21 @@ interface PProps {
     separate?: string
     glow?: boolean
     neuropolNova?: boolean
+    margin?: string
+    opacity?: string
 }
 
 export const StyledP = styled.p<PProps>`
     font-size: ${props => props.size};
     line-height: ${props => props.separate};
+
+    text-align: center;
+    margin: ${props => props.margin};
+
     text-shadow: ${props => props.glow ? "0 0 18px #B8FF71" : ""};
     font-family: ${props => props.neuropolNova ? "neuropol-nova" : ""};
-    text-align: center;
+
+    opacity: ${props => props.opacity};
+
+
 `

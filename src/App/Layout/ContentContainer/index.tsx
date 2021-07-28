@@ -2,9 +2,13 @@
 import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
+// Components
+import YieldAggregator from '../../Apps/YieldAggregator'
+
 
 export const StyledContentContainer = styled.main`   
-    height: 80%;
+    height: 100%;
+    width: 100%;
 
     display: flex;
     flex-direction: row;
@@ -12,14 +16,13 @@ export const StyledContentContainer = styled.main`
     align-items: center;
 
     overflow: hidden;
-    
 `
 
 const ContentContainer = () => {
     return (
         <StyledContentContainer>
             <Routes>
-                <Route path="/pools/*" element={<h1>hello</h1>}/>
+                <Route path="/pools/*" element={<YieldAggregator/>}/>
                 <Route path="/fuse/*" element={<h1>hey!</h1>}/>
             </Routes>
         </StyledContentContainer>

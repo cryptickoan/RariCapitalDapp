@@ -47,7 +47,7 @@ const Footer = ({themeSwitcher}: {themeSwitcher: Function}) => {
             </SpacingContainer>
                 
             <SpacingContainer flexBasis="10%" justifyContent="space-evenly">
-                {isLoading ? <Spinner/> : <BlockButton gas={gas}/> }   
+                {isLoading ? <Spinner/> : <SpacingContainer width="35px" direction="column"> <BlockButton gas={gas}/> </SpacingContainer> }   
             </SpacingContainer>
         </SpacingContainer>
     )
@@ -67,9 +67,7 @@ export const ThemeToggleButton = styled.button`
 
 export const StyledToolTip = styled.div`
     color: ${({theme})=> theme.light ? "black" : "white"};
-    margin-bottom: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin: 0 10px 10px 10px;
 `
 
 const GasButton = ({gas}: any) =>{
@@ -78,8 +76,8 @@ const GasButton = ({gas}: any) =>{
             key='right'
             placement='right'
             overlay={
-                <StyledToolTip id={`tooltip-top`}>
-                    <p> {gas.fastest/10} | {gas.fast/10} | {gas.average/10}</p>
+                <StyledToolTip>
+                    {gas.fastest/10} | {gas.fast/10} | {gas.average/10}
                 </StyledToolTip>
             }
         >
@@ -101,9 +99,9 @@ const BlockButton = ({gas}: any) => {
                 </StyledToolTip>
             }
         >
-           <span>
+            <a href="https://ethgasstation.info/txPoolReport.php" target="_blank" rel="noreferrer">
                 <Block className="GasIcon"/>
-            </span>
+            </a>
         </OverlayTrigger>
     )
 }

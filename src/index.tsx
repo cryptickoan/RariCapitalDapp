@@ -1,6 +1,7 @@
 // Rari //
 import { RariContextProvider } from './context/RariProvider';
 
+
 // Style //
 import './index.css'
 
