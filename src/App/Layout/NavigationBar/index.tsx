@@ -13,7 +13,7 @@ import logo from '../../../static/logo.jpg'
 import Menu from '../../components/Icons/Menu'
 
 // Components
-// import Sidebar from '../Sidebar'
+import Sidebar from './Sidebar'
 // import AccountModal from '../AccountModal'
 import { Card, SpacingContainer, StyledP } from '../../components'
 
@@ -35,8 +35,7 @@ const NavigationBar = () => {
 
     return (
         <>
-        {// <Sidebar show={show} handleClose={handleClose}  handleModalShow={handleModalShow} />
-            }
+        <Sidebar show={show} handleClose={handleClose}  handleModalShow={handleModalShow} />
         <SpacingContainer height="20%" margin="20px 20px 0px 20px" justifyContent="space-between">
             <SpacingContainer width="20%">
                 { state.isAuthed
