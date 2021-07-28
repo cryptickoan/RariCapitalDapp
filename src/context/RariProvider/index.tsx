@@ -7,14 +7,14 @@ import { createContext, ReactNode, useContext,
 
 // Dependencies //
 import { chooseBestWeb3Provider } from "../../utils/web3Providers"
-import launchModalLazy from "./lib/launchModalLazy"
+import launchModalLazy from "./utils/launchModalLazy"
 
 // RariContextProvider state, reducer and handlers // 
-import reducer, { State, loginSetUp, logOutSetUp } from './lib/RariState'
+import reducer, { RariState, loginSetUp, logOutSetUp, errorSetUp } from './utils/RariState'
 
 // Typing
 export interface RariContextData {
-  state: State;
+  state: RariState;
   login: () => Promise<any>;
   logout: () => any;
 }
@@ -30,6 +30,18 @@ export const RariContextProvider = ({children}: {children: ReactNode}) => {
   
     // Initiating RariState with initialState. state: {rari, address, isAuthed}
     const [state, dispatch] = useReducer(reducer, initialState)
+
+  useEffect(() => {
+      Promise.all([state.rari.web3.eth.net.getId(), state.rari.web3.eth.getChainId()]).then(
+        ([netId, chainId]) => {
+          console.log("Network ID: " + netId, "Chain ID: " + chainId);
+
+          if (netId !== 1 || chainId !== 1) {
+            dispatch(errorSetUp('Wrong network! Switch to mainnet and refresh please.'))
+          }
+        }
+      )
+  }, [state])
 
     // New rari instance once connected
     const setRariAndAddressFromModal = useCallback(

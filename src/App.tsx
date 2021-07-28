@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// React //
+import { useState } from 'react'
+
+// Style //
+import './theme/style.tsx'
+
+// Dependencies
+import { GlobalStyle } from './theme/style'
+import { ThemeProvider } from 'styled-components'
+
+// Components //
+import NavigationBar from './App/Layout/NavigationBar'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { SpacingContainer } from './App/components'
+
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  // Theme toggle //
+  const [theme, setTheme] = useState({light: false})
+
+  const themeSwitcher = () => setTheme({light: !theme.light})
+ 
+
+   return (
+        <ThemeProvider theme={theme}>
+          <GlobalStyle/>
+
+          
+          <SpacingContainer height="100vh" textAlign="center">
+            <NavigationBar/>
+          </SpacingContainer>
+
+          
+        </ThemeProvider>
+    )
 }
 
 export default App;

@@ -2,16 +2,19 @@
 import Rari from '../../../sdk/rari-sdk'
 
 // Typing
-export type State = {
+export type RariState = {
     rari: Rari,
     address: string,
     isAuthed: boolean,
+    error?: {
+        description: string
+    }
 }
 
 type Action =
 | {
     type: "loginSetUp"
-    payload: State
+    payload: RariState
   } 
 | {
     type: "logoutSetUp",
@@ -19,9 +22,15 @@ type Action =
         address: string
     }
   }
+| {
+    type: "error",
+    payload: {
+        description: string
+    }
+}
 
 // Reducer
-const reducer = (state: State, action: Action): State => {
+const reducer = (state: RariState, action: Action): RariState => {
     switch (action.type) {
         case "loginSetUp":
             return {
@@ -35,6 +44,11 @@ const reducer = (state: State, action: Action): State => {
                 ...state,
                 address: action.payload.address,
                 isAuthed: false
+            }
+        case "error": 
+            return {
+                ...state,
+                error: action.payload
             }
         default:
             return state
@@ -60,6 +74,15 @@ export const logOutSetUp = (EmptyAddress: string): Action => {
         type: "logoutSetUp",
         payload: {
             address: EmptyAddress
+        }
+    }
+}
+
+export const errorSetUp = (error: string): Action => {
+    return {
+        type: "error",
+        payload: {
+            description: error
         }
     }
 }
