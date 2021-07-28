@@ -1,4 +1,4 @@
-import { Carousel } from 'react-bootstrap'
+
 import styled from 'styled-components'
 
 // Layout //
@@ -31,16 +31,7 @@ export const PoolInfo = styled.div`
 `
 // LeftDiv //
 
-export const StyledCarousel = styled(Carousel)`
-    height: 100%;
-    width: 100%;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: ${props => props.theme.light ? "black" : "white"} !important;
-`
 export const Graphs = styled.div.attrs(( ) => ({tabIndex: 0}))`
     width: 93%;
     height: 70%;
