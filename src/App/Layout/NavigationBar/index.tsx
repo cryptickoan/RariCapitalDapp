@@ -14,6 +14,8 @@ import Menu from '../../components/Icons/Menu'
 
 // Components
 import Sidebar from './Sidebar'
+import AccountModal from './AccountModal'
+
 // import AccountModal from '../AccountModal'
 import { Card, SpacingContainer, StyledP } from '../../components'
 
@@ -59,8 +61,8 @@ const NavigationBar = () => {
                 <RightSide state={state} login={login}/>
             </SpacingContainer>
         </SpacingContainer>
-        {// <AccountModal show={showModal} close={handleModalClose}/>
-}       </>
+         <AccountModal show={showModal} close={handleModalClose}/>
+       </>
     )
 }
 
