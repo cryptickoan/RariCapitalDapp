@@ -1,0 +1,30 @@
+.infoExit {
+    width: 30px;
+    position: absolute;
+    align-self: flex-start;
+}
+
+.poolInfoLogo {
+    width: 130px;
+    height: 130px;
+    align-self: center;
+}
+
+.carouselNext {
+    transform: rotate(269deg);
+    max-width: 16%;
+}
+
+.carouselPrev {
+    transform: rotate(90deg);
+    max-width: 16%;
+}
+
+
+p {
+    margin:0;
+}
+
+h1{
+    margin: 0;
+}

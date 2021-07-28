@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom'
 
 // Components //
 import PoolCard from './PoolCard'
+import PoolInformation from './PoolInformation'
 
 const PoolDisplayContainer = styled.div`
     width: 100%;
@@ -21,10 +22,11 @@ const YieldAggregator = () => {
         <PoolDisplayContainer>
             <Routes>
                 <Route path="/all" element={<PoolCards/>}/>
-                {//Object.values(Pool).map(pool => 
-                //<Route key={pool} path={pool} element={<PoolsContextProvisioner pool={pool}/>}/>
-                //)
-            }
+                {
+                    Object.values(Pool).map(pool => 
+                        <Route key={pool} path={pool} element={<PoolsContextProvisioner pool={pool}/>}/>
+                    )
+                }
             </Routes>
         </PoolDisplayContainer>
     )
@@ -48,8 +50,7 @@ const PoolsContextProvisioner = ({pool}: any) => {
 
     return (
         <PoolContextProvider pool={pool} >
-            {//<PoolInformation/>
-            }
+            <PoolInformation/>
         </PoolContextProvider>
     )
 }

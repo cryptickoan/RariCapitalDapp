@@ -202,7 +202,7 @@ export const getInterestAccrued = async (pool: Pool, rari: Rari, address: any, s
     const poolSDK = await getPoolSDK(pool, rari)
 
     const interest = await poolSDK.balances.interestAccruedBy(address, Math.floor(startingBlock / 1000))
-
+    
     return interest
 }
 

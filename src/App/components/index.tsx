@@ -96,3 +96,61 @@ export const StyledP = styled.p<PProps>`
 
 
 `
+
+interface InfoPairProps {
+    direction?: string
+    width?: string
+    height?: string
+    marginBottom?: string
+    justifyContent?: string
+    flexBasis?: string
+    numberSize?: string
+    number?:string | undefined
+    alt?: string
+    altSize?: string
+    main?: string
+    secondary?: string
+    glow?: boolean
+    margin?: string
+}
+
+const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, justifyContent, number, numberSize, alt, altSize, main, secondary, margin}: InfoPairProps) => {
+    return (
+        <SpacingContainer margin={margin} flexBasis={flexBasis} direction={direction} width={width} height={height} justifyContent={justifyContent} marginBottom={marginBottom}>
+            <StyledP glow={glow} size={numberSize} separate={main}>{number}</StyledP>
+            <StyledP size={altSize} separate={secondary}>{alt}</StyledP>
+        </SpacingContainer>
+    )
+}
+
+export default InfoPair
+
+
+interface BannerProps {
+    carousel?: boolean
+    fuse?: boolean
+}
+
+export const Banner = styled.div.attrs(( ) => ({tabIndex: 0}))<BannerProps>`
+    max-height: 15%;
+    width: 93%;
+
+    flex-basis: 80%;
+    border-radius: 20px;
+
+    display: flex;
+    justify-content: ${props => props.carousel ? "center" : "space-evenly"};
+    align-items: center;
+    align-content: center;
+
+    background-color: ${props => props.theme.light ? "white" : "black"};
+    box-shadow: ${props => props.fuse ? "" : props.theme.light ? "0px 0px 10px -8px black":"0px 0px 13px -8px  white"};
+    color: ${props => props.theme.light ? "white" : "black"};
+    transition: all 0.4s, box-shadow 0.5s;
+
+
+    &:hover {
+        box-shadow: ${props => props.fuse? "" : props.theme.light ? "0 0 20px black" : "0px 0px 10px white"};
+        border-radius: 15px/50%;
+    }
+`
