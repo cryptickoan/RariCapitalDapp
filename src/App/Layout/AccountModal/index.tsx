@@ -1,5 +1,5 @@
 // Rari //
-import { useRari } from '../../../../context/RariProvider'
+import { useRari } from '../../../context/RariProvider'
 
 // Dependencies
 import styled from 'styled-components'

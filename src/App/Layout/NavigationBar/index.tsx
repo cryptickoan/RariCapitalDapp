@@ -13,8 +13,8 @@ import logo from '../../../static/logo.jpg'
 import Menu from '../../components/Icons/Menu'
 
 // Components
-import Sidebar from './Sidebar'
-import AccountModal from './AccountModal'
+import Sidebar from '../Sidebar'
+import AccountModal from '../AccountModal'
 
 // import AccountModal from '../AccountModal'
 import { Card, SpacingContainer, StyledP } from '../../components'

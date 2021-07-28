@@ -1,5 +1,5 @@
 // Rari //
-import { useRari } from '../../../../context/RariProvider'
+import { useRari } from '../../../context/RariProvider'
 
 // Dependencies
 import { StyledOffcanvas, StyledHeader, SideBar, Profile, 
@@ -7,8 +7,8 @@ import { StyledOffcanvas, StyledHeader, SideBar, Profile,
             PositionsCard, PositionsTable, TableHead} from './styles'
 
 // Images //
-import Exit from '../../../components/Icons/Exit'
-import { SpacingContainer } from '../../../components'
+import Exit from '../../components/Icons/Exit'
+import { SpacingContainer } from '../../components'
 
 export function shortenAddress(address: string) {
     return (
