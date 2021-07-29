@@ -2,7 +2,6 @@
 import { useRari } from '../../../../../context/RariProvider'
 import { usePool, getTokenAllocation, getPoolAllocation } from '../../../../../context/PoolProvider'
 
-
 // Dependencies
 import Carousel from 'react-bootstrap/Carousel'
 import { useQuery } from 'react-query'
@@ -15,7 +14,6 @@ import Spinner from '../../../../components/Icons/Spinner'
 import { StyledCarousel } from './styles'
 
 const InfoCarousel = () => {
-
     // Get Rari //
     const { title } = usePool()
     const { state } = useRari()
@@ -43,22 +41,21 @@ const InfoCarousel = () => {
             <Banner carousel>
                 <StyledCarousel 
                     indicators={false} 
-                    interval={5000} 
+                    interval={500000} 
                     nextIcon={<Open setOpen={() => null} className="carouselNext" />} 
                     prevIcon={<Open setOpen={() => null} className="carouselPrev"/>}
                 >
                     <Carousel.Item>
                         <InfoPair 
                             direction="column" 
-                            width="100%"
-                            justifyContent="center"
                             numberSize="35px"
                             number={`$${total.toLocaleString()}`}
                             glow={true}
                             altSize="15px"
                             alt="total funds in pool"
-                            main="45px"
+                            main="40px"
                             secondary="10px"
+                            margin="0 0 10px 0"
                             />
                     </Carousel.Item>
                     <Carousel.Item>
