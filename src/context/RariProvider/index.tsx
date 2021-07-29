@@ -1,12 +1,13 @@
 // Rari SDK //
 import Rari from "../../sdk/rari-sdk/index"
+import Fuse from "../../sdk/fuse-sdk/src"
 
 // React //
 import { createContext, ReactNode, useContext, 
          useCallback, useEffect, useMemo, useReducer } from "react"
 
 // Dependencies //
-import { chooseBestWeb3Provider } from "../../utils/web3Providers"
+import { chooseBestWeb3Provider, initFuseWithProviders } from "../../utils/web3Providers"
 import launchModalLazy from "./utils/launchModalLazy"
 
 // RariContextProvider state, reducer and handlers // 
@@ -24,7 +25,7 @@ export const RariContext = createContext<RariContextData | undefined>(undefined)
 
 // Initial State for RariState
 const EmptyAddress = "0x0000000000000000000000000000000000000000";
-const initialState = {rari: new Rari(chooseBestWeb3Provider()),  address: EmptyAddress, isAuthed: false}
+const initialState = {rari: new Rari(chooseBestWeb3Provider()), fuse: initFuseWithProviders(),  address: EmptyAddress, isAuthed: false}
 
 export const RariContextProvider = ({children}: {children: ReactNode}) => {
   
@@ -47,11 +48,12 @@ export const RariContextProvider = ({children}: {children: ReactNode}) => {
     const setRariAndAddressFromModal = useCallback(
       async (modalProvider: any) => {
         const rariInstance = new Rari(modalProvider)
+        const fuseInstance = new Fuse(modalProvider)
 
         const addresses = await rariInstance.web3.eth.getAccounts()
         const address = addresses[0]
 
-        dispatch(loginSetUp(rariInstance, address))
+        dispatch(loginSetUp(rariInstance, fuseInstance, address))
       },[])
 
     // Connect by calling Web3Modal
@@ -81,7 +83,7 @@ export const RariContextProvider = ({children}: {children: ReactNode}) => {
     // Value changes whenever state does, or when either login/logout are called
     const value = useMemo(() => 
     ({
-        state, // Rari Instance, address, isAuthed
+        state, // Rari Instance, Fuse Instance, address, isAuthed
         login, // Func
         logout, // Func
     }),[state, login,logout])

@@ -1,9 +1,11 @@
 // Rari SDK
+import Fuse from '../../../sdk/fuse-sdk/src'
 import Rari from '../../../sdk/rari-sdk'
 
 // Typing
 export type RariState = {
     rari: Rari,
+    fuse: Fuse,
     address: string,
     isAuthed: boolean,
     error?: {
@@ -36,6 +38,7 @@ const reducer = (state: RariState, action: Action): RariState => {
             return {
                 ...state,
                 rari: action.payload.rari,
+                fuse: action.payload.fuse,
                 address: action.payload.address,
                 isAuthed: action.payload.isAuthed,
             }
@@ -58,11 +61,12 @@ export default reducer
 
 
 // Handlers 
-export const loginSetUp = (rari: Rari, address: string): Action => {
+export const loginSetUp = (rari: Rari, fuse: Fuse, address: string): Action => {
     return {
         type: "loginSetUp",
         payload: {
             rari: rari,
+            fuse: fuse,
             address: address,
             isAuthed: true,
         }

@@ -114,7 +114,7 @@ interface InfoPairProps {
     margin?: string
 }
 
-const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, justifyContent, number, numberSize, alt, altSize, main, secondary, margin}: InfoPairProps) => {
+export const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, justifyContent, number, numberSize, alt, altSize, main, secondary, margin}: InfoPairProps) => {
     return (
         <SpacingContainer margin={margin} flexBasis={flexBasis} direction={direction} width={width} height={height} justifyContent={justifyContent} marginBottom={marginBottom}>
             <StyledP glow={glow} size={numberSize} separate={main}>{number}</StyledP>
@@ -122,9 +122,6 @@ const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, jus
         </SpacingContainer>
     )
 }
-
-export default InfoPair
-
 
 interface BannerProps {
     carousel?: boolean

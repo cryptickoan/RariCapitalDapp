@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 // Components
 import YieldAggregator from '../../Apps/YieldAggregator'
+import Fuse from '../../Apps/Fuse'
 
 
 export const StyledContentContainer = styled.main`   
@@ -23,7 +24,7 @@ const ContentContainer = () => {
         <StyledContentContainer>
             <Routes>
                 <Route path="/pools/*" element={<YieldAggregator/>}/>
-                <Route path="/fuse/*" element={<h1>hey!</h1>}/>
+                <Route path="/fuse/*" element={<Fuse/>}/>
             </Routes>
         </StyledContentContainer>
     )

@@ -7,7 +7,7 @@ import { useQuery } from 'react-query'
 import { Banner } from '../../../../components'
 
 // Components
-import InfoPair from '../../../../components'
+import { InfoPair } from '../../../../components'
 
 const millisecondsPerDay = 86400000
 

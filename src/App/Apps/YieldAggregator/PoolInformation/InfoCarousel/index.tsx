@@ -8,8 +8,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import { useQuery } from 'react-query'
 
 // Components
-import { Banner } from '../../../../components/index'
-import InfoPair from '../../../../components/index'
+import { Banner, InfoPair } from '../../../../components/index'
 import Open from '../../../../components/Icons/Open'
 import Bar from '../../../../components/Bar'
 import Spinner from '../../../../components/Icons/Spinner'
