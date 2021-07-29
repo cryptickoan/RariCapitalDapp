@@ -71,7 +71,7 @@ export default NavigationBar
 
 export const RightSide = ({state, login}: Pick<RariContextData, "state" | "login">) => {
     if (state.error) {
-        return <Card height="30%" backgroundColor="0 0 18px red" padding="10px" textAlign="center"> <StyledP size="15px" neuropolNova>{state.error.description}</StyledP> </Card>
+        return <Card height="10%" width="20%" position="absolute" right="5%" backgroundColor="0 0 18px red" padding="10px" textAlign="center"> <StyledP size="15px" neuropolNova>{state.error.description}</StyledP> </Card>
     } else {
         return !state.isAuthed ? <ConnectButton onClick={login}>Connect</ConnectButton> : null 
     }
