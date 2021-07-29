@@ -1,12 +1,4 @@
-// React
-import React from "react";
-
-// Styled Components
 import { SpacingContainer, StyledP } from ".."
-
-// Dependencies
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 
 // Type
 interface InfoPairProps {
@@ -24,67 +16,32 @@ interface InfoPairProps {
     secondary?: string
     glow?: boolean
     margin?: string
-    over?: string
 }
 
-interface ConditionalWrapperProps {
-    over?: string;
-    wrapper: (children: JSX.Element) => JSX.Element;
-    children: JSX.Element;
-}
-
-// ConditionalWrapper
-const ConditionalWrapper = ({
-    over,
-    wrapper,
-    children,
-}: React.PropsWithChildren<ConditionalWrapperProps>) => (typeof over !== undefined ? wrapper(children) : children);
-
-const SpacingAndP = ({props}: {props: InfoPairProps}) => {
+const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, justifyContent, number, numberSize, alt, altSize, main, secondary, margin}: InfoPairProps) => {
     return (
         <SpacingContainer 
-        margin={props.margin} 
-        flexBasis={props.flexBasis} 
-        direction={props.direction} 
-        width={props.width} 
-        height={props.height} 
-        justifyContent={props.justifyContent} 
-        marginBottom={props.marginBottom}
-    >
-        <StyledP 
-            glow={props.glow}
-            size={props.numberSize} 
-            separate={props.main}
+            margin={margin} 
+            flexBasis={flexBasis} 
+            direction={direction} 
+            width={width} 
+            height={height} 
+            justifyContent={justifyContent} 
+            marginBottom={marginBottom}
         >
-            {props.number}
-        </StyledP>
-        <StyledP 
-            size={props.altSize} 
-            separate={props.secondary}
-        >
-            {props.alt}
-        </StyledP>
-    </SpacingContainer>
+            <StyledP 
+                glow={glow}
+                size={numberSize} 
+                separate={main}
+            >
+                {number}
+            </StyledP>
+            <StyledP 
+                size={altSize} 
+                separate={secondary}
+            >{alt}</StyledP>
+        </SpacingContainer>
     )
 }
-
-const InfoPair = React.forwardRef(({over, ...rest}: InfoPairProps) => {
-    console.log("infoPair", over)
-    return (
-        <ConditionalWrapper
-            over={over}
-            wrapper={children => (
-                <OverlayTrigger
-                    overlay={<Tooltip id={`tooltip-top`}>{over}</Tooltip>}
-                    placement='top'
-                >
-                    {children}
-                </OverlayTrigger>
-                )}
-        >
-            <SpacingAndP props={rest}/>
-        </ConditionalWrapper>
-    )
-})
 
 export default InfoPair
