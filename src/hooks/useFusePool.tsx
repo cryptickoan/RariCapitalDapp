@@ -48,8 +48,8 @@ const poolSort = (pools: MergedPool[]) => {
 export const fetchPools = async (
     {rari, fuse, address, filter}: 
     {rari: Rari, fuse: Fuse, address: string, filter: string | null})=> {
-    const isMyPools = filter === "my-pools"
-    const isCreatedPools = filter === "created-pools"
+    const isMyPools = filter === "my pools"
+    const isCreatedPools = filter === "created pools"
 
 
     const [
@@ -99,23 +99,25 @@ interface UseFusePoolsReturn {
     filteredPools: MergedPool[] | null
 }
 
-export const useFusePools = (filter: string): UseFusePoolsReturn => {
+export const useFusePools = (filter: string | null): UseFusePoolsReturn => {
     const { state } = useRari();
     const rari = state.rari
     const fuse = state.fuse
     const address = state.address
 
+    console.log('fusePools' + filter)
     const isMyPools = filter === "my pools"
     const isCreatedPools = filter === "created pools"
+    console.log(isMyPools, isCreatedPools)
 
     const { data: pools } = useQuery(
-        state.address + "fusePoolList" + (isMyPools ?? isCreatedPools ? filter : ""), 
+        state.address + " fusePoolList" + (isMyPools || isCreatedPools ? filter : ""), 
         async() => await fetchPools({rari, fuse, address, filter}) )
 
     const filteredPools = useMemo(() => {
         if(!pools) return null
 
-        if(!filter) return pools
+        if(!filter) return poolSort(pools)
 
         if(isMyPools || isCreatedPools) return poolSort(pools)
 

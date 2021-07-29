@@ -1,5 +1,5 @@
 // Rari //
-import { usePool, getInterestAccrued, getAccountBalance, getRSPT} from '../../../../../context/PoolProvider'
+import { usePool, getInterestAccrued, getAccountBalance, getPoolToken } from '../../../../../context/PoolProvider'
 import { useRari } from '../../../../../context/RariProvider'
 
 // Dependencies //
@@ -7,7 +7,7 @@ import { useQuery } from 'react-query'
 import { Banner } from '../../../../components'
 
 // Components
-import { InfoPair } from '../../../../components'
+import InfoPair from '../../../../components/InfoPair'
 
 const millisecondsPerDay = 86400000
 
@@ -16,12 +16,13 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
     const { title } = usePool()
     const { state } = useRari()
 
-    let address = "0x7bD772b5cEcfb11b562690321761973B1b405002"
+    let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
+    //let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
 
 
     // Get interest earned
     const { data: interestEarned } = useQuery(
-        state.address + " " + title + "interest", async () => {
+        address + " " + title + " interest", async () => {
             
             const startingBlock =
                 timeRange === "month"
@@ -38,25 +39,26 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
         }
     )
 
+    
     // Get Account Allocation
-    const { data: accountAllocation } = useQuery(title + "account allocation", async () => {
+    const { data: accountAllocation } = useQuery(title + " account allocation", async () => {
         const allocation = await getAccountBalance(title, state.rari, address)
         return allocation
     })
 
-     const { data: rsptBalance} = useQuery(state.address + " " + "RSPT balance", async () => {
-        const balance = await getRSPT(title, state.rari, address)
+     const { data: rsptBalance} = useQuery(state.address + "" + title + " token balance", async () => {
+        const balance = await getPoolToken(title, state.rari, address)
         return parseFloat(state.rari.web3.utils.fromWei(balance))
     })
 
     console.log(rsptBalance)
 
-    //const { data: exRate } = useQuery("rate", async () => {
-    //    const rate = await state.rari.pools.stable.rspt.getExchangeRate()
-    //    return state.rari.web3.utils.fromWei(rate)
-    //})
+    const { data: exRate } = useQuery(title + " rate", async () => {
+       const rate = await state.rari.pools.dai.rdpt.getExchangeRate()
+       return state.rari.web3.utils.fromWei(rate)
+    })
 
-    console.log(interestEarned, accountAllocation)
+    console.log(interestEarned, accountAllocation, exRate)
 
 
     return (
@@ -66,22 +68,36 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
                 direction="column" 
                 width="100%"
                 justifyContent="center"
-                numberSize="35px"
+                glow={true}
+                numberSize="25px"
                 number={`$${accountAllocation?.toLocaleString()}`}
                 altSize="15px"
                 alt="account balance"
-                main="45px"
+                main="30px"
                 secondary="10px"
                 />
             <InfoPair 
                 direction="column" 
                 width="100%"
                 justifyContent="center"
+                glow={true}
                 numberSize="35px"
                 number={`$${interestEarned?.toLocaleString()}`}
                 altSize="15px"
                 alt={`interest earned last ${timeRange}`}
-                main="45px"
+                main="35px"
+                secondary="10px"
+                />
+            <InfoPair 
+                direction="column" 
+                width="100%"
+                justifyContent="center"
+                glow={true}
+                numberSize="25px"
+                number={`${rsptBalance?.toLocaleString()}`}
+                altSize="15px"
+                alt={title === 'DAI' ? 'RDPT balance' : title === 'USDC' ? 'RSPT balance' : 'REPT balance'}
+                main="30px"
                 secondary="10px"
                 />
         </Banner>

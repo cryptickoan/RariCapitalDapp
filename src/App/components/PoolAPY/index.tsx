@@ -8,17 +8,13 @@ import { APYDisplayer, APY } from './styles'
 import Spinner from '../Icons/Spinner'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import { useEffect } from 'react'
-
-
-const millisecondsPerDay = 86400000
-
+ 
 const PoolAPY = ({pool, type, children, card, setApy, glow}:any ) => {
     const { state } = useRari()
     
     // Get Pool APY //
     const {status, data: apy} = useQuery(
-        type + pool + "apy",() => { 
+        type + " " + pool + " apy",() => { 
             return getPoolAPY(pool, state.rari, type)
         }
     )

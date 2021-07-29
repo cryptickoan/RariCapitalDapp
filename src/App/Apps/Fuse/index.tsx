@@ -7,7 +7,6 @@ import { store } from './FuseSinglePool/redux/reducer'
 // Components
 import FusePoolsDisplay from './FusePoolsDisplay'
 import FuseSinglePool from './FuseSinglePool'
-import { FuseContextProvider } from '../../../context/FuseProvider'
 
 export const FuseContainer = styled.div`
     width: 80%;
@@ -25,7 +24,6 @@ export const FuseContainer = styled.div`
 
 const Fuse = () => {
     return (
-        <FuseContextProvider>
             <FuseContainer>
                     <Provider store={store}>
                         <Routes>
@@ -34,7 +32,6 @@ const Fuse = () => {
                         </Routes>
                     </Provider>
             </FuseContainer>
-        </FuseContextProvider>
     )
 }
 

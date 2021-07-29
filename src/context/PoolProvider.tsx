@@ -218,15 +218,23 @@ export const getAccountBalance = async (pool: Pool, rari: Rari, address: any) =>
 export const getBalanceHistory = async (pool: Pool, rari: Rari, address: any, blockStart: any) => {
     const poolSDK = await getPoolSDK(pool, rari)
 
-    const balance = await poolSDK.history.getBalanceHistoryOf(address, blockStart)
+    const balance = await poolSDK.history.getBalanceHistoryOf(address, blockStart) 
     return balance
 }
 
-export const getRSPT = async (pool: Pool, rari: Rari, address: any) => {
-    const poolSDK = await getPoolSDK(pool, rari)
+export const getPoolToken = async (pool: Pool, rari: Rari, address: any) => {
 
-    const balance = await poolSDK.rspt.balanceOf(address)
-    return balance
+    switch (pool) {
+        case Pool.USDC:
+            return await rari.pools.stable.rspt.balanceOf(address)
+        case Pool.DAI:
+            return await rari.pools.dai.rdpt.balanceOf(address)
+        case Pool.ETH:
+            return await rari.pools.ethereum.rept.balanceOf(address)
+        default:
+            return await rari.pools.stable.rspt.balanceOf(address)
+        }
+            
 }
 
 

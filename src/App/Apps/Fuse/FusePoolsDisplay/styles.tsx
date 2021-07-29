@@ -17,6 +17,8 @@ export const FusePool = styled.div.attrs(( ) => ({tabIndex: 0}))<FusePoolProps>`
     justify-content: space-around;
     align-items: center;
 
+    cursor: pointer;
+
     border-radius: 15px;
     background-color: ${props => props.theme.light ? "white" : "black"};
     box-shadow: ${props => props.theme.light ? "0 0 9px -3px black" : " 0 0 6px -3px white"};
@@ -120,6 +122,7 @@ export const SelectPool = styled.select.attrs(( ) => ({tabIndex: 0}))`
     color: ${props => props.theme.light ? "black" : "white" };
     box-shadow: ${props => props.theme.light ? "0 0 15px -3px black" : "0 0 15px -3px #F0F0F0" };
     transition: all 0.3s;
+    text-align-last:center;
 
     &:hover {
         box-shadow: ${props => props.theme.light ? "0 0 20px -3px white" : "0 0 20px -3px black"};

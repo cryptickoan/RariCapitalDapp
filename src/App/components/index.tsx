@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components'
+
 
 interface SpacingContainerProps {
     width?: string
@@ -11,6 +12,7 @@ interface SpacingContainerProps {
     justifyContent?: string
     alignContent?: string
     alignItems?: string
+    alignSelf?: string
 
     marginBottom?: string
     margin?: string
@@ -34,6 +36,7 @@ export const SpacingContainer = styled.div<SpacingContainerProps>`
     justify-content: ${props => props.justifyContent ?? "center"};
 
     flex-basis: ${props => props.flexBasis};
+    align-self: ${props => props.alignSelf};
 
     overflow-y: ${props => props.overflowY};
     overflow-x: ${props => props.overflowX};
@@ -93,39 +96,13 @@ export const StyledP = styled.p<PProps>`
     text-align: center;
     margin: ${props => props.margin};
 
-    text-shadow: ${props => props.glow ? "0 0 18px #B8FF71" : ""};
-    font-family: ${props => props.neuropolNova ? "neuropol-nova" : ""};
+    text-shadow: ${props => props.glow ? props.theme.light ? "2px 0 10px #B8FF71, 2px 0 5px #B8FF71, 0 2px 6px #B8FF71" : "0 0 18px #B8FF71" : ""};
+    font-family: ${props => props.neuropolNova ? "neuropol-nova" : ""}
 
     opacity: ${props => props.opacity};
 
 
 `
-
-interface InfoPairProps {
-    direction?: string
-    width?: string
-    height?: string
-    marginBottom?: string
-    justifyContent?: string
-    flexBasis?: string
-    numberSize?: string
-    number?:string | undefined
-    alt?: string
-    altSize?: string
-    main?: string
-    secondary?: string
-    glow?: boolean
-    margin?: string
-}
-
-export const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, justifyContent, number, numberSize, alt, altSize, main, secondary, margin}: InfoPairProps) => {
-    return (
-        <SpacingContainer margin={margin} flexBasis={flexBasis} direction={direction} width={width} height={height} justifyContent={justifyContent} marginBottom={marginBottom}>
-            <StyledP glow={glow} size={numberSize} separate={main}>{number}</StyledP>
-            <StyledP size={altSize} separate={secondary}>{alt}</StyledP>
-        </SpacingContainer>
-    )
-}
 
 interface BannerProps {
     carousel?: boolean

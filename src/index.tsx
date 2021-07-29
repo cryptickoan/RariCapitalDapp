@@ -9,6 +9,7 @@ import './index.css'
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider} from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 // Components //
 import App from './App';
@@ -27,6 +28,7 @@ ReactDOM.render(
         <Router>
           <App />
         </Router>
+        <ReactQueryDevtools initialIsOpen={false} position="top-left"/>
       </QueryClientProvider>
     </RariContextProvider>,
   document.getElementById('root')

@@ -1,9 +1,13 @@
+// Styles Components
 import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
 import { Title } from '../styles'
-import Carousel from 'react-bootstrap/Carousel'
 import Bar from '../../../../components/Bar'
+import { SpacingContainer } from "../../../../components"
+import InfoPair from '../../../../components/InfoPair'
+
+// Dependencies
 import { shortenAddress } from '../../../../Layout/Sidebar'
-import { SpacingContainer, InfoPair } from "../../../../components"
+import Carousel from 'react-bootstrap/Carousel'
 
 const FusePoolInfo = ({creator, poolInfo}: any) => {
     return ( 

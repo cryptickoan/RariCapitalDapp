@@ -1,31 +1,51 @@
-// Fuse 
+// React
+import { useEffect, useState } from 'react'
+
+// Fuse
 import { useFuseTVL } from '../../../../hooks/useFuseTVL';
-import { MergedPool } from '../../../../hooks/useFusePool';
+import { MergedPool, useFusePools } from '../../../../hooks/useFusePool';
 import { usePoolRSS, getScore } from '../../../../hooks/useFuseRss';
 
 // Dependencies
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import { BarSpan, TopBar, PoolListDiv, SearchBar, 
          SearchBarInput, SearchBarIcon, SelectPool, TVL, 
          FusePool, FusePoolSpan} from './styles';
-
+         
 
 // Icons
 import Search from '../../../components/Icons/Search';
 import Spinner from '../../../components/Icons/Spinner';
 
 import './styles.css'
-import { useFuse } from '../../../../context/FuseProvider';
 
 // Components
-import { InfoPair } from '../../../components';
+import InfoPair from '../../../components/InfoPair';
+import { SpacingContainer } from '../../../components';
+import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 
 const FusePoolsDisplay = () => {
+    // Filter
+    const [filter, setFilter] = useState('')
+
+    // Search
+    const [search, setSearch] = useState('')
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            setFilter(search)
+        }, 3000)
+
+        return () => clearTimeout(delayDebounce)
+    }, [search])
+
     // Fuse TVL
     const { data: fuseTVL } = useFuseTVL();
 
     // Fuse pools 
-    const filteredPools = useFuse()
+    const filteredPools = useFusePools((filter === 'All' ? null : filter.toLocaleLowerCase()))
+    console.log(filteredPools)
 
     return (
             <>
@@ -36,7 +56,7 @@ const FusePoolsDisplay = () => {
                             <SearchBarIcon>
                                 <Search className="search"/>
                             </SearchBarIcon>
-                            <SearchBarInput type="text"/>
+                            <SearchBarInput type="text" onChange={(e) => setSearch(e.target.value)}/>
                         </SearchBar>
                     </BarSpan>
                     <BarSpan tvl>
@@ -44,20 +64,20 @@ const FusePoolsDisplay = () => {
                             {fuseTVL ? <InfoPair 
                                 direction="column" 
                                 width="100%"
-                                justifyContent="space-evenly"
-                                numberSize="15px"
+                                justifyContent="center"
+                                numberSize="13px"
                                 number="Total value supplied across fuse"
-                                altSize="35px"
+                                altSize="30px"
                                 glow={true}
                                 alt={`$${fuseTVL?.toLocaleString()}`}
                                 main="10px"
-                                secondary="35px"
+                                secondary="30px"
                                 />: <Spinner />
                             }
                         </TVL>
                     </BarSpan>
                     <BarSpan>
-                        <SelectPool>
+                        <SelectPool onChange={(e) => setFilter(e.target.value)}>
                             <option >All</option>
                             <option >My Pools</option>
                             <option >Created Pools</option>
@@ -74,9 +94,11 @@ const FusePoolsDisplay = () => {
             </PoolListDiv>
             <PoolListDiv>
                 {
-                  filteredPools ? 
-                  filteredPools.map((pool: MergedPool) => <FusePoolRow pool={pool} key={pool.pool.name}/>)
-                  : <Spinner/>
+                filteredPools
+                  ? filteredPools.filteredPools?.length === 0
+                  ? <SpacingContainer><h2>Looks like you {filter === "My Pools"? "don't have any pools" : "didn't create any pools"} </h2></SpacingContainer>
+                  : filteredPools.filteredPools?.map((pool: MergedPool) => <FusePoolRow pool={pool} key={pool.pool.name}/>)
+                  : <Spinner/>  
                 }
             </PoolListDiv>
             </>
@@ -87,7 +109,7 @@ const FusePoolsDisplay = () => {
 export default FusePoolsDisplay
 
 
-const FusePoolRow = ({pool}: any) => {
+const FusePoolRow = ({pool}: {pool: MergedPool}) => {
     const rss = usePoolRSS(pool.id)
 
     const score = rss ? getScore(rss.totalScore) : "loading..."
@@ -107,10 +129,10 @@ const FusePoolRow = ({pool}: any) => {
                 <p>{pool.id}</p>
             </FusePoolSpan>
             <FusePoolSpan>
-                <p>{pool.suppliedUSD.toLocaleString()}</p>
+                <p>${pool.suppliedUSD.toLocaleString()}</p>
             </FusePoolSpan>
             <FusePoolSpan>
-                <p>{pool.borrowedUSD.toLocaleString()}</p>
+                <p>${pool.borrowedUSD.toLocaleString()}</p>
             </FusePoolSpan> 
             <FusePoolSpan>
                 {score}

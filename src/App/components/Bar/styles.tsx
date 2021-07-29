@@ -28,6 +28,8 @@ export const Fill = styled.span.attrs(( ) => ({tabIndex: 0}))<fillProps>`
     justify-content: center;
     align-items: center;
 
+    font-size: 12px;
+
     &:hover {
         box-shadow: inset 0 0 12px #B8FF71;
         width: ${(props) => props.percentage + 30}%;

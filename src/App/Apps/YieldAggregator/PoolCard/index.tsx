@@ -1,5 +1,5 @@
 // Rari // 
-import { usePool } from '../../../../context/PoolProvider'
+import { Pool, usePool } from '../../../../context/PoolProvider'
 
 
 // React //
@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router'
 import {PoolCards, PoolContent,  PoolHeader, PoolText, 
         OpenTitle, PoolTitle, PoolSub,  PoolDescription, 
         OpenDiv, DepositWithdrawDiv } from './styles'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 // Components //
 import DepositWithdraw from './DepositWithdraw'
@@ -22,12 +24,26 @@ import Information from '../../../components/Icons/Information'
 
 // Styles for Icons //
 import './styles.css'
+import { SpacingContainer } from '../../../components'
 
 const PoolCard = () => {
     const [open, setOpen] = useState(false);
     const {title, description} = usePool()
     const props = { isOpen: open }
     const navigate = useNavigate()
+
+    const getInfo = (title: Pool) => {
+        switch (title) {
+            case Pool.DAI:
+                return "Rebalances DAI between dYdX, Compound, Aave, mStable, Fuse6, Fuse7 and Fuse8"
+            case Pool.ETH:
+                return "Rebalances ETH between dYdX, Compound, KeeperDao, Aave, Alpha, Enxyme"
+            case Pool.USDC:
+                return "Rebalances USDC between dYdX, Compound, Aave, mStable, and Fuse"
+            default:
+                break;
+        }
+    }
 
     const openInfo = () => {
         navigate(`../${title}`)
@@ -59,7 +75,15 @@ const PoolCard = () => {
                 </DepositWithdrawDiv>
 
             </PoolContent>
-            <Information onClick={openInfo} className="poolInfoButton" />
+            <OverlayTrigger
+                key='top'
+                placement='top'
+                overlay={<Tooltip id={`tooltip-top`}>{getInfo(title)}</Tooltip>}
+            >
+                <SpacingContainer width="20%" height="10%" alignSelf="flex-start">
+                    <Information onClick={openInfo} className="poolInfoButton" />
+                </SpacingContainer>
+            </OverlayTrigger>
         </PoolCards>
 
 

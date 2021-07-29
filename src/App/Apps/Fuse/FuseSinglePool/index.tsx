@@ -2,7 +2,6 @@
 import { useRari } from '../../../../context/RariProvider'
 
 // Fuse
-import { useFuse } from '../../../../context/FuseProvider'
 import {  useFusePoolData } from '../../../../hooks/useFusePoolData'
 import { createComptroller } from '../../../../utils/createComptroller'
 
@@ -21,7 +20,8 @@ import { updateDisplay, updateGraph } from './redux/reducer'
 
 // Components
 import FusePoolInfo from './FusePoolInfo'
-import { Card, SpacingContainer, Button, StyledP, InfoPair } from '../../../components'
+import { Card, SpacingContainer, Button, StyledP } from '../../../components'
+import InfoPair from '../../../components/InfoPair'
 
 // Icons 
 import Spinner from "../../../components/Icons/Spinner"
@@ -29,13 +29,14 @@ import {  MarketBar, CollateralToggle, SimulationInput } from "./styles"
 import { StyledCarousel } from '../../YieldAggregator/PoolInformation/InfoCarousel/styles'
 import { Carousel } from 'react-bootstrap'
 import { ActionButton, ActionButtonGroup } from '../../YieldAggregator/PoolCard/DepositWithdraw/styles'
+import { useFusePools } from '../../../../hooks/useFusePool'
 
 const FuseSinglePool = () => {
     // Get pool info based on ID
     const { id } = useParams()
     console.log("rendering", id)
     
-    const fusePools = useFuse()
+    const fusePools = useFusePools(null)
 
     const { isLoading, data: poolInfo}  = useFusePoolData(id)
     console.log(poolInfo)
@@ -45,7 +46,7 @@ const FuseSinglePool = () => {
         { poolInfo && fusePools 
         ?   ( 
         <>
-                <FusePoolInfo creator={fusePools[id].pool.creator} poolInfo={poolInfo}/> 
+                { fusePools.pools ? <FusePoolInfo creator={fusePools.pools[parseInt(id)].pool.creator} poolInfo={poolInfo}/> : <Spinner/>}
 
                 <SpacingContainer height="90%" width="110%">
                     
@@ -229,6 +230,7 @@ const MarketBars = ({comptrollerAddress, asset, action }: {comptrollerAddress: a
     }
     
     const queryClient = useQueryClient();
+
     const onToggleCollateral = async () => {
         const comptroller = createComptroller(comptrollerAddress, state.fuse);
     
@@ -320,6 +322,7 @@ const MarketBars = ({comptrollerAddress, asset, action }: {comptrollerAddress: a
                                         secondary="15px"
                                         marginBottom="5px"
                                         glow={true}
+                                        over={`${isLend ? "Loan To Value ratio defines maximum amount of tokens that can be borrowed. If ETH has 75% LTV, for every 1ETH you can borrow 0.7ETH." : ""}`}
                                     />
                                 </SpacingContainer>
                             </SpacingContainer>

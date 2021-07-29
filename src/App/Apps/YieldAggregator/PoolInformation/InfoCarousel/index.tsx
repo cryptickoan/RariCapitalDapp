@@ -7,10 +7,11 @@ import Carousel from 'react-bootstrap/Carousel'
 import { useQuery } from 'react-query'
 
 // Components
-import { Banner, InfoPair } from '../../../../components/index'
+import { Banner } from '../../../../components/index'
 import Open from '../../../../components/Icons/Open'
 import Bar from '../../../../components/Bar'
 import Spinner from '../../../../components/Icons/Spinner'
+import InfoPair from '../../../../components/InfoPair'
 import { StyledCarousel } from './styles'
 
 const InfoCarousel = () => {
@@ -19,12 +20,12 @@ const InfoCarousel = () => {
     const { state } = useRari()
 
     // Get Data //
-    const {status, data: tokenAllocation} = useQuery(title + "token allocation", async () => {
+    const {status, data: tokenAllocation} = useQuery(title + " pool token allocation", async () => {
         const allocation: ({[key: string]: number}) = await getTokenAllocation(title, state.rari)
         return allocation
     })
 
-    const {status: poolStat, data: poolAllocation} = useQuery(title + "pool allocation", async () => {
+    const {status: poolStat, data: poolAllocation} = useQuery(title + " pool strategy allocation", async () => {
         const allocation: ({[key: string]: number})= await getPoolAllocation(title, state.rari)
         return allocation
     })

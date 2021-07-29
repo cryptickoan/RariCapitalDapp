@@ -16,7 +16,6 @@ import Spinner from '../../../../components/Icons/Spinner'
 
 const blocksPerDay = 6500;
 
-
 export const LineChartOptions: ApexOptions = {  
     chart: {
       foreColor: "gray",
@@ -122,13 +121,15 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
     const [allocation, setAllocation] = useState(0)
     
     // Get data. Total token allocation and account allocation //
-    const { data: tokenAllocation} = useQuery(title + "token allocation", async () => {
+    const { data: tokenAllocation} = useQuery(title + " pool token allocation", async () => {
         const allocation: ({[key: string]: number}) = await getTokenAllocation(title, state.rari)
         return allocation
     })
 
-    let address = "0xc262ae1cca7684c52f6d430862083eabfbbbec93"
-    const { data: accountAllocation } = useQuery(title + "account allocation", async () => {
+    let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
+    // let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
+    
+    const { data: accountAllocation } = useQuery(title + " pool account allocation", async () => {
         const allocation = await getAccountBalance(title, state.rari, address)
         return allocation
     })
@@ -160,9 +161,10 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
     useImperativeHandle(ref, () => ({togglePool, toggleAccount}))
 
 
-    const { data: balanceHistory } = useQuery(address + " " + title + " " + props.timeRange + "balance history",
+    const { data: balanceHistory } = useQuery(address + " " + title + " " + props.timeRange + " balance history",
         async() => {
             const latestBlock = await state.rari.web3.eth.getBlockNumber()
+            console.log(latestBlock)
             
             const blockStart =
                 props.timeRange === "month"
@@ -170,7 +172,7 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
                 : props.timeRange === "year"
                 ? latestBlock - blocksPerDay * 365
                 : props.timeRange === "week"
-                ? latestBlock - blocksPerDay * 7
+                ? latestBlock - blocksPerDay * 10
                 : 0;
 
             const balance = await getBalanceHistory( title, state.rari, address, blockStart)
@@ -217,7 +219,7 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
                 { props.graph === "simulation" ?
                     <Type>Simulation with <strong>{ props.graphType ? props.graphType.type : ""}'s APY</strong> using <strong>{props.activeAllocation}'s</strong> balance over next year</Type>
                     : 
-                    <Type>Returns from last {props.timeRange}</Type>
+                    <Type>Balance history from last {props.timeRange}</Type>
                 }
                 <Chart options={{...LineChartOptions }} 
                         series={[{name: ``, data: info}]} 
