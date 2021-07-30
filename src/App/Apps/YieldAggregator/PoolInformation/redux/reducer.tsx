@@ -48,6 +48,16 @@ type Action =
 }
 
 // Handlers
+
+// InitiateDefault will receive all necessary info to start or modify the simulation graph. 
+// As props it only receives what is needed to generate all data used in the graph i.e data and categories.
+
+// Known Bug:
+// First call uses artificial apy. If user changes between 
+// account allocation and pool allocation without playing with APY, the initial artificial apy 
+// will be used to generate data. 
+// I'm thinking redux can do all data requests to avoid this issue.
+
 type initiateDefaultProps = Omit<InitiatedGraph, "data" | "categories" | "stage">
 
 export const initiateDefault = ({graphAPY, timerange, graphType, allocation}: initiateDefaultProps ): Action => {
@@ -70,6 +80,15 @@ export const initiateDefault = ({graphAPY, timerange, graphType, allocation}: in
         }
     }
 }
+
+
+// initiateBalanceHistory will receive necesarry information to generate all data used in the graph. 
+// i.e data and categories
+
+// Known Bug:
+// Balance history is fetched with initial state's timeRange and it can't be refetched without
+// useEffect and a double redux call, this could make the UI funky.
+// redux fetching all data seems to be better. 
 
 type initiateBalanceHistoryProps = {
     state: InitiatedGraph
