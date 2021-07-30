@@ -18,13 +18,11 @@ const PoolAPY = ({pool, type, children, card}:any ) => {
     const dispatch = useDispatch()
     
     // Get Pool APY //
-    const {status, data: apy} = useQuery(
+    const {data: apy} = useQuery(
         type + " " + pool + " apy",() => { 
             return getPoolAPY(pool, state.rari, type)
         }
     )
-
-    
 
     // setting props for displayer and apy //
     const props = {
