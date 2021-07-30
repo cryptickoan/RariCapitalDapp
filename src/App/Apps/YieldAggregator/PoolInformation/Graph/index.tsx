@@ -13,6 +13,8 @@ import { ApexOptions } from 'apexcharts'
 
 // Icons
 import Spinner from '../../../../components/Icons/Spinner'
+import { useDispatch, useSelector } from 'react-redux'
+import { initiateDefault, GraphState, initiateBalanceHistory } from '../redux/reducer'
 
 const blocksPerDay = 6500;
 
@@ -95,8 +97,7 @@ export const LineChartOptions: ApexOptions = {
 
 };
 
-
-const getYear = (tvl: number, apy: number): any => {
+export const getYear = (tvl: number, apy: number): any => {
     const monthlyInterest = Math.trunc(tvl) * (apy / 12)
     const now = new Date()
     const month = now.getMonth()
@@ -117,8 +118,9 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
     const { title } = usePool()
     const { state } = useRari()
 
-    // Balance used for simulation i.e token/pool or account's, after fetching data useEffect is triggered and this will default to pool's balance//
-    const [allocation, setAllocation] = useState(0)
+    const graphState = useSelector((state: GraphState) => state)
+    const dispatch = useDispatch()
+    console.log(graphState)
     
     // Get data. Total token allocation and account allocation //
     const { data: tokenAllocation} = useQuery(title + " pool token allocation", async () => {
@@ -126,6 +128,7 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
         return allocation
     })
 
+    // TO BE REMOVED
     let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
     // let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
     
@@ -137,28 +140,33 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
     // After token allocation is fetched, set default for graph //
     useEffect(() => {
         if(typeof tokenAllocation !== "undefined") {
-            setAllocation(tokenAllocation.total)
-        }
-    }, [tokenAllocation])
+            dispatch(initiateDefault({
+              graphAPY: {type: 'last year', apy: 11.7  },
+              timerange: "year",
+              graphType: "simulation",
+              allocation: {
+                type: "pool",
+                amount: tokenAllocation.total, 
+              }
+            }))
+          }
+    }, [tokenAllocation, dispatch])
 
 
     // Toggle between allocation to be used (account, total in pool) //
     const togglePool = () => {
-            if (typeof tokenAllocation !== "undefined") {
-                setAllocation(tokenAllocation.total) 
+            if (typeof tokenAllocation !== "undefined" && graphState.stage === 'ready') {
+                dispatch(initiateDefault({...graphState, allocation: {type: "pool", amount: tokenAllocation.total} }))
             } 
             else return
     }
 
     const toggleAccount = () => {
-        if (typeof accountAllocation !== "undefined") {
-            setAllocation(accountAllocation)
+        if (typeof accountAllocation !== "undefined" && graphState.stage === 'ready') {
+            dispatch(initiateDefault({...graphState, allocation: {type: "account", amount: accountAllocation} }))
         }
         else return
     }
-
-    // Make methods available to components uptree //
-    useImperativeHandle(ref, () => ({togglePool, toggleAccount}))
 
 
     const { data: balanceHistory } = useQuery(address + " " + title + " " + props.timeRange + " balance history",
@@ -180,6 +188,21 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
             }
     )
 
+    const toggleGraphToBalanceHistory = () => {
+        if (typeof balanceHistory !== 'undefined' && graphState.stage === 'ready'){
+          dispatch(initiateBalanceHistory({state: graphState, balanceHistory: balanceHistory}) ) 
+        }
+    }
+
+    const toggleGraphToSimulation = () => {
+      if (typeof tokenAllocation !== 'undefined' && graphState.stage === 'ready'){
+        dispatch(initiateDefault({...graphState, graphType: 'simulation', allocation: {type: "pool", amount: tokenAllocation.total} }))
+      }
+    }
+
+    // Make methods available to components uptree //
+    useImperativeHandle(ref, () => ({togglePool, toggleAccount, toggleGraphToSimulation, toggleGraphToBalanceHistory}))
+
     if (balanceHistory) {
         console.log(balanceHistory.map((point: any) => { 
             return {
@@ -190,39 +213,38 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
 
 
 
-    // Info used for the graph //
-    const [info, setInfo] = useState<number[]>([])
-
     // Generate data based on type of graph (i.e returns, simulation), 
     // balance (i.e account, total in pool) and, if simulation, 
-    // type of apy (i.e last year, month, current), then set it to info
-
-    useEffect(() => {
-        if (props.graph === "return" && typeof balanceHistory !== "undefined") {
-            const chartData = (balanceHistory).map((point: any) => {
-                return {
-                    x: new Date(point.timestamp * 1000).toLocaleDateString("en-US"),
-                    y: parseFloat(point.balance) / 1e18
-                }
-            })
-            setInfo(chartData)
-        } else setInfo(getYear(allocation, (props.graphType.apy / 100)))
-    },[props.graph, props.graphType.apy, allocation, balanceHistory])
+    // type of apy (i.e last year, month, current), then set it to info 
+    // useEffect(() => {
+    //     if (props.graph === "return" && typeof balanceHistory !== "undefined") {
+    //         const chartData = (balanceHistory).map((point: any) => {
+    //             return {
+    //                 x: new Date(point.timestamp * 1000).toLocaleDateString("en-US"),
+    //                 y: parseFloat(point.balance) / 1e18
+    //             }
+    //         })
+    //     }
+    // },[props.graph, allocation, balanceHistory])
 
     
-    if (typeof tokenAllocation === "undefined" || typeof accountAllocation === "undefined") {
+    if (typeof tokenAllocation === "undefined" || typeof accountAllocation === "undefined" || graphState.stage !== 'ready' || !graphState.data ) {
         return <Spinner />
     }
 
         return (
-            <>
-                { props.graph === "simulation" ?
-                    <Type>Simulation with <strong>{ props.graphType ? props.graphType.type : ""}'s APY</strong> using <strong>{props.activeAllocation}'s</strong> balance over next year</Type>
+            <> 
+                { graphState.graphType === "simulation" ?
+                    <Type>Simulation with <strong>{graphState.graphAPY.type}'s APY</strong> using <strong>{graphState.allocation.type}'s</strong> balance over next year</Type>
                     : 
                     <Type>Balance history from last {props.timeRange}</Type>
                 }
-                <Chart options={{...LineChartOptions }} 
-                        series={[{name: ``, data: info}]} 
+                <Chart options={{...LineChartOptions,
+                        xaxis:{
+                          type: "category",
+                          categories: graphState.categories
+                        } }} 
+                        series={[graphState.data]} 
                         type="line" 
                         height={275} 
                         width={770}/>

@@ -8,6 +8,8 @@ import { Routes, Route } from 'react-router-dom'
 // Components //
 import PoolCard from './PoolCard'
 import PoolInformation from './PoolInformation'
+import { Provider } from 'react-redux'
+import { graphStore } from './PoolInformation/redux/reducer'
 
 const PoolDisplayContainer = styled.div`
     width: 100%;
@@ -20,14 +22,16 @@ const PoolDisplayContainer = styled.div`
 const YieldAggregator = () => {
     return (
         <PoolDisplayContainer>
-            <Routes>
-                <Route path="/all" element={<PoolCards/>}/>
-                {
-                    Object.values(Pool).map(pool => 
-                        <Route key={pool} path={pool} element={<PoolsContextProvisioner pool={pool}/>}/>
-                    )
-                }
-            </Routes>
+            <Provider store={graphStore}>
+                <Routes>
+                    <Route path="/all" element={<PoolCards/>}/>
+                    {
+                        Object.values(Pool).map(pool => 
+                            <Route key={pool} path={pool} element={<PoolsContextProvisioner pool={pool}/>}/>
+                        )
+                    }
+                </Routes>
+            </Provider>
         </PoolDisplayContainer>
     )
 }
