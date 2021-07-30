@@ -27,11 +27,11 @@ type SidebarProps = {
     handleModalShow: Function
 }
 
+
+
 const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
     const { state }= useRari()
     
-    
-
     const shortenedAddress = shortenAddress(state.address)
 
     return (
