@@ -17,6 +17,8 @@ import { LineChartOptions, getInterest, DataEntry, getCategories } from '../../.
 import { convertMantissaToAPR, convertMantissaToAPY } from '../../../../utils/APY'
 import {  useSelector, useDispatch } from 'react-redux'
 import { updateDisplay, updateGraph } from './redux/reducer'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 // Components
 import FusePoolInfo from './FusePoolInfo'
@@ -308,23 +310,29 @@ const MarketBars = ({comptrollerAddress, asset, action }: {comptrollerAddress: a
                                         glow={true}
                                     />
                                 </SpacingContainer>
+                                <OverlayTrigger
+                                        overlay={<Tooltip id={`tooltip-top`}>{isLend 
+                                            ? "Lend to Value ratio determines the max amount you can borrow. i.e. if ETH has a 75% LTV for every ETH you can borrow 0.75ETH" 
+                                            : "Usage percentage."}</Tooltip>}
+                                        placement='top'
+                                    >
                                 <SpacingContainer flexBasis="50%" margin="0 20px 0 0">
-                                    <InfoPair 
-                                        direction="column" 
-                                        width="10%"
-                                        flexBasis="10%"
-                                        justifyContent="center"
-                                        numberSize="10px"
-                                        number={`${isLend ? "LTV" : "TVL"}`}
-                                        altSize="13px"
-                                        alt={`${isLend ? (asset.collateralFactor / 1e16) : ((asset.liquidityUSD * 100) / asset.totalSupplyUSD).toFixed(2)}%`}
-                                        main="15px"
-                                        secondary="15px"
-                                        marginBottom="5px"
-                                        glow={true}
-                                        over={`${isLend ? "Loan To Value ratio defines maximum amount of tokens that can be borrowed. If ETH has 75% LTV, for every 1ETH you can borrow 0.7ETH." : ""}`}
-                                    />
+                                        <InfoPair 
+                                            direction="column" 
+                                            width="10%"
+                                            flexBasis="10%"
+                                            justifyContent="center"
+                                            numberSize="10px"
+                                            number={`${isLend ? "LTV" : "Usage"}`}
+                                            altSize="13px"
+                                            alt={`${isLend ? (asset.collateralFactor / 1e16) : ((asset.liquidityUSD * 100) / asset.totalSupplyUSD).toFixed(2)}%`}
+                                            main="15px"
+                                            secondary="15px"
+                                            marginBottom="5px"
+                                            glow={true}
+                                        />
                                 </SpacingContainer>
+                                </OverlayTrigger>
                             </SpacingContainer>
                         </Carousel.Item>
 
