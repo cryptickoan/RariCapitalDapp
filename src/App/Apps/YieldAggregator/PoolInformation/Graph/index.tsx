@@ -14,7 +14,8 @@ import { ApexOptions } from 'apexcharts'
 // Icons
 import Spinner from '../../../../components/Icons/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
-import { initiateDefault, GraphState, initiateBalanceHistory } from '../redux/reducer'
+import { initiateDefault, GraphState, initiateBalanceHistory, timerangeChange } from '../redux/reducer'
+import { InitiatedGraph } from '../redux/type'
 
 const blocksPerDay = 6500;
 
@@ -152,6 +153,24 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
           }
     }, [tokenAllocation, dispatch])
 
+    const { data: balanceHistory } = useQuery(address + " " + title + " " + graphState.timerange + " balance history",
+    async() => {
+        const latestBlock = await state.rari.web3.eth.getBlockNumber()
+        console.log(latestBlock)
+        
+        const blockStart =
+            props.timeRange === "month"
+            ? latestBlock - blocksPerDay * 31
+            : props.timeRange === "year"
+            ? latestBlock - blocksPerDay * 365
+            : props.timeRange === "week"
+            ? latestBlock - blocksPerDay * 10
+            : 0;
+
+        const balance = await getBalanceHistory( title, state.rari, address, blockStart)
+        return balance
+        }
+    )
 
     // Toggle between allocation to be used (account, total in pool) //
     const togglePool = () => {
@@ -168,30 +187,16 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
         else return
     }
 
-
-    const { data: balanceHistory } = useQuery(address + " " + title + " " + props.timeRange + " balance history",
-        async() => {
-            const latestBlock = await state.rari.web3.eth.getBlockNumber()
-            console.log(latestBlock)
-            
-            const blockStart =
-                props.timeRange === "month"
-                ? latestBlock - blocksPerDay * 31
-                : props.timeRange === "year"
-                ? latestBlock - blocksPerDay * 365
-                : props.timeRange === "week"
-                ? latestBlock - blocksPerDay * 10
-                : 0;
-
-            const balance = await getBalanceHistory( title, state.rari, address, blockStart)
-            return balance
-            }
-    )
-
     const toggleGraphToBalanceHistory = () => {
         if (typeof balanceHistory !== 'undefined' && graphState.stage === 'ready'){
           dispatch(initiateBalanceHistory({state: graphState, balanceHistory: balanceHistory}) ) 
         }
+    }
+
+    const toggleBalanceHistoryTimeRange = (timerange: InitiatedGraph["timerange"]) => {
+      if (graphState.stage === 'ready') {
+        dispatch(timerangeChange({state: graphState, timeRange: timerange}))
+      }
     }
 
     const toggleGraphToSimulation = () => {
@@ -201,32 +206,7 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
     }
 
     // Make methods available to components uptree //
-    useImperativeHandle(ref, () => ({togglePool, toggleAccount, toggleGraphToSimulation, toggleGraphToBalanceHistory}))
-
-    if (balanceHistory) {
-        console.log(balanceHistory.map((point: any) => { 
-            return {
-                        x: new Date(point.timestamp * 1000).toLocaleDateString("en"),
-                        y: parseFloat(point.balance) / 1e18
-                    }}))
-    }
-
-
-
-    // Generate data based on type of graph (i.e returns, simulation), 
-    // balance (i.e account, total in pool) and, if simulation, 
-    // type of apy (i.e last year, month, current), then set it to info 
-    // useEffect(() => {
-    //     if (props.graph === "return" && typeof balanceHistory !== "undefined") {
-    //         const chartData = (balanceHistory).map((point: any) => {
-    //             return {
-    //                 x: new Date(point.timestamp * 1000).toLocaleDateString("en-US"),
-    //                 y: parseFloat(point.balance) / 1e18
-    //             }
-    //         })
-    //     }
-    // },[props.graph, allocation, balanceHistory])
-
+    useImperativeHandle(ref, () => ({togglePool, toggleAccount, toggleGraphToSimulation, toggleGraphToBalanceHistory, toggleBalanceHistoryTimeRange}))
     
     if (typeof tokenAllocation === "undefined" || typeof accountAllocation === "undefined" || graphState.stage !== 'ready' || !graphState.data ) {
         return <Spinner />
@@ -237,7 +217,7 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
                 { graphState.graphType === "simulation" ?
                     <Type>Simulation with <strong>{graphState.graphAPY.type}'s APY</strong> using <strong>{graphState.allocation.type}'s</strong> balance over next year</Type>
                     : 
-                    <Type>Balance history from last {props.timeRange}</Type>
+                    <Type>Balance history from last {graphState.timerange}</Type>
                 }
                 <Chart options={{...LineChartOptions,
                         xaxis:{

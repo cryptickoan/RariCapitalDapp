@@ -23,6 +23,8 @@ const reducer = (state: GraphState = initialState, action: Action): GraphState =
             return { ...action.data }
         case "initiateBalanceHistory":
             return { ...action.data}
+        case 'changeTimeRange':
+            return { ...action.data}
         default:
             return { ...initialState }
     }
@@ -38,6 +40,10 @@ type Action =
 }
 | {
     type: 'initiateBalanceHistory'
+    data: GraphState
+}
+| {
+    type: 'changeTimeRange'
     data: GraphState
 }
 
@@ -82,7 +88,19 @@ export const initiateBalanceHistory = ({state, balanceHistory}: initiateBalanceH
 
     return {
         type: 'initiateBalanceHistory',
-        data: {...state, graphType: 'balance history', categories: categories, data: {name: '', data: data }}
+        data: {...state, allocation: {type: 'account', amount: 0 }, graphType: 'balance history', categories: categories, data: {name: '', data: data }}
+    }
+}
+
+type changeTimeRangeProps = {
+    state: InitiatedGraph
+    timeRange: InitiatedGraph["timerange"]
+}
+
+export const timerangeChange = ({state, timeRange}: changeTimeRangeProps):Action => {
+    return {
+        type: 'changeTimeRange',
+        data: {...state, timerange: timeRange}
     }
 }
 

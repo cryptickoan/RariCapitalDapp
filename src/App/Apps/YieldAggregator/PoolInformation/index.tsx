@@ -2,7 +2,7 @@
 import { usePool } from '../../../../context/PoolProvider'
 
 // React //
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
 
 // Styles //
 import './styles.css' 
@@ -27,14 +27,12 @@ import Exit from '../../../components/Icons/Exit'
 import Logo from '../../../components/PoolIcons/Logo'
 import Spinner from '../../../components/Icons/Spinner'
 import { GraphState } from './redux/reducer'
+import { InitiatedGraph } from './redux/type'
 
 
 const PoolInformation = () => {   
     const { title } = usePool() 
     const graphState = useSelector((state: GraphState) => state)
-
-    // Timerange of simulation
-    const [timeRange, setTimeRange] = useState("month")
 
     // Go back to pool cards //
     const navigate = useNavigate()
@@ -69,18 +67,23 @@ const PoolInformation = () => {
         toggleAllocationRef.current.toggleGraphToSimulation()
     }
 
+    // Change timerange of balance history
+    const changeTimeRange = (timeRange: InitiatedGraph["timerange"]) => {
+        // @ts-ignore
+        toggleAllocationRef.current.toggleBalanceHistoryTimeRange(timeRange)
+    }
+
     return (
                 <PoolInformationDiv>
                         <LeftDiv>
                             { graphState.stage === "unstarted" ? <Spinner />
                                 : graphState.allocation.type === "pool" 
                                 ? <InfoCarousel /> 
-                                : <UserStats timeRange={timeRange}/>}
+                                : <UserStats timeRange={graphState.timerange}/>}
 
                             <Graphs>
                                 <PoolPrediction 
                                     ref={toggleAllocationRef} 
-                                    timeRange={timeRange}
                                 />
                                 <GraphButtonGroup>
                                      <GraphButton 
@@ -111,7 +114,7 @@ const PoolInformation = () => {
                                 <p>Current</p>
                             </PoolAPY>
                         :
-                            <Button active={timeRange} types="week" onClick={() => setTimeRange("week")}>Week</Button>
+                            <Button active={graphState.timerange} types="week" onClick={() => changeTimeRange("week")}>Week</Button>
                         }
                         <Sides>
                         {graphState.graphType === "simulation" ? 
@@ -127,8 +130,8 @@ const PoolInformation = () => {
                         
                         :
                             <>
-                            <Button active={timeRange} types="year" onClick={() => setTimeRange("year")}>Year</Button>
-                            <Button active={timeRange} types="month" onClick={() => setTimeRange("month")}>Month</Button>
+                            <Button active={graphState.timerange} types="year" onClick={() => changeTimeRange("year")}>Year</Button>
+                            <Button active={graphState.timerange} types="month" onClick={() => changeTimeRange("month")}>Month</Button>
                             </>
                         }
                         </Sides>

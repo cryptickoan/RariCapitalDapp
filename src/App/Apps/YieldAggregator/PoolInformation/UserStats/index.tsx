@@ -19,7 +19,6 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
     let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
     //let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
 
-
     // Get interest earned
     const { data: interestEarned } = useQuery(
         address + " " + title + " interest", async () => {
