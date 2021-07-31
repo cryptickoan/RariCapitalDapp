@@ -99,20 +99,6 @@ export const LineChartOptions: ApexOptions = {
 
 };
 
-export const getYear = (tvl: number, apy: number): any => {
-    const monthlyInterest = Math.trunc(tvl) * (apy / 12)
-    const now = new Date()
-    const month = now.getMonth()
-
-    let year = [{x: new Date(0, month).toLocaleString('en-US',  {month: 'long'}), y: Math.trunc(tvl)}]
-
-    for (let i = 1; i < 12; i++ ) {
-        const months = month + i > 11 ? (month - i) * -1 : month + i
-        const date = new Date(0, months).toLocaleString('en-US', {month: 'long'})
-        year.push({x: date.slice(0, 3), y: Math.trunc(year[i-1].y + monthlyInterest)})
-    }
-    return year
-}
 
 
 const getBalanceHistoryFunc = async (address: string, title: Pool, timerange: string, state: RariState): Promise<{categories: string[], data: number[]}> => {
@@ -157,24 +143,22 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
     const { title } = usePool()
     const { state } = useRari()
 
+    // Graph state
     const graphState = useSelector((state: GraphState) => state)
     const dispatch = useDispatch()
-    console.log(graphState)
-
      
     // TO BE REMOVED
     let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
     // let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
 
+    // Get Balance history, tokenAllocation and account balace/allocation
     const [{data: monthBalance}, {data: yearBalance }, {data: weekBalance}] = useBalanceHistory(address, title, ["month", "year", "week"], state)
     
-    // Get data. Total token allocation and account allocation //
     const { data: tokenAllocation} = useQuery(title + " pool token allocation", async () => {
         const allocation: ({[key: string]: number}) = await getTokenAllocation(title, state.rari)
         return allocation
     })
 
-    
     const { data: accountAllocation } = useQuery(title + " pool account allocation", async () => {
       console.log('account allocation')
         const allocation = await getAccountBalance(title, state.rari, address)
@@ -198,34 +182,37 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
 
     // Toggle between allocation to be used (account, total in pool) //
     const togglePool = () => {
-            if (typeof tokenAllocation !== "undefined" && graphState.stage === 'ready') {
+            if (typeof tokenAllocation !== "undefined" && graphState.stage === 'ready' && graphState.allocation?.type === 'account') {
                 dispatch(initiateDefault({...graphState, allocation: {type: "pool", amount: tokenAllocation.total} }))
             } 
             else return
     }
 
     const toggleAccount = () => {
-        if (typeof accountAllocation !== "undefined" && graphState.stage === 'ready') {
+        if (typeof accountAllocation !== "undefined" && graphState.stage === 'ready' && graphState.allocation?.type === 'pool') {
             dispatch(initiateDefault({...graphState, allocation: {type: "account", amount: accountAllocation} }))
         }
         else return
     }
 
+    // Change graph from simulation to balance history
     const toggleGraphToBalanceHistory = () => {
-         if (typeof monthBalance !== 'undefined' && graphState.stage === 'ready'){
+         if (typeof monthBalance !== 'undefined' && graphState.graphType === 'simulation'){
            dispatch(initiateBalanceHistory({state: graphState, balanceHistory: monthBalance}) ) 
          }
      }
 
+    // Change balance history range
     const toggleBalanceHistoryTimeRange = (timerange: InitiatedGraph["timerange"]) => {
-      if (graphState.stage === 'ready') {
+      if (graphState.graphType === 'balance history') {
         const balance = timerange === 'week' ? weekBalance : timerange === 'month' ? monthBalance : yearBalance
         dispatch(timerangeChange({state: graphState, timeRange: timerange, balanceHistory: balance}))
       }
     }
 
+    // Change graph from balance to simulation
     const toggleGraphToSimulation = () => {
-      if (typeof tokenAllocation !== 'undefined' && graphState.stage === 'ready'){
+      if (typeof tokenAllocation !== 'undefined' && graphState.graphType === 'balance history'){
         dispatch(initiateDefault({...graphState, graphType: 'simulation', allocation: {type: "pool", amount: tokenAllocation.total} }))
       }
     }
