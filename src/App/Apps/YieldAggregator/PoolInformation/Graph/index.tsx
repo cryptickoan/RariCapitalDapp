@@ -151,6 +151,7 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
     let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
     // let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
 
+    // Fetch Data
     // Get Balance history, tokenAllocation and account balace/allocation
     const [{data: monthBalance}, {data: yearBalance }, {data: weekBalance}] = useBalanceHistory(address, title, ["month", "year", "week"], state)
     
@@ -180,6 +181,7 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
           }
     }, [tokenAllocation, dispatch])
 
+    // Handlers
     // Toggle between allocation to be used (account, total in pool) //
     const togglePool = () => {
             if (typeof tokenAllocation !== "undefined" && graphState.stage === 'ready' && graphState.allocation?.type === 'account') {
