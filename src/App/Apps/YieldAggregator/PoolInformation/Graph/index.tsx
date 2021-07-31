@@ -1,12 +1,12 @@
 // Rari //
 import { useRari } from '../../../../../context/RariProvider'
-import { usePool, getTokenAllocation, getBalanceHistory, getAccountBalance } from '../../../../../context/PoolProvider'
+import { Pool, usePool, getTokenAllocation, getBalanceHistory, getAccountBalance } from '../../../../../context/PoolProvider'
 
 // React
-import React, { useEffect, useState, useImperativeHandle} from 'react'
+import React, { useEffect, useImperativeHandle} from 'react'
 
 // Dependencies 
-import { useQuery } from 'react-query'
+import { useQueries, useQuery } from 'react-query'
 import { Type } from '../../../../components/Bar/styles'
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
@@ -16,6 +16,7 @@ import Spinner from '../../../../components/Icons/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { initiateDefault, GraphState, initiateBalanceHistory, timerangeChange } from '../redux/reducer'
 import { InitiatedGraph } from '../redux/type'
+import { RariState } from '../../../../../context/RariProvider/utils/RariState'
 
 const blocksPerDay = 6500;
 
@@ -114,7 +115,44 @@ export const getYear = (tvl: number, apy: number): any => {
 }
 
 
-const PoolPrediction = React.forwardRef((props:any, ref: any) => {
+const getBalanceHistoryFunc = async (address: string, title: Pool, timerange: string, state: RariState): Promise<{categories: string[], data: number[]}> => {
+    const latestBlock = await state.rari.web3.eth.getBlockNumber()
+    console.log(latestBlock)
+    
+    const blockStart =
+        timerange === "month"
+        ? latestBlock - blocksPerDay * 31
+        : timerange === "year"
+        ? latestBlock - blocksPerDay * 365
+        : timerange === "week"
+        ? latestBlock - blocksPerDay * 10
+        : 0;
+
+    const balance = await getBalanceHistory( title, state.rari, address, blockStart)
+
+    const categories = (balance).map((point: any) => {
+      return new Date(point.timestamp * 1000).toLocaleDateString("en-US")
+      }
+    )
+
+    const data = (balance.map((point: any) => {
+      return parseFloat(point.balance) / 1e18
+    }))
+
+    return { categories: categories, data: data}
+  }
+
+
+const useBalanceHistory = (address: string, title: Pool, timerange: string[], state: RariState) => {
+  const results: any = useQueries([
+    { queryKey: address + " " + title + " " + timerange[0] + " balance history", queryFn: (): any => getBalanceHistoryFunc(address, title, timerange[0], state), refetchOnMount: false },
+    { queryKey: address + " " + title + " " + timerange[1] + " balance history", queryFn: (): any => getBalanceHistoryFunc(address, title, timerange[1], state),  refetchOnMount: false},
+    { queryKey: address + " " + title + " " + timerange[2] + " balance history", queryFn: (): any => getBalanceHistoryFunc(address, title, timerange[2], state),  refetchOnMount: false}
+  ])
+  return results
+}
+
+const PoolPrediction = React.forwardRef((props, ref: any) => {
     // Rari //
     const { title } = usePool()
     const { state } = useRari()
@@ -122,6 +160,13 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
     const graphState = useSelector((state: GraphState) => state)
     const dispatch = useDispatch()
     console.log(graphState)
+
+     
+    // TO BE REMOVED
+    let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
+    // let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
+
+    const [{data: monthBalance}, {data: yearBalance }, {data: weekBalance}] = useBalanceHistory(address, title, ["month", "year", "week"], state)
     
     // Get data. Total token allocation and account allocation //
     const { data: tokenAllocation} = useQuery(title + " pool token allocation", async () => {
@@ -129,11 +174,9 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
         return allocation
     })
 
-    // TO BE REMOVED
-    let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
-    // let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
     
     const { data: accountAllocation } = useQuery(title + " pool account allocation", async () => {
+      console.log('account allocation')
         const allocation = await getAccountBalance(title, state.rari, address)
         return allocation
     })
@@ -153,25 +196,6 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
           }
     }, [tokenAllocation, dispatch])
 
-    const { data: balanceHistory } = useQuery(address + " " + title + " " + graphState.timerange + " balance history",
-    async() => {
-        const latestBlock = await state.rari.web3.eth.getBlockNumber()
-        console.log(latestBlock)
-        
-        const blockStart =
-            props.timeRange === "month"
-            ? latestBlock - blocksPerDay * 31
-            : props.timeRange === "year"
-            ? latestBlock - blocksPerDay * 365
-            : props.timeRange === "week"
-            ? latestBlock - blocksPerDay * 10
-            : 0;
-
-        const balance = await getBalanceHistory( title, state.rari, address, blockStart)
-        return balance
-        }
-    )
-
     // Toggle between allocation to be used (account, total in pool) //
     const togglePool = () => {
             if (typeof tokenAllocation !== "undefined" && graphState.stage === 'ready') {
@@ -188,14 +212,15 @@ const PoolPrediction = React.forwardRef((props:any, ref: any) => {
     }
 
     const toggleGraphToBalanceHistory = () => {
-        if (typeof balanceHistory !== 'undefined' && graphState.stage === 'ready'){
-          dispatch(initiateBalanceHistory({state: graphState, balanceHistory: balanceHistory}) ) 
-        }
-    }
+         if (typeof monthBalance !== 'undefined' && graphState.stage === 'ready'){
+           dispatch(initiateBalanceHistory({state: graphState, balanceHistory: monthBalance}) ) 
+         }
+     }
 
     const toggleBalanceHistoryTimeRange = (timerange: InitiatedGraph["timerange"]) => {
       if (graphState.stage === 'ready') {
-        dispatch(timerangeChange({state: graphState, timeRange: timerange}))
+        const balance = timerange === 'week' ? weekBalance : timerange === 'month' ? monthBalance : yearBalance
+        dispatch(timerangeChange({state: graphState, timeRange: timerange, balanceHistory: balance}))
       }
     }
 

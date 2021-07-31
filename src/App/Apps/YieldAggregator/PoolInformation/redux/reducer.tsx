@@ -82,44 +82,36 @@ export const initiateDefault = ({graphAPY, timerange, graphType, allocation}: in
 }
 
 
-// initiateBalanceHistory will receive necesarry information to generate all data used in the graph. 
+// initiateBalanceHistory will receive necesarry data to generate graph. 
 // i.e data and categories
-
-// Known Bug:
-// Balance history is fetched with initial state's timeRange and it can't be refetched without
-// useEffect and a double redux call, this could make the UI funky.
-// redux fetching all data seems to be better. 
-
 type initiateBalanceHistoryProps = {
     state: InitiatedGraph
-    balanceHistory: {}[]
+    balanceHistory: {
+        categories: string[], 
+        data: number[]
+    }
 }
 
 export const initiateBalanceHistory = ({state, balanceHistory}: initiateBalanceHistoryProps): Action => {
-    const categories = (balanceHistory).map((point: any) => {
-            return new Date(point.timestamp * 1000).toLocaleDateString("en-US")
-            }
-        )
-    
-    const data = (balanceHistory.map((point: any) => {
-        return parseFloat(point.balance) / 1e18
-    }))
-
     return {
         type: 'initiateBalanceHistory',
-        data: {...state, allocation: {type: 'account', amount: 0 }, graphType: 'balance history', categories: categories, data: {name: '', data: data }}
+        data: {...state, allocation: {type: 'account', amount: 0 }, graphType: 'balance history', categories: balanceHistory.categories, data: {name: '', data: balanceHistory.data }}
     }
 }
 
 type changeTimeRangeProps = {
     state: InitiatedGraph
     timeRange: InitiatedGraph["timerange"]
+    balanceHistory: {
+        categories: string[], 
+        data: number[]
+    }
 }
 
-export const timerangeChange = ({state, timeRange}: changeTimeRangeProps):Action => {
+export const timerangeChange = ({state, timeRange, balanceHistory}: changeTimeRangeProps):Action => {
     return {
         type: 'changeTimeRange',
-        data: {...state, timerange: timeRange}
+        data: {...state, timerange: timeRange, categories: balanceHistory.categories, data: {name: '', data: balanceHistory.data } }
     }
 }
 

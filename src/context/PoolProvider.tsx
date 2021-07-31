@@ -11,7 +11,7 @@ export enum Pool {
 }
 
 type PoolInfo = {
-    title: string
+    title: Pool
     description: string
 }
 
@@ -19,13 +19,13 @@ type PoolInfo = {
 export const getPoolInfo = (pool: Pool): PoolInfo => {
     switch (pool) {
         case Pool.USDC: 
-            return ({title: "USDC", description: "Safe returns on USDC" });
+            return ({title: Pool.USDC, description: "Safe returns on USDC" });
         case Pool.DAI:
-            return ({title: "DAI", description: "Safe returns on Dai"});
+            return ({title: Pool.DAI, description: "Safe returns on Dai"});
         case Pool.ETH:
-            return ({title: "ETH", description: "Rreturns on ETH"});
+            return ({title: Pool.ETH, description: "Rreturns on ETH"});
         default:
-            return ({title: "Default", description: "Default"})
+            return ({title: Pool.USDC, description: "Default"})
     }
 }
 
@@ -215,14 +215,14 @@ export const getAccountBalance = async (pool: Pool, rari: Rari, address: any) =>
     return parsed
 }
 
-export const getBalanceHistory = async (pool: Pool, rari: Rari, address: any, blockStart: any) => {
+export const getBalanceHistory = async (pool: Pool, rari: Rari, address: string, blockStart: number): Promise<{number: number, timeStamp: number, balance: string}[]> => {
     const poolSDK = await getPoolSDK(pool, rari)
 
     const balance = await poolSDK.history.getBalanceHistoryOf(address, blockStart) 
     return balance
 }
 
-export const getPoolToken = async (pool: Pool, rari: Rari, address: any) => {
+export const getPoolToken = async (pool: Pool, rari: Rari, address: string) => {
 
     switch (pool) {
         case Pool.USDC:
@@ -242,7 +242,7 @@ export const getPoolToken = async (pool: Pool, rari: Rari, address: any) => {
 
 
 // Context Provision //
-export const PoolContext = createContext<any>({})
+export const PoolContext = createContext<PoolInfo>({title: Pool.USDC, description: "Default" })
 
 export const PoolContextProvider = ({pool, children}: {pool: Pool,  children: ReactNode}) => {
     const poolInfo = getPoolInfo(pool)
@@ -253,10 +253,6 @@ export const PoolContextProvider = ({pool, children}: {pool: Pool,  children: Re
 
 export function usePool() {
     const context = useContext(PoolContext)
-
-    if (context === "undefined") {
-        throw new Error('usePool must be used inside a poolProvider')
-    }
 
     return context
 }

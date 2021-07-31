@@ -82,9 +82,7 @@ const PoolInformation = () => {
                                 : <UserStats timeRange={graphState.timerange}/>}
 
                             <Graphs>
-                                <PoolPrediction 
-                                    ref={toggleAllocationRef} 
-                                />
+                                <PoolPrediction  ref={toggleAllocationRef}/>
                                 <GraphButtonGroup>
                                      <GraphButton 
                                          name="simulation" 
