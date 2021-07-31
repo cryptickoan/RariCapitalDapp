@@ -40,19 +40,19 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
 
     
     // Get Account Allocation
-    const { data: accountAllocation } = useQuery(title + " account allocation", async () => {
+    const { data: accountAllocation } = useQuery(state.address + " " + title + " account balance", async () => {
         const allocation = await getAccountBalance(title, state.rari, address)
         return allocation
     })
 
-     const { data: rsptBalance} = useQuery(state.address + "" + title + " token balance", async () => {
+     const { data: rsptBalance} = useQuery(state.address + " " + title + " token balance", async () => {
         const balance = await getPoolToken(title, state.rari, address)
         return parseFloat(state.rari.web3.utils.fromWei(balance))
     })
 
     console.log(rsptBalance)
 
-    const { data: exRate } = useQuery(title + " rate", async () => {
+    const { data: exRate } = useQuery(title + " pool token exchange rate", async () => {
        const rate = await state.rari.pools.dai.rdpt.getExchangeRate()
        return state.rari.web3.utils.fromWei(rate)
     })
