@@ -1,5 +1,5 @@
 // Rari // 
-import { Pool, usePool } from '../../../../context/PoolProvider'
+import { getInfo, usePool } from '../../../../context/PoolProvider'
 
 
 // React //
@@ -31,19 +31,6 @@ const PoolCard = () => {
     const {title, description} = usePool()
     const props = { isOpen: open }
     const navigate = useNavigate()
-
-    const getInfo = (title: Pool) => {
-        switch (title) {
-            case Pool.DAI:
-                return "Rebalances DAI between dYdX, Compound, Aave, mStable, Fuse6, Fuse7 and Fuse8"
-            case Pool.ETH:
-                return "Rebalances ETH between dYdX, Compound, KeeperDao, Aave, Alpha, Enxyme"
-            case Pool.USDC:
-                return "Rebalances USDC between dYdX, Compound, Aave, mStable, and Fuse"
-            default:
-                break;
-        }
-    }
 
     const openInfo = () => {
         navigate(`../${title}`)

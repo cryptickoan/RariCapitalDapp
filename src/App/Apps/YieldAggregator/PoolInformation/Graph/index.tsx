@@ -1,12 +1,13 @@
 // Rari //
 import { useRari } from '../../../../../context/RariProvider'
-import { Pool, usePool, getTokenAllocation, getBalanceHistory, getAccountBalance } from '../../../../../context/PoolProvider'
+import { usePool, getTokenAllocation, getAccountBalance } from '../../../../../context/PoolProvider'
 
 // React
 import React, { useEffect, useImperativeHandle} from 'react'
 
 // Dependencies 
-import { useQueries, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
+import useBalanceHistory from '../../../../../hooks/YieldAggregator/useBalanceHistory'
 import { Type } from '../../../../components/Bar/styles'
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
@@ -16,9 +17,7 @@ import Spinner from '../../../../components/Icons/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { initiateDefault, GraphState, initiateBalanceHistory, timerangeChange } from '../redux/reducer'
 import { InitiatedGraph } from '../redux/type'
-import { RariState } from '../../../../../context/RariProvider/utils/RariState'
 
-const blocksPerDay = 6500;
 
 export const LineChartOptions: ApexOptions = {  
     chart: {
@@ -98,45 +97,6 @@ export const LineChartOptions: ApexOptions = {
 
 
 };
-
-
-
-const getBalanceHistoryFunc = async (address: string, title: Pool, timerange: string, state: RariState): Promise<{categories: string[], data: number[]}> => {
-    const latestBlock = await state.rari.web3.eth.getBlockNumber()
-    console.log(latestBlock)
-    
-    const blockStart =
-        timerange === "month"
-        ? latestBlock - blocksPerDay * 31
-        : timerange === "year"
-        ? latestBlock - blocksPerDay * 365
-        : timerange === "week"
-        ? latestBlock - blocksPerDay * 10
-        : 0;
-
-    const balance = await getBalanceHistory( title, state.rari, address, blockStart)
-
-    const categories = (balance).map((point: any) => {
-      return new Date(point.timestamp * 1000).toLocaleDateString("en-US")
-      }
-    )
-
-    const data = (balance.map((point: any) => {
-      return parseFloat(point.balance) / 1e18
-    }))
-
-    return { categories: categories, data: data}
-  }
-
-
-const useBalanceHistory = (address: string, title: Pool, timerange: string[], state: RariState) => {
-  const results: any = useQueries([
-    { queryKey: address + " " + title + " " + timerange[0] + " balance history", queryFn: (): any => getBalanceHistoryFunc(address, title, timerange[0], state), refetchOnMount: false },
-    { queryKey: address + " " + title + " " + timerange[1] + " balance history", queryFn: (): any => getBalanceHistoryFunc(address, title, timerange[1], state),  refetchOnMount: false},
-    { queryKey: address + " " + title + " " + timerange[2] + " balance history", queryFn: (): any => getBalanceHistoryFunc(address, title, timerange[2], state),  refetchOnMount: false}
-  ])
-  return results
-}
 
 const PoolPrediction = React.forwardRef((props, ref: any) => {
     // Rari //

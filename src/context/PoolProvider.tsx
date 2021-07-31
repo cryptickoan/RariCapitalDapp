@@ -14,20 +14,7 @@ type PoolInfo = {
     title: Pool
     description: string
 }
-
-// Pool Information //
-export const getPoolInfo = (pool: Pool): PoolInfo => {
-    switch (pool) {
-        case Pool.USDC: 
-            return ({title: Pool.USDC, description: "Safe returns on USDC" });
-        case Pool.DAI:
-            return ({title: Pool.DAI, description: "Safe returns on Dai"});
-        case Pool.ETH:
-            return ({title: Pool.ETH, description: "Rreturns on ETH"});
-        default:
-            return ({title: Pool.USDC, description: "Default"})
-    }
-}
+const millisecondsPerDay = 86400000
 
 // Pool SDK //
 export const getPoolSDK = (pool: Pool, rari: Rari) => {
@@ -40,7 +27,6 @@ export const getPoolSDK = (pool: Pool, rari: Rari) => {
             return rari.pools.ethereum
     }
 }
-const millisecondsPerDay = 86400000
 
 // Get current and past (week, year) APY //
 export const getPoolAPY = async (pool: Pool, rari: Rari, type: string) => {
@@ -236,6 +222,36 @@ export const getPoolToken = async (pool: Pool, rari: Rari, address: string) => {
         }
             
 }
+
+// Pool strategy info
+export const getInfo = (title: Pool) => {
+    switch (title) {
+        case Pool.DAI:
+            return "Rebalances DAI between dYdX, Compound, Aave, mStable, Fuse6, Fuse7 and Fuse8"
+        case Pool.ETH:
+            return "Rebalances ETH between dYdX, Compound, KeeperDao, Aave, Alpha, Enxyme"
+        case Pool.USDC:
+            return "Rebalances USDC between dYdX, Compound, Aave, mStable, and Fuse"
+        default:
+            break;
+    }
+}
+
+
+// Pool Information //
+export const getPoolInfo = (pool: Pool): PoolInfo => {
+    switch (pool) {
+        case Pool.USDC: 
+            return ({title: Pool.USDC, description: "Safe returns on USDC" });
+        case Pool.DAI:
+            return ({title: Pool.DAI, description: "Safe returns on Dai"});
+        case Pool.ETH:
+            return ({title: Pool.ETH, description: "Rreturns on ETH"});
+        default:
+            return ({title: Pool.USDC, description: "Default"})
+    }
+}
+
 
 
 
