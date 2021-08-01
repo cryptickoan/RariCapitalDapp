@@ -55,7 +55,7 @@ export const useTokenData = (address: string) => {
     const { data: tokenData } = useQuery(
       address + " tokenData",
       async () => await fetchTokenData(address)
-    );
+    , {refetchOnMount: false});
     return tokenData;
   };
   

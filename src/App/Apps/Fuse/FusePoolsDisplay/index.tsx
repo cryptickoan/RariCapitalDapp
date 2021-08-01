@@ -110,7 +110,7 @@ export default FusePoolsDisplay
 const FusePoolRow = ({pool}: {pool: MergedPool}) => {
     const rss = usePoolRSS(pool.id)
 
-    const score = rss ? getScore(rss.totalScore) : "loading..."
+    const score = rss ?? "loading..."
 
     const navigate = useNavigate()
 

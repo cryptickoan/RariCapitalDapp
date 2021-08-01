@@ -1,15 +1,22 @@
 import { useQuery } from "react-query"
 
+const getRSS = async (poolId: string | number) => {
+  const score = await fetch("https://app.rari.capital/api/rss?poolID=" + poolId)
+  .then((res) => res.json())
+  .catch((e) => { console.log(e)})
+
+  const finalScore = getScore(score.totalScore)
+
+  return finalScore
+}
+
 export const usePoolRSS = (poolId: string | number) => {
-    const { data } = useQuery(poolId + " rss", () => {
-        return fetch("https://app.rari.capital/api/rss?poolID=" + poolId)
-            .then((res) => res.json())
-            .catch((e) => { console.log(e)})
-    })
-    return data
+    const { data } = useQuery(poolId + " rss", () => getRSS(poolId), {refetchOnMount: false})
+    return data 
 }
 
 export const getScore = (totalScore: number) => {
+  console.log(totalScore)
     if (totalScore >= 95) {
       return "A++";
     }
