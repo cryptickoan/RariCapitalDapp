@@ -3,7 +3,7 @@ export type Stage = 'unstarted' | 'loading' | 'ready'
 
 // APY used
 export type GraphAPY = {
-    type: 'last year' | 'month' | 'week'
+    type: 'last year' | 'last week' | 'current block'
     apy: number
 }
 

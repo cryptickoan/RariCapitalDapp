@@ -40,6 +40,7 @@ const PoolInformation = () => {
         navigate('../all')
     }
 
+
     // Makes methods from pool prediction graph available here
     const toggleAllocationRef = useRef()
 
@@ -117,7 +118,7 @@ const PoolInformation = () => {
                         <SpacingContainer height="15%">
                         {graphState.graphType === "simulation" ? 
                             <>
-                            <PoolAPY pool={title} type="last week">
+                            <PoolAPY pool={title} type="last week" >
                             <p>Week</p>
                             </PoolAPY>
  

@@ -1,6 +1,6 @@
 // Rari // 
 import { useRari } from '../../../context/RariProvider'
-import { getPoolAPY } from '../../../context/PoolProvider'
+import { getPoolAPY, Pool } from '../../../context/PoolProvider'
 
 
 // Dependencies //
@@ -11,8 +11,24 @@ import Spinner from '../Icons/Spinner'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { initiateDefault, GraphState } from '../../Apps/YieldAggregator/PoolInformation/redux/reducer'
+import { ReactNode } from 'react'
+
+// Prop Types
+type PoolAPYProps = {
+    // pool name
+    pool: Pool
+
+    // APY Type
+    type: "last year" | "last week" | "current block"
+
+    // 
+    children?: ReactNode
+
+    // If true its being used in a card. If false its being used by PoolInformation
+    card?: boolean
+}
  
-const PoolAPY = ({pool, type, children, card}:any ) => {
+const PoolAPY = ({pool, type, children, card}: PoolAPYProps) => {
     const { state } = useRari()
     const graphState = useSelector((state: GraphState) => state)
     const dispatch = useDispatch()
@@ -32,12 +48,16 @@ const PoolAPY = ({pool, type, children, card}:any ) => {
     }
 
       
-    if( typeof apy === 'undefined' || graphState.stage !== 'ready') {
+    if( typeof apy === 'undefined') {
         return <Spinner />
     }
 
+    // APY button click
     const handleClick = () => {
-        dispatch(initiateDefault({...graphState, graphAPY: {type: type, apy: parseInt(apy)}}))
+        if( graphState.stage === 'ready')
+            dispatch(initiateDefault({...graphState, graphAPY: {type: type, apy: parseInt(apy)}}))
+        else 
+            return
     }
         
     return (
