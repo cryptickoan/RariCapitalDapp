@@ -1,37 +1,7 @@
 
 import styled from 'styled-components'
 
-// Layout //
-export const PoolInformationDiv = styled.div`
-    width: 80%;
-    height: 96%;
-
-    display: flex;
-    justify-content: space-between;
-`
-export const LeftDiv = styled.div`
-    height: 100%;
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-`
-export const PoolInfo = styled.div`
-    flex-basis: 10%;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-
-    color: ${props => props.theme.light ? "black" : "white"};
-    font-family: 'neuropol-nova';
-`
 // LeftDiv //
-
-
 export const Graphs = styled.div.attrs(( ) => ({tabIndex: 0}))`
     width: 93%;
     height: 70%;
@@ -59,29 +29,6 @@ export const Graphs = styled.div.attrs(( ) => ({tabIndex: 0}))`
 
 
 // Pool Info Sidebar //
-export const ExitSpan = styled.div`
-    width: 100%;
-    
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-
-`
-export const PoolInfoTitle = styled.p`
-    font-size: 25px;
-    margin: 0;
-
-    color: ${props => props.theme.light ? "black" : "white"}
-`
-
-export const Sides = styled.div`
-    width: 100%;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-`
 interface ButtonProps {
     active?: string
     types?: string

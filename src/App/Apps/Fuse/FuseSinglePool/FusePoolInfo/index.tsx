@@ -1,13 +1,21 @@
 // Styles Components
-import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
-import { Title } from '../styles'
 import Bar from '../../../../components/Bar'
-import { SpacingContainer } from "../../../../components"
 import InfoPair from '../../../../components/InfoPair'
+import { SpacingContainer } from "../../../../components"
+import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
 
 // Dependencies
 import { shortenAddress } from '../../../../Layout/Sidebar'
 import Carousel from 'react-bootstrap/Carousel'
+import styled from 'styled-components'
+
+export const Title = styled.h1`
+    font-size:50px;
+    font-family: 'neuropol-nova';
+    text-shadow:${props => props.theme.light ? "0 0 10px #B8FF71, 10px 0 13px black, 0 10px 10px #B8FF71": "0 0 10px #B8FF71"}; 
+    color: ${props => props.theme.light ? "black": "white"};
+    line-height: 50px;
+`
 
 const FusePoolInfo = ({creator, poolInfo}: any) => {
     return ( 

@@ -8,7 +8,6 @@ import { usePoolRSS, getScore } from '../../../../hooks/useFuseRss';
 
 // Dependencies
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import { BarSpan, TopBar, PoolListDiv, SearchBar, 
          SearchBarInput, SearchBarIcon, SelectPool, TVL, 
          FusePool, FusePoolSpan} from './styles';
@@ -23,7 +22,6 @@ import './styles.css'
 // Components
 import InfoPair from '../../../components/InfoPair';
 import { SpacingContainer } from '../../../components';
-import { ReactQueryDevtoolsPanel } from 'react-query/devtools'
 
 const FusePoolsDisplay = () => {
     // Filter

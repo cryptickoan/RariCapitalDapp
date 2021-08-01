@@ -8,11 +8,11 @@ import { useRef } from 'react'
 import './styles.css' 
 
 // Dependencies //
-
 import { useNavigate } from 'react-router-dom'
 import {  useSelector } from 'react-redux'
-import { PoolInformationDiv, LeftDiv, Graphs, PoolInfo, ExitSpan, 
-        PoolInfoTitle, Sides, Button, 
+
+// Styled Components
+import { Graphs, Button, 
         GraphButton, GraphButtonGroup} from './styles'
 
 // Components //
@@ -21,13 +21,13 @@ import UserStats from './UserStats'
 import InfoCarousel from './InfoCarousel'
 import PoolPrediction from './Graph'
 
-
 // Icons //
 import Exit from '../../../components/Icons/Exit'
 import Logo from '../../../components/PoolIcons/Logo'
 import Spinner from '../../../components/Icons/Spinner'
 import { GraphState } from './redux/reducer'
 import { InitiatedGraph } from './redux/type'
+import { SpacingContainer, StyledP } from '../../../components'
 
 
 const PoolInformation = () => {   
@@ -74,8 +74,8 @@ const PoolInformation = () => {
     }
 
     return (
-                <PoolInformationDiv>
-                        <LeftDiv>
+                <SpacingContainer width="80%" height="96%" justifyContent="space-between">
+                        <SpacingContainer justifyContent='space-around' direction="column">
                             { graphState.stage === "unstarted" ? <Spinner />
                                 : graphState.allocation.type === "pool" 
                                 ? <InfoCarousel /> 
@@ -100,13 +100,13 @@ const PoolInformation = () => {
                                      </GraphButton>
                                  </GraphButtonGroup>
                             </Graphs>
-                        </LeftDiv>
-                    <PoolInfo>
-                        <ExitSpan>
+                        </SpacingContainer>
+                    <SpacingContainer flexBasis="10%" direction="column" justifyContent="space-evenly">
+                        <SpacingContainer flexBasis="5%" justifyContent="flex-end">
                             <Exit className="infoExit" onClick={backToCards}/>
-                        </ExitSpan>
+                        </SpacingContainer>
                         <Logo pool={title} className="poolInfoLogo"/>
-                        <PoolInfoTitle>APY</PoolInfoTitle>
+                        <StyledP size="25px">APY</StyledP>
                         { graphState.graphType === "simulation" ?
                             <PoolAPY pool={title} type="current block">
                                 <p>Current</p>
@@ -114,7 +114,7 @@ const PoolInformation = () => {
                         :
                             <Button active={graphState.timerange} types="week" onClick={() => changeTimeRange("week")}>Week</Button>
                         }
-                        <Sides>
+                        <SpacingContainer height="15%">
                         {graphState.graphType === "simulation" ? 
                             <>
                             <PoolAPY pool={title} type="last week">
@@ -132,15 +132,15 @@ const PoolInformation = () => {
                             <Button active={graphState.timerange} types="month" onClick={() => changeTimeRange("month")}>Month</Button>
                             </>
                         }
-                        </Sides>
+                        </SpacingContainer>
                         { graphState.stage === "unstarted" ? <Spinner /> :
                         <>
                         <Button onClick={() => setActiveAllocationToPool()} active={graphState.allocation.type} types="pool" disabled={graphState.graphType === "balance history"}>Pool</Button>
                         <Button onClick={() => setActiveAllocationToAccount()} active={graphState.allocation.type} types="account">Account</Button>
                         </>
                         }   
-                    </PoolInfo>
-                </PoolInformationDiv>
+                    </SpacingContainer>
+                </SpacingContainer>
     )
 }
 
