@@ -51,8 +51,10 @@ const NavigationBar = () => {
 
             <SpacingContainer flexBasis="50%" justifyContent="space-evenly">
                 <Link to="/pools/all">Pools</Link>
-
+                
+                <Link to="/">
                 <img src={logo} width="80" height="80" alt="Rari logo"/>
+                </Link>
                 
                 <Link to="/fuse/all">Fuse</Link>
             </SpacingContainer>
