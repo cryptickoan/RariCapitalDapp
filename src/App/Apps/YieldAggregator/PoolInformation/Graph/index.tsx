@@ -107,13 +107,9 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
     const graphState = useSelector((state: GraphState) => state)
     const dispatch = useDispatch()
      
-    // TO BE REMOVED
-    let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
-    // let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
-
     // Fetch Data
     // Get Balance history, tokenAllocation and account balace/allocation
-    const [{data: monthBalance}, {data: yearBalance }, {data: weekBalance}] = useBalanceHistory(address, title, ["month", "year", "week"], state)
+    const [{data: monthBalance}, {data: yearBalance }, {data: weekBalance}] = useBalanceHistory(state.address, title, ["month", "year", "week"], state)
     
     const { data: tokenAllocation} = useQuery(title + " pool token allocation", async () => {
         const allocation: ({[key: string]: number}) = await getTokenAllocation(title, state.rari)
@@ -122,7 +118,7 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
 
     const { data: accountAllocation } = useQuery(title + " pool account allocation", async () => {
       console.log('account allocation')
-        const allocation = await getAccountBalance(title, state.rari, address)
+        const allocation = await getAccountBalance(title, state.rari, state.address)
         return allocation
     })
 

@@ -16,12 +16,9 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
     const { title } = usePool()
     const { state } = useRari()
 
-    let address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
-    //let address = "0x29683db5189644d8c4679b801af5c67e6769ecef"
-
     // Get interest earned
     const { data: interestEarned } = useQuery(
-        address + " " + title + " interest", async () => {
+        state.address + " " + title + " interest", async () => {
             
             const startingBlock =
                 timeRange === "month"
@@ -32,7 +29,7 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
                 ? Date.now() - millisecondsPerDay * 7       
                 : 0;
 
-            const interestRaw = await getInterestAccrued(title, state.rari, address, startingBlock )
+            const interestRaw = await getInterestAccrued(title, state.rari, state.address, startingBlock )
             const parsed = parseFloat(state.rari.web3.utils.fromWei(interestRaw))
             return parsed
         }
@@ -41,12 +38,12 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
     
     // Get Account Allocation
     const { data: accountAllocation } = useQuery(state.address + " " + title + " account balance", async () => {
-        const allocation = await getAccountBalance(title, state.rari, address)
+        const allocation = await getAccountBalance(title, state.rari, state.address)
         return allocation
     })
 
      const { data: rsptBalance} = useQuery(state.address + " " + title + " token balance", async () => {
-        const balance = await getPoolToken(title, state.rari, address)
+        const balance = await getPoolToken(title, state.rari, state.address)
         return parseFloat(state.rari.web3.utils.fromWei(balance))
     })
 
