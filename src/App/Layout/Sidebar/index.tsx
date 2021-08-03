@@ -44,7 +44,7 @@ const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
                <SpacingContainer direction="column" justifyContent="flex-start" flexBasis="80%">
                     <StyledP size="3vh">Positions</StyledP>
                     <SpacingContainer flexBasis="5%" height="5%" margin="0 0 5% 0">
-                        <InfoBar data={['Pool', 'Total']} width="100%" height="100%" onClick={() => null}/>
+                        <InfoBar data={['Pool', 'Total', 'Growth']} width="100%" height="100%" onClick={() => null}/>
                     </SpacingContainer>
                     <SpacingContainer flexBasis="90%" direction="column" justifyContent="flex-start" margin="0 0 5% 0">
                         {Object.values(Pool).map((pool) =>
