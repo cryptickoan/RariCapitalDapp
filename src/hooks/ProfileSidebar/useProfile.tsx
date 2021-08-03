@@ -19,4 +19,5 @@ export const useProfile = () => {
     )
 
     const hey = useQueries(queries)
+    return hey
 }
