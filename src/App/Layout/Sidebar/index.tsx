@@ -1,8 +1,9 @@
 // Rari //
 import { useRari } from '../../../context/RariProvider'
+import { Pool } from '../../../context/PoolProvider'
 
 // Dependencies
-import { useProfile } from '../../../hooks/ProfileSidebar/useProfile'
+import UserBalance from './UserBalance'
 import { StyledOffcanvas, ProfileImage, Address} from './styles'
 
 // Images //
@@ -26,19 +27,13 @@ type SidebarProps = {
     handleModalShow: () => void
 }
 
-
-
 const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
     const { state }= useRari()
     
     const shortenedAddress = shortenAddress(state.address)
-
-    const hello = useProfile()
-
     return (
         <StyledOffcanvas show={show} onHide={handleClose}>
             <SpacingContainer direction="column" margin="10% 0 0 0" padding="5%">
-
                <SpacingContainer flexBasis="20%" direction="column">
                    <ProfileImage src={`https://avatars.dicebear.com/api/jdenticon/${shortenedAddress}.svg`} />
                     <Address onClick={handleModalShow}>
@@ -49,10 +44,12 @@ const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
                <SpacingContainer direction="column" justifyContent="flex-start" flexBasis="80%">
                     <StyledP size="3vh">Positions</StyledP>
                     <SpacingContainer flexBasis="5%" height="5%" margin="0 0 5% 0">
-                        <InfoBar data={['Pool', 'Total', 'Interest Accrued']} width="100%" height="100%" onClick={() => null}/>
+                        <InfoBar data={['Pool', 'Total']} width="100%" height="100%" onClick={() => null}/>
                     </SpacingContainer>
                     <SpacingContainer flexBasis="90%" direction="column" justifyContent="flex-start" margin="0 0 5% 0">
-                        <InfoBar data={[]} height="10%" width="100%" onClick={() => null} diffOnHover />
+                        {Object.values(Pool).map((pool) =>
+                            <UserBalance pool={pool} />
+                        )}
                     </SpacingContainer>
                </SpacingContainer>
 
