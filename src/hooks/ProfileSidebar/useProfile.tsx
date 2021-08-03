@@ -8,7 +8,7 @@ export const useAccountBalance = (pool: Pool) => {
     const balance = useQuery(state.address + " " + pool + " account balance", async () => {
         const balance = await getAccountBalance(pool, state.rari, state.address)
         return balance
-    })
+    }, {refetchOnMount: false})
 
     return balance
 }
