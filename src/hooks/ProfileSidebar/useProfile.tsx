@@ -18,7 +18,5 @@ export const useProfile = () => {
         )
     )
 
-    console.log(queries)
     const hey = useQueries(queries)
-    console.log(hey, 'its here')
 }
