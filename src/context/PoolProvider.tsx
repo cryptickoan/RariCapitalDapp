@@ -192,7 +192,7 @@ export const getInterestAccrued = async (pool: Pool, rari: Rari, address: any, s
     return interest
 }
 
-export const getAccountBalance = async (pool: Pool, rari: Rari, address: any) => {
+export const getAccountBalance = async (pool: Pool, rari: Rari, address: string): Promise<number>  => {
     const poolSDK = await getPoolSDK(pool, rari)
 
     const interest = await poolSDK.balances.balanceOf(address)
