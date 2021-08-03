@@ -3,13 +3,9 @@ import { useRari } from '../../../context/RariProvider'
 
 // Dependencies
 import { useProfile } from '../../../hooks/ProfileSidebar/useProfile'
-import { StyledOffcanvas, StyledHeader, SideBar, Profile, 
-            ProfileImage, Address, Positions, PositionNav, PositionButtons,
-            PositionsCard, PositionsTable, TableHead} from './styles'
-        
+import { StyledOffcanvas, ProfileImage, Address} from './styles'
 
 // Images //
-import Exit from '../../components/Icons/Exit'
 import { SpacingContainer, StyledP } from '../../components'
 import InfoBar from '../../components/InfoBar'
 
