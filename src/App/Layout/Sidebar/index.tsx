@@ -2,13 +2,16 @@
 import { useRari } from '../../../context/RariProvider'
 
 // Dependencies
+import { useProfile } from '../../../hooks/ProfileSidebar/useProfile'
 import { StyledOffcanvas, StyledHeader, SideBar, Profile, 
             ProfileImage, Address, Positions, PositionNav, PositionButtons,
             PositionsCard, PositionsTable, TableHead} from './styles'
+        
 
 // Images //
 import Exit from '../../components/Icons/Exit'
-import { SpacingContainer } from '../../components'
+import { SpacingContainer, StyledP } from '../../components'
+import InfoBar from '../../components/InfoBar'
 
 export function shortenAddress(address: string) {
     return (
@@ -21,10 +24,10 @@ type SidebarProps = {
     show: boolean
     
     // setShow(false)
-    handleClose: Function
+    handleClose: () => void
 
     // Will set modalShow to true
-    handleModalShow: Function
+    handleModalShow: () => void
 }
 
 
@@ -34,44 +37,31 @@ const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
     
     const shortenedAddress = shortenAddress(state.address)
 
+    const hello = useProfile()
+
     return (
         <StyledOffcanvas show={show} onHide={handleClose}>
-            <StyledHeader>
-                <SpacingContainer width="30px">
-                    <Exit onClick={handleClose}/>
-                </SpacingContainer>
-            </StyledHeader>
-            <SideBar>
-               <Profile>
+            <SpacingContainer direction="column" margin="10% 0 0 0" padding="5%">
+
+               <SpacingContainer flexBasis="20%" direction="column">
                    <ProfileImage src={`https://avatars.dicebear.com/api/jdenticon/${shortenedAddress}.svg`} />
-                   { state.isAuthed ? 
-                        <Address onClick={handleModalShow}>
-                            <span>{shortenedAddress}</span>
-                        </Address> 
-                    :   
-                        null
-                   }
-               </Profile>
-               <Positions>
-                    <h3>Positions</h3>
-                    <PositionNav>
-                        <PositionButtons>Active</PositionButtons>
-                        <PositionButtons>Link</PositionButtons>
-                        <PositionButtons>Link</PositionButtons>
-                   </PositionNav>
-                   <PositionsCard>
-                        <PositionsTable>
-                            <TableHead>
-                                <th>Pool</th>
-                                <th>Deposit</th>
-                                <th>Interest</th>
-                                <th>Growth</th>
-                            </TableHead>
-                        </PositionsTable>
-                   </PositionsCard>
+                    <Address onClick={handleModalShow}>
+                        <span>{shortenedAddress}</span>
+                    </Address> 
+               </SpacingContainer>
+
+               <SpacingContainer direction="column" justifyContent="flex-start" flexBasis="80%">
+                    <StyledP size="3vh">Positions</StyledP>
+                    <SpacingContainer flexBasis="5%" height="5%" margin="0 0 5% 0">
+                        <InfoBar data={['Pool', 'Total', 'Interest Accrued']} width="100%" height="100%" onClick={() => null}/>
+                    </SpacingContainer>
+                    <SpacingContainer flexBasis="90%" direction="column" justifyContent="flex-start" margin="0 0 5% 0">
+                        <InfoBar data={[]} height="10%" width="100%" onClick={() => null} diffOnHover />
+                    </SpacingContainer>
+               </SpacingContainer>
+
                    <h5>Net Balance: 0.00$</h5>
-               </Positions>
-            </SideBar>
+            </SpacingContainer>
         </StyledOffcanvas>
     )
 }
