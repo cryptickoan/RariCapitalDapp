@@ -12,11 +12,14 @@ export type InfoBarProps =  {
     // Width and height of the bar
     width: string
     height: string
+
+    // On hover effect if its displaying clickable info
+    diffOnHover?: boolean
 }
 
-const InfoBar: FC<InfoBarProps> = ({data, onClick, width, height}: InfoBarProps) => {
+const InfoBar: FC<InfoBarProps> = ({data, onClick, width, height, diffOnHover}: InfoBarProps) => {
     return (
-        <Card onClick={onClick} width={width} minHeight={height} justifyContent="space-around" cursor="pointer" borderRadius={"15px"} diffOnHover>
+        <Card onClick={onClick} width={width} height={height} justifyContent="space-around" cursor={diffOnHover ? "pointer" : undefined} borderRadius="15px" diffOnHover={diffOnHover ?? undefined}>
 
             { !data 
             ? <Spinner /> 
