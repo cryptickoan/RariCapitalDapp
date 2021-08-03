@@ -4,7 +4,7 @@ import Spinner from '../Icons/Spinner'
 
 export type InfoBarProps =  {
     // Fields displayed in the bar
-    data: string[] | undefined
+    data: any[] | undefined
 
     // Action when bar is clicked
     onClick: () => void
