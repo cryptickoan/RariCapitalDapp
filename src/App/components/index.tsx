@@ -6,6 +6,7 @@ interface SpacingContainerProps {
     height?: string
 
     minHeight?: string
+    maxHeight?: string
     
     flexBasis?: string
 
@@ -31,6 +32,7 @@ export const SpacingContainer = styled.div<SpacingContainerProps>`
     width: ${props => props.width ?? "100%"};
     height: ${props => props.height ?? "100%"};
 
+    max-height: ${props => props.maxHeight};
     min-height: ${props => props.minHeight};
 
     display: ${props => props.display ?? "flex"};
