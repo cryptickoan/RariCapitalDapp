@@ -3,7 +3,7 @@ import { useRari } from '../../../context/RariProvider'
 import { Pool } from '../../../context/PoolProvider'
 
 // Dependencies
-import UserBalance from './UserBalance'
+import YieldAggregatorBalance from './YieldAggregatorBalance'
 import { StyledOffcanvas, ProfileImage, Address} from './styles'
 
 // Images //
@@ -48,7 +48,7 @@ const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
                     </SpacingContainer>
                     <SpacingContainer flexBasis="90%" direction="column" justifyContent="flex-start" margin="0 0 5% 0">
                         {Object.values(Pool).map((pool) =>
-                            <UserBalance pool={pool} />
+                            <YieldAggregatorBalance pool={pool} />
                         )}
                     </SpacingContainer>
                </SpacingContainer>
