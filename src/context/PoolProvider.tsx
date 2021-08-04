@@ -108,7 +108,7 @@ export const validateDeposit = async (pool: Pool, rari: Rari, token: string, amo
 }
 
 // Deposit to rari pool //
-export const depositToPool = async (pool: Pool, rari: Rari, token: string, amount: any, quote: BN, address: string) => {
+export const depositToPool = async (pool: Pool, rari: Rari, token: string, amount: any, quote: BN | null, address: string) => {
     const poolSDK = await getPoolSDK(pool, rari)
 
     try {
@@ -139,7 +139,7 @@ export const validateWithdrawal = async (pool: Pool, rari: Rari, token: string, 
 }
 
 // Withdraw from Rari Pool //
-export const withdrawFromPool = async (pool: Pool, rari: Rari, token: string, amount: any, quote:BN,  address: string) => {
+export const withdrawFromPool = async (pool: Pool, rari: Rari, token: string, amount: any, quote:BN | null,  address: string) => {
     const poolSDK = await getPoolSDK(pool, rari)
 
     try {
