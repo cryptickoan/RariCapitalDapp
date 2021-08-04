@@ -19,7 +19,7 @@ import ErrorMessage from '../../../../components/ErrorMessage'
 // Images //
 import Exit from '../../../../components/Icons/Exit'
 import Tokens from "../../../../../static/tokens.json";
-import { SpacingContainer } from '../../../../components'
+import { Card, SpacingContainer } from '../../../../components'
 
 // Action type will define which function to use //
 enum Action {
@@ -199,11 +199,18 @@ const ChooseCurrency = ({tokens, selectToken}: any) => {
     return (
         <>
         <ActionFormInput input="search" type="text" placeholder="Choose your token" onChange={(e) => setSearchTerm(e.target.value)}/>
-        <CoinDiv>
+        <SpacingContainer maxHeight="10vh" direction="column" justifyContent="flex-start" overflowY="scroll">
             {Object.values(filteredTokens).map((token: any) => 
-                <div key={token.symbol} onClick={() => selectToken(token.symbol)}>{token.symbol}</div>
+            <Card width="80%" minHeight="50px">
+                <SpacingContainer flexBasis="50%">
+                    <img width="35px" src={token.logoURL} alt="tokenIcon"/>
+                </SpacingContainer>
+                <SpacingContainer flexBasis="50%">
+                    <div key={token.symbol} onClick={() => selectToken(token.symbol)}>{token.symbol}</div>
+                </SpacingContainer>
+            </Card>
             )}
-        </CoinDiv>
+        </SpacingContainer>
         </>
     )
 }

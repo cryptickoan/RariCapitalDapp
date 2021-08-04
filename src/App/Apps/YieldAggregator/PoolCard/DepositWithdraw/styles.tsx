@@ -99,7 +99,7 @@ export const PoolWarning = styled.p`
 
 export const CoinDiv = styled.div`
     overflow-y: scroll;
-    max-height: 80px;
+    max-height: 10vh;
 `
 
 // ConfirmationButton
