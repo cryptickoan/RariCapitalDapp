@@ -11,23 +11,7 @@ interface InputProps {
     readonly input: string;
 }
 
-// Contianer
-export const DepositWithdrawActionContainer = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
 // WithdrawDepositButton
-export const ActionButtonGroup = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 100%;
-`
-
-
 export const ActionButton = styled.button<ButtonProps>`
     width: 30%;
     height: 30px;
@@ -51,10 +35,6 @@ export const ActionButton = styled.button<ButtonProps>`
 `
 
 // ActionForm //
-export const ActionFormGroup = styled.div`
-    margin-top: 10px;
-`
-
 export const ActionFormInput = styled.input<InputProps>`
     font: 400 20px 'Orbitron';
     border: 1px solid;
