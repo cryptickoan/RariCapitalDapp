@@ -33,7 +33,7 @@ export type GraphState =  {
 
 type Action = 
     |   {
-            type: "updateState",
+            type: "updateGraph",
             token: string,
             actionType: string,
             data: Info
@@ -41,13 +41,7 @@ type Action =
     |   {
         type: "updateDisplay",
         data: Info
-    }
-    |   {
-            type: "updateNumber",
-            token: string,
-            action: string,
-            number: number
-    }
+        }
     |   {
             type: "reset",
             data: GraphState
@@ -56,20 +50,13 @@ type Action =
 
 const reducer = (state:GraphState = {}, action: Action): GraphState | {} => {
     switch (action.type) {
-        case "updateState":
+        case "updateGraph":
             if (Object.keys(state).length > 3) {
                 const newState = state
                 delete newState[(Object.keys(newState)[0])]
                 return {...newState, [(action.token + action.actionType)]: action.data }
             }
             return {...state, [(action.token + action.actionType)]: action.data}
-        case "updateNumber": 
-            return {...state, 
-                        [(action.token + action.action)]: {
-                            ...state[(action.token+action.action)], 
-                            number: action.number
-                        }
-                    }
         case "updateDisplay":
             return {...state, display: action.data}
         case "reset":
@@ -78,6 +65,8 @@ const reducer = (state:GraphState = {}, action: Action): GraphState | {} => {
     }
 }
 
+
+// When this is triggered, the button from where it was triggered will send token and action (deposit/withdraw). 
 export const updateDisplay = ({apy, token, action}: UpdateDisplayProps): Action => {
     return {
         type: "updateDisplay",
@@ -89,24 +78,17 @@ export const updateDisplay = ({apy, token, action}: UpdateDisplayProps): Action 
     }
 }
 
-export const updateNumber = ({token, action, number}: UpdateNumberProps ): Action => {
-    return {
-        type: "updateNumber",
-        token: token,
-        action: action,
-        number: number
-    }
-}
-
+// When this is triggered, a new token is added for graph simulation
 export const updateGraph = ({token, apy, icon, action}: UpdateGraphProps): Action => {
         return {
-                type: "updateState",
+                type: "updateGraph",
                 token: token,
                 actionType: action,
                 data: {apy: apy, icon: icon, token: token, action: action}
         }
 }
 
+// Triggered only whenever user changes to another pool (i.e. from 18 to 5)
 export const resetGraph = (): Action => {
     return {
         type: "reset",
