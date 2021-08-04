@@ -1,4 +1,4 @@
-import {  useEffect } from "react"
+import {  MutableRefObject, useEffect } from "react"
 import { Pool } from "../../../../context/PoolProvider"
 import { useAccountBalance } from "../../../../hooks/YieldAggregator/useAccountBalance"
 import Spinner from "../../../components/Icons/Spinner"
@@ -7,7 +7,7 @@ import useInterestAccrued from "../../../../hooks/YieldAggregator/useInterestAcc
 
 import { Card, StyledP } from "../../../components"
 
-const YieldAggregatorBalance = ({pool, setTotal, total}: {pool: Pool, setTotal: any, total: number}) => {
+const YieldAggregatorBalance = ({renderCount, pool, setTotal, total}: {renderCount: number, pool: Pool, setTotal: any, total: number}) => {
     const {isLoading, data: balance}= useAccountBalance(pool)
     
     if (typeof balance === "undefined" || isLoading) {
@@ -15,7 +15,7 @@ const YieldAggregatorBalance = ({pool, setTotal, total}: {pool: Pool, setTotal: 
     }
    
     if (typeof balance !== 'undefined' && balance > 1) return (
-        <UserInterest balance={balance} pool={pool} setTotal={setTotal} total={total}/>
+        <UserInterest renderCount={renderCount} balance={balance} pool={pool} setTotal={setTotal} total={total}/>
     )
 
     return null
@@ -24,10 +24,12 @@ const YieldAggregatorBalance = ({pool, setTotal, total}: {pool: Pool, setTotal: 
 export default YieldAggregatorBalance
 
 
-const UserInterest = ({balance, pool, setTotal, total}: {balance: number, pool: Pool, setTotal: any, total: number}) => {
+const UserInterest = ({renderCount, balance, pool, setTotal, total}: {renderCount: number, balance: number, pool: Pool, setTotal: any, total: number}) => {
     const {data: interest} = useInterestAccrued(pool, 'month')
     useEffect(() => {
-        setTotal(total + balance) 
+        if (renderCount === 0) {
+            setTotal(total + balance) 
+        }
     },[])
 
     const navigate = useNavigate()

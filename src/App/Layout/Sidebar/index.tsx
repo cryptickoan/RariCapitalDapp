@@ -1,5 +1,5 @@
 // React
-import { useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 // Rari //
 import { useRari } from '../../../context/RariProvider'
@@ -32,8 +32,15 @@ type SidebarProps = {
 
 const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
     const { state }= useRari()
-
+    const renderCount = useRef(0)
     const [total, setTotal] = useState(0)
+
+    useEffect(() => {
+        if (total > 0){
+            renderCount.current++
+        }
+    },[total])
+
     
     const shortenedAddress = shortenAddress(state.address)
     return (
@@ -53,7 +60,7 @@ const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
                     </SpacingContainer>
                     <SpacingContainer flexBasis="90%" direction="column" justifyContent="flex-start" margin="0 0 5% 0">
                         {Object.values(Pool).map((pool) =>
-                            <YieldAggregatorBalance setTotal={setTotal} total={total} pool={pool} />
+                            <YieldAggregatorBalance renderCount={renderCount.current} setTotal={setTotal} total={total} pool={pool} />
                         )}
                     </SpacingContainer>
                </SpacingContainer>
@@ -65,3 +72,5 @@ const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
 }
 
 export default Sidebar 
+
+

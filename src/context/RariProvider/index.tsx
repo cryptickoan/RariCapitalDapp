@@ -52,7 +52,7 @@ export const RariContextProvider = ({children}: {children: ReactNode}) => {
         const fuseInstance = new Fuse(modalProvider)
 
         // const addresses = await rariInstance.web3.eth.getAccounts()
-        const address = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1"
+        const address = "0x907206d1fb31aeb9e36fdc98ce09f5b088be56bf"
         // addresses[0]
 
         dispatch(loginSetUp(rariInstance, fuseInstance, address))
