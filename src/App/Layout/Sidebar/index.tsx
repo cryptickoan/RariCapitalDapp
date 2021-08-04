@@ -1,3 +1,6 @@
+// React
+import { useState } from 'react'
+
 // Rari //
 import { useRari } from '../../../context/RariProvider'
 import { Pool } from '../../../context/PoolProvider'
@@ -29,6 +32,8 @@ type SidebarProps = {
 
 const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
     const { state }= useRari()
+
+    const [total, setTotal] = useState(0)
     
     const shortenedAddress = shortenAddress(state.address)
     return (
@@ -48,15 +53,15 @@ const Sidebar = ({show, handleClose, handleModalShow}: SidebarProps) => {
                     </SpacingContainer>
                     <SpacingContainer flexBasis="90%" direction="column" justifyContent="flex-start" margin="0 0 5% 0">
                         {Object.values(Pool).map((pool) =>
-                            <YieldAggregatorBalance pool={pool} />
+                            <YieldAggregatorBalance setTotal={setTotal} total={total} pool={pool} />
                         )}
                     </SpacingContainer>
                </SpacingContainer>
 
-                   <h5>Net Balance: 0.00$</h5>
+                   <h5>Net Balance: ${total.toLocaleString()}</h5>
             </SpacingContainer>
         </StyledOffcanvas>
     )
 }
 
-export default Sidebar
+export default Sidebar 
