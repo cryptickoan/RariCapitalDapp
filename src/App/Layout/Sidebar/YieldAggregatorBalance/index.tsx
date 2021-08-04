@@ -2,7 +2,7 @@
 import { Pool } from "../../../../context/PoolProvider"
 
 // React
-import {  MutableRefObject, useEffect } from "react"
+import { useEffect } from "react"
 
 // Dependencies
 import { useNavigate } from "react-router"
