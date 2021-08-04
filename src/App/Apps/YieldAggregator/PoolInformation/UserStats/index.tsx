@@ -18,7 +18,7 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
 
     // Get interest earned
     const { data: interestEarned } = useQuery(
-        state.address + " " + title + " interest", async () => {
+        state.address + " " + title + " interest " + timeRange, async () => {
             
             const startingBlock =
                 timeRange === "month"
