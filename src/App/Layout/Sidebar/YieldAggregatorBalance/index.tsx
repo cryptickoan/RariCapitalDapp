@@ -1,11 +1,20 @@
-import {  MutableRefObject, useEffect } from "react"
+// Pool
 import { Pool } from "../../../../context/PoolProvider"
-import { useAccountBalance } from "../../../../hooks/YieldAggregator/useAccountBalance"
-import Spinner from "../../../components/Icons/Spinner"
-import { useNavigate } from "react-router"
-import useInterestAccrued from "../../../../hooks/YieldAggregator/useInterestAccrued"
 
+// React
+import {  MutableRefObject, useEffect } from "react"
+
+// Dependencies
+import { useNavigate } from "react-router"
+
+// Styled Components
 import { Card, StyledP } from "../../../components"
+import Spinner from "../../../components/Icons/Spinner"
+
+// Hooks
+import useInterestAccrued from "../../../../hooks/YieldAggregator/useInterestAccrued"
+import useAccountBalance from "../../../../hooks/YieldAggregator/useAccountBalance"
+
 
 const YieldAggregatorBalance = ({renderCount, pool, setTotal, total}: {renderCount: number, pool: Pool, setTotal: any, total: number}) => {
     const {isLoading, data: balance}= useAccountBalance(pool)
