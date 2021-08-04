@@ -96,12 +96,6 @@ export const PoolWarning = styled.p`
     margin-top: 8px;
 `
 
-
-export const CoinDiv = styled.div`
-    overflow-y: scroll;
-    max-height: 10vh;
-`
-
 // ConfirmationButton
 export const ConfirmationSpan = styled.div`
     margin-top: 15px;

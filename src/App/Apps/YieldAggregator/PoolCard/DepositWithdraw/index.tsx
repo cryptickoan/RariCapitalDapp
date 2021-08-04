@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { DepositWithdrawActionContainer, ActionButtonGroup, ActionButton, ActionFormGroup, 
             ActionFormInput, ActionFormCurrencyButton, ConfirmationSpan, ConfirmationButton, 
-            PoolWarning, CoinDiv } from './styles'
+            PoolWarning } from './styles'
 import BigNumber from "bignumber.js";
 import { AllTokens } from "rari-tokens-generator";
 import ErrorMessage from '../../../../components/ErrorMessage'
