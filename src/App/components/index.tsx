@@ -26,6 +26,8 @@ interface SpacingContainerProps {
 
     color?: string
     textAlign?: string
+    
+    cursor?: string
 }
 
 export const SpacingContainer = styled.div<SpacingContainerProps>`
@@ -53,6 +55,8 @@ export const SpacingContainer = styled.div<SpacingContainerProps>`
     margin-bottom: ${props => props.marginBottom ?? "0"};
     margin: ${props => props.margin};
     padding: ${props => props.padding};
+
+    cursor: ${props => props.cursor};
 `
 
 interface CardProps {

@@ -103,7 +103,7 @@ const PoolInformation = () => {
                             </Graphs>
                         </SpacingContainer>
                     <SpacingContainer flexBasis="10%" direction="column" justifyContent="space-evenly">
-                        <SpacingContainer flexBasis="5%" justifyContent="flex-end">
+                        <SpacingContainer flexBasis="5%" justifyContent="flex-end" cursor="pointer">
                             <Exit className="infoExit" onClick={backToCards}/>
                         </SpacingContainer>
                         <Logo pool={title} className="poolInfoLogo"/>
