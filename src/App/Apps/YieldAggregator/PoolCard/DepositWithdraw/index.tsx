@@ -2,14 +2,17 @@
 import { useRari } from '../../../../../context/RariProvider'
 import { validateDeposit, depositToPool, 
          validateWithdrawal, withdrawFromPool, 
-         usePool } from '../../../../../context/PoolProvider'
+         usePool, BN, Pool } from '../../../../../context/PoolProvider'
 
 // React //
 import { useState } from 'react'
 
+// Styled Components
+import { Card, SpacingContainer } from '../../../../components'
+import Spinner from '../../../../components/Icons/Spinner'
+
 // Dependencies //
-import { Container } from 'react-bootstrap'
-import { DepositWithdrawActionContainer, ActionButtonGroup, ActionButton, ActionFormGroup, 
+import { ActionButton,
             ActionFormInput, ActionFormCurrencyButton, ConfirmationSpan, ConfirmationButton, 
             PoolWarning } from './styles'
 import BigNumber from "bignumber.js";
@@ -19,7 +22,6 @@ import ErrorMessage from '../../../../components/ErrorMessage'
 // Images //
 import Exit from '../../../../components/Icons/Exit'
 import Tokens from "../../../../../static/tokens.json";
-import { Card, SpacingContainer } from '../../../../components'
 
 // Action type will define which function to use //
 enum Action {
@@ -34,11 +36,11 @@ const DepositWithdraw = ({setOpen}: any) => {
     const [ error, setError ] = useState("")
 
     return (
-        <DepositWithdrawActionContainer>
+        <SpacingContainer direction="column">
             <ErrorMessage error={error}/>
             <ChooseActionButton action={action} setAction={setAction} error={error}/>
             <ActionForm  action={action} setOpen={setOpen} setError={setError}/>
-        </DepositWithdrawActionContainer>
+        </SpacingContainer>
     )
 }
 export default DepositWithdraw
@@ -46,10 +48,10 @@ export default DepositWithdraw
 // Changes action type //
 const ChooseActionButton = ({action, setAction, error}: any) => {
     return (
-        <ActionButtonGroup>
+        <SpacingContainer>
             <ActionButton name="withdraw" action={action} error={error} onClick={() => setAction(Action.Withdraw)}>Withdraw</ActionButton>
             <ActionButton name="deposit" action={action} error={error} onClick={() => setAction(Action.Deposit)}>Deposit</ActionButton>
-        </ActionButtonGroup>
+        </SpacingContainer>
     )
 }
 
@@ -66,17 +68,25 @@ const ActionForm = ({setOpen, action, setError}: any) => {
     const { title } = usePool()
     const tokens = Tokens as AllTokens;
 
-    // Get depositable currencies //
-    //const { status, data: tokens } = useQuery(title + "depositable currencies", () => {
-     //   return getDepositableCurrencies(title, state.rari)
-    //})
+    const getPool = (title: Pool) => {
+        switch (title) {
+            case Pool.USDC:
+                return 'Stable pool'
+            case Pool.DAI:
+                return 'Dai pool'
+            case Pool.ETH:
+                return 'Eth pool'
+            default:
+                break;
+        }
+    }
 
     // Form Control //
     const [ choosingToken, setChoosingToken ] = useState(false)
     const [ userEnteredAmount, _setUserEnteredAmount ] = useState("")
     const [ amount, _setAmount] = useState<BigNumber | null>(() => new BigNumber(0))
     const [ token, setToken ] = useState(tokens[title])
-    const [ quote, setQuote ] = useState()
+    const [ quote, setQuote ] = useState<null | BN>(null)
     const [ userAction, setUserAction ] = useState(UserAction.NO_ACTION)
     
 
@@ -159,25 +169,29 @@ const ActionForm = ({setOpen, action, setError}: any) => {
 
     return(
         <>
-            <Container>
-                <ActionFormGroup>
-                    {
-                        // if choosingCurrency display currency search field else display amount input
+            <SpacingContainer direction="column" margin="10px 0 0 0">
+                <SpacingContainer direction="column">
+                    {   
+                        // if User is viewing quote, display quote
+                        userAction === UserAction.VIEWING_QUOTE 
+                        ? ( quote ? <SpacingContainer>You'll deposit {state.rari.web3.utils.fromWei(quote)} to {getPool(title)}</SpacingContainer> : <SpacingContainer><Spinner /></SpacingContainer>)
+                        
+                        : // if choosingCurrency display currency search field else display amount input
                         choosingToken ? 
                         <ChooseCurrency tokens={tokens} selectToken={selectToken}/> 
                         :
-                        <>
+                        <SpacingContainer>
                         <ActionFormInput input="input" type="number" placeholder="0.0" onChange={(e) => updateAmount(e.target.value)}/>
                         <ActionFormCurrencyButton input="select" onClick={() => setChoosingToken(true)}>
                             {token.symbol}
                         </ActionFormCurrencyButton>
-                        </>
+                        </SpacingContainer>
                     }   
-                </ActionFormGroup>
+                </SpacingContainer>
                 <PoolWarning>You may experience divergence<br/> loss in this pool. Click for info.</PoolWarning>
-            </Container>
+            </SpacingContainer>
             <ConfirmationSpan>
-                <ConfirmationButton onClick={() => handleSubmit()}> Review </ConfirmationButton>
+                <ConfirmationButton onClick={() => handleSubmit()}>{userAction === UserAction.NO_ACTION ? 'Review' : userAction === UserAction.VIEWING_QUOTE ? 'Confirm' : 'Loading...' }</ConfirmationButton>
                 <SpacingContainer width="30px" height="30px">
                     <Exit onClick={() => setOpen(false)} className="exitIcon-theme" />
                 </SpacingContainer>
