@@ -1,8 +1,18 @@
-import {createContext, ReactNode, useContext} from 'react'
+// Rari
 import Rari from '../sdk/rari-sdk'
-import Web3 from "web3"
 import Tokens from "../static/tokens.json"
 import { AllTokens } from 'rari-tokens-generator'
+
+// Web3
+import Web3 from "web3"
+
+// React
+import {createContext, ReactNode, useContext} from 'react'
+
+// Types
+const toBN = Web3.utils.toBN
+export type BN = ReturnType<typeof toBN>
+const tokens = Tokens as AllTokens
 
 export enum Pool {
     USDC = "USDC",
@@ -81,7 +91,7 @@ export const getDepositableCurrencies = async (pool: Pool, rari: Rari, ) => {
 }
 
 // Validate deposit to Rari Pool //
-export const validateDeposit = async (pool: Pool, rari: Rari, token: any, amount: any, address: any ) => {
+export const validateDeposit = async (pool: Pool, rari: Rari, token: string, amount: any, address: string):Promise<{quote: BN, slippage: BN}> => {
     
     const poolSDK = await getPoolSDK(pool, rari)
 
@@ -89,8 +99,8 @@ export const validateDeposit = async (pool: Pool, rari: Rari, token: any, amount
     try {
         const amountBN = rari.web3.utils.toBN(amount!.decimalPlaces(0));
         const [amountToBeAdded,,_slippage] = await poolSDK.deposits.validateDeposit(token, amountBN, address, true)
-        let quote = amountToBeAdded
-        let slippage = _slippage
+        let quote = amountToBeAdded // Amount to be added to the senders RSP balance
+        let slippage = _slippage // 0x protocol fee
         return { quote: quote, slippage: slippage } 
     } catch (e) {
         return Promise.reject(e)
@@ -98,7 +108,7 @@ export const validateDeposit = async (pool: Pool, rari: Rari, token: any, amount
 }
 
 // Deposit to rari pool //
-export const depositToPool = async (pool: Pool, rari: Rari, token: any, amount: any, quote: any, address: any) => {
+export const depositToPool = async (pool: Pool, rari: Rari, token: string, amount: any, quote: BN, address: string) => {
     const poolSDK = await getPoolSDK(pool, rari)
 
     try {
@@ -114,14 +124,14 @@ export const depositToPool = async (pool: Pool, rari: Rari, token: any, amount: 
 }
 
 // Validate withdrawal from Rari Pool //
-export const validateWithdrawal = async (pool: Pool, rari: Rari, token: any, amount: any, address: any) => {
+export const validateWithdrawal = async (pool: Pool, rari: Rari, token: string, amount: any, address: string):Promise<{quote: BN, slippage: BN}> => {
     const poolSDK = await getPoolSDK(pool, rari)
 
     try {
         const amountBN = rari.web3.utils.toBN(amount!.decimalPlaces(0));
         const [amountToBeAdded,,_slippage] = await poolSDK.withdrawals.validateWithdrawal(token, amountBN, address, true)
-        let quote = amountToBeAdded
-        let slippage = _slippage
+        let quote = amountToBeAdded // Amount to be removed from the senders RSP balance
+        let slippage = _slippage // 0x exchange fee 
         return { quote: quote, slippage: slippage } 
     } catch (e) {
         return Promise.reject(e)
@@ -129,7 +139,7 @@ export const validateWithdrawal = async (pool: Pool, rari: Rari, token: any, amo
 }
 
 // Withdraw from Rari Pool //
-export const withdrawFromPool = async (pool: Pool, rari: Rari, token: any, amount: any, quote:any,  address: any) => {
+export const withdrawFromPool = async (pool: Pool, rari: Rari, token: string, amount: any, quote:BN,  address: string) => {
     const poolSDK = await getPoolSDK(pool, rari)
 
     try {
@@ -140,11 +150,8 @@ export const withdrawFromPool = async (pool: Pool, rari: Rari, token: any, amoun
     }
 }
 
-// Get Token allocation //
-const toBN = Web3.utils.toBN
-export type BN = ReturnType<typeof toBN>
-const tokens = Tokens as AllTokens
 
+// Get Token allocation //
 export const getTokenAllocation = async (pool: Pool, rari: Rari) => {
     const poolSDK = await getPoolSDK(pool, rari)
     const rawAllocation: ({[key: string]: BN}) = await poolSDK.allocations.getRawCurrencyAllocations()
