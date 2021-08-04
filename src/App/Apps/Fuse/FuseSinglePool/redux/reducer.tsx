@@ -7,12 +7,6 @@ type UpdateGraphProps = {
     action: string
 }
 
-type UpdateNumberProps = {
-    token: string
-    action: string
-    number: number
-}
-
 type UpdateDisplayProps = {
     token: string
     action: string
