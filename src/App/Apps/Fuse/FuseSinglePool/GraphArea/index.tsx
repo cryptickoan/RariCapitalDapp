@@ -8,7 +8,7 @@ import InfoPair from '../../../../components/InfoPair'
 import { Card, Button, SpacingContainer } from '../../../../components'
 import { useSelector } from 'react-redux'
 import { LineChartOptions, getInterest, DataEntry, getCategories } from '../../../../../utils/Chart'
-import { ActionButton, ActionButtonGroup } from '../../../YieldAggregator/PoolCard/DepositWithdraw/styles'
+import { ActionButton } from '../../../YieldAggregator/PoolCard/DepositWithdraw/styles'
 
 const initialState = [
     {name: '', data: [0]},
@@ -66,10 +66,10 @@ const GraphArea = () => {
                             type="line" 
                             height={300} 
                            width={575}/>  : 
-                           <ActionButtonGroup>
+                           <SpacingContainer>
                                <ActionButton name="deposit" error='' action="deposit">Deposit</ActionButton>
                                <ActionButton name="withdraw" error='' action="deposit">Withdraw</ActionButton>
-                           </ActionButtonGroup>
+                           </SpacingContainer>
                         } 
                     </SpacingContainer>
                 </Card>
