@@ -21,10 +21,16 @@ type Info = {
     number?: number
 }
 
+// Key can be a token symbol, or display. 
+// If display is present it means user is trying to deposit/withdraw/stake
+// In any case all keys will hold tokens general info.
 export type GraphState =  {
     [name: string]: Info
 }
 
+
+// Update graph means user is using simulation with a new token
+// Update display means user wants to deposit/withdraw or stake
 type Action = 
     |   {
             type: "updateGraph",
