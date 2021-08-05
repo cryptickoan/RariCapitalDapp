@@ -149,7 +149,7 @@ export const useFusePoolData = (poolId: string) => {
      dispatch(resetGraph())
     
     const data = useQuery(poolId + " poolData" + state.address, () => {
-      return fetchFusePoolData(poolId, "0x699425120A787160355c499F5aBC789106f85b0a", state.fuse, state.rari)
+      return fetchFusePoolData(poolId, state.address, state.fuse, state.rari)
     })
     
     return data
