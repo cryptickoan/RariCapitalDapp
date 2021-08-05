@@ -1,6 +1,6 @@
 import Fuse from "../sdk/fuse-sdk/src";
 
-export const turboGethURL = `https://turbogeth.crows.sh`;
+export const turboGethURL = `https://eth-mainnet.alchemyapi.io/v2/2Mt-6brbJvTA4w9cpiDtnbTo6qOoySnN`;
 
 // Types
 declare global {
