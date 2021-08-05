@@ -1,31 +1,41 @@
 import { createStore } from 'redux'
-
-type UpdateGraphProps = {
-    token: string
-    apy:number
-    icon?: string
-    action: string
-}
-
-type UpdateDisplayProps = {
-    token: string
-    action: string
-    apy: number
-}
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 type Info = {
+    // APY or APR depending on the action a user is taking
     apy:number
+
+    // Tokens URL for their icon
     icon?: string
+
+    // Token symbol
     token: string
+
+    // Lending or Borrowing
     action: string
-    number?: number
+}
+
+type Display = Info & {
+    // Has user supplied anything at all?
+    membership: boolean
+
+    // APR
+    apr: number
+
+    // pools Comptroller 
+    comptroller: string
+
+    // Balances
+    supplyBalanceUSD: number
+    borrowBalanceUSD: number
 }
 
 // Key can be a token symbol, or display. 
 // If display is present it means user is trying to deposit/withdraw/stake
 // In any case all keys will hold tokens general info.
+// If display then it'll hold all necessary info to generate the DepositWithdraw action section/component
 export type GraphState =  {
-    [name: string]: Info
+    [name: string]: Info | Display
 }
 
 
@@ -40,7 +50,7 @@ type Action =
         }
     |   {
             type: "updateDisplay",
-            data: Info
+            data: Display
         }
     |   {
             type: "reset",
@@ -66,17 +76,26 @@ const reducer = (state:GraphState = {}, action: Action): GraphState | {} => {
 }
 
 
+type UpdateDisplayProps = Display
+
 // When this is triggered, the button from where it was triggered will send token and action (deposit/withdraw). 
-export const updateDisplay = ({apy, token, action}: UpdateDisplayProps): Action => {
+export const updateDisplay = ({apy, token, action, membership, apr, supplyBalanceUSD, borrowBalanceUSD, comptroller }: UpdateDisplayProps): Action => {
     return {
         type: "updateDisplay",
         data: {
                 token: token,
                 action: action,
-                apy: apy
+                apy: apy,
+                apr: apr,
+                membership: membership,
+                supplyBalanceUSD: supplyBalanceUSD,
+                borrowBalanceUSD: borrowBalanceUSD,
+                comptroller: comptroller
             }
     }
 }
+
+type UpdateGraphProps = Info
 
 // When this is triggered, a new token is added for graph simulation
 export const updateGraph = ({token, apy, icon, action}: UpdateGraphProps): Action => {
@@ -97,4 +116,4 @@ export const resetGraph = (): Action => {
 }
 
 
-export const store = createStore(reducer)
+export const store = createStore(reducer, composeWithDevTools())
