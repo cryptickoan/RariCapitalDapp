@@ -29,14 +29,14 @@ const GraphArea = () => {
     let stateLenght = Object.keys(state).length
     let stateEntries = Object.entries(state).filter((entry) => entry[0] !== "display")
     
-    // When in simulation this will be used to generate info used in graph
-    const [ graphData, setGraphData ] = useState<{}[]>(initialState)
+    // When in simulation this will hold all info used in graph
+    const [ graphData, setGraphData ] = useState<{name: string, data: number[]}[]>(initialState)
 
     // Number changes through input. We wait for user to stop typing, 
-    // and then generate an array of objects that will be used as the graphs data 
+    // and then generate an array of objects that will be used as graph's data 
     const updateNumber = (tokenIndex: number, token: string, action: string, number: any, e: any) => {
         const timeOutID = setTimeout(() => {
-            const newNumbers: any = number.map((item: DataEntry, index: number) =>  
+            const newNumbers = number.map((item: DataEntry, index: number) =>  
                 index !== tokenIndex ? item
                 : {
                     name: (token + ' ' + action), 
