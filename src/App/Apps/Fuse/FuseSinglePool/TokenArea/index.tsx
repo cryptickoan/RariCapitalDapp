@@ -10,6 +10,7 @@ import { updateDisplay, updateGraph } from '../redux/reducer'
 import { useQueryClient } from 'react-query'
 import { useTokenData } from '../../../../../hooks/useTokenData'
 import { convertMantissaToAPR, convertMantissaToAPY } from '../../../../../utils/APY'
+import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData'
 
 // Styled Components
 import {  MarketBar, CollateralToggle } from "./styles"
@@ -26,7 +27,7 @@ import { Carousel } from 'react-bootstrap'
 import Spinner from '../../../../components/Icons/Spinner'
 
 
-const TokenArea = ({ action, assets, comptrollerAddress }: any) => {
+const TokenArea = ({ action, assets, comptrollerAddress }: {action: string, assets: USDPricedFuseAsset[], comptrollerAddress: string}) => {
     return (
         <SpacingContainer width="25%" height="100%" direction="column">
                 <h3>{ action === "lend" ? "Lend" : "Borrow" } </h3>
@@ -40,12 +41,12 @@ const TokenArea = ({ action, assets, comptrollerAddress }: any) => {
 export default TokenArea
 
 
-const TokenList = ({assets, action, comptrollerAddress}: any) => {
+const TokenList = ({assets, action, comptrollerAddress}: {action: string, assets: USDPricedFuseAsset[], comptrollerAddress: string}) => {
     return (
         <>
             {
              assets.length > 0 ? 
-                    assets.map((asset: any) => 
+                    assets.map((asset: USDPricedFuseAsset) => 
                         action === "borrow" && asset.isPaused ? null :
                         <MarketBars
                             comptrollerAddress={comptrollerAddress} 
@@ -61,7 +62,7 @@ const TokenList = ({assets, action, comptrollerAddress}: any) => {
 }
 
 
-const MarketBars = ({comptrollerAddress, asset, action }: {comptrollerAddress: any, asset: any, action: string}) => {
+const MarketBars = ({comptrollerAddress, asset, action }: {comptrollerAddress: string, asset: USDPricedFuseAsset, action: string}) => {
     // Redux store dispatch and state
     const dispatch = useDispatch()
     const  storeState = useSelector((state: any)  => state)
