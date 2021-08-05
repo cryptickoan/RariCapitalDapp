@@ -24,8 +24,8 @@ export interface RariContextData {
 export const RariContext = createContext<RariContextData | undefined>(undefined)
 
 // Initial State for RariState
-// 0x0000000000000000000000000000000000000000
-const EmptyAddress = "0x29c89a6cb342756e63a6c78d21adda6290eb5cb1";
+// 0x29c89a6cb342756e63a6c78d21adda6290eb5cb1
+const EmptyAddress = "0x0000000000000000000000000000000000000000";
 const initialState = {rari: new Rari(chooseBestWeb3Provider()), fuse: initFuseWithProviders(),  address: EmptyAddress, isAuthed: false}
 
 export const RariContextProvider = ({children}: {children: ReactNode}) => {
