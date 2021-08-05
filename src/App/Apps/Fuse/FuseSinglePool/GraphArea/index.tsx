@@ -1,14 +1,18 @@
 // React
 import { useState } from 'react'
 
+// Dependencies
 import Chart  from 'react-apexcharts'
-
-import { SimulationInput } from './styles'
-import InfoPair from '../../../../components/InfoPair'
-import { Card, Button, SpacingContainer } from '../../../../components'
 import { useSelector } from 'react-redux'
 import { LineChartOptions, getInterest, DataEntry, getCategories } from '../../../../../utils/Chart'
-import { ActionButton } from '../../../YieldAggregator/PoolCard/DepositWithdraw/styles'
+
+// Styled Components
+import { SimulationInput } from './styles'
+import { Card, Button, SpacingContainer } from '../../../../components'
+import InfoPair from '../../../../components/InfoPair'
+
+// Icons
+import Spinner from '../../../../components/Icons/Spinner'
 
 const initialState = [
     {name: '', data: [0]},
@@ -20,20 +24,16 @@ const initialState = [
 const GraphArea = () => {
     // Info used in graph
     const state = useSelector(state => state)
-    console.log(state,  "graph")
-
     const year = getCategories()
 
     let stateLenght = Object.keys(state).length
-    let display = Object.keys(state).includes("display")
     let stateEntries = Object.entries(state).filter((entry) => entry[0] !== "display")
-
     
     // When in simulation this will be used to generate info used in graph
-    const [ number, setNumber ] = useState<{}[]>(initialState)
-    console.log(number, "number")
+    const [ graphData, setGraphData ] = useState<{}[]>(initialState)
 
-
+    // Number changes through input. We wait for user to stop typing, 
+    // and then generate an array of objects that will be used as the graphs data 
     const updateNumber = (tokenIndex: number, token: string, action: string, number: any, e: any) => {
         const timeOutID = setTimeout(() => {
             const newNumbers: any = number.map((item: DataEntry, index: number) =>  
@@ -42,8 +42,7 @@ const GraphArea = () => {
                     name: (token + ' ' + action), 
                     data: getInterest(e.target.value,(stateEntries[tokenIndex][1].apy / 100))
                 })
-            console.log(newNumbers)
-            setNumber(newNumbers)
+            setGraphData(newNumbers)
         }, 3000)
         return () => clearTimeout(timeOutID)
     }
@@ -54,22 +53,19 @@ const GraphArea = () => {
                     <SpacingContainer height="60%" color="black">
 
                     
-                       { number.length > 0 && !display ?
-                        <Chart options={{
+                       { graphData.length > 0 
+                       ? <Chart options={{
                             ...LineChartOptions,
                             xaxis:{
                                 type : "category",
                                 categories: year
                             }
                             }}  
-                            series={number} // must be an array of objects
+                            series={graphData} // must be an array of objects
                             type="line" 
                             height={300} 
-                           width={575}/>  : 
-                           <SpacingContainer>
-                               <ActionButton name="deposit" error='' action="deposit">Deposit</ActionButton>
-                               <ActionButton name="withdraw" error='' action="deposit">Withdraw</ActionButton>
-                           </SpacingContainer>
+                           width={575}/>  
+                           : <Spinner />
                         } 
                     </SpacingContainer>
                 </Card>
@@ -91,7 +87,7 @@ const GraphArea = () => {
                                             margin="0 0 0 10px"
                                         />
                                     </SpacingContainer>
-                                    <SimulationInput type="number" placeholder="0" onChange={(e) => updateNumber(index, item[1].token, item[1].action, number, e)}/>
+                                    <SimulationInput type="number" placeholder="0" onChange={(e) => updateNumber(index, item[1].token, item[1].action, graphData, e)}/>
                                 </Button>
                         )
                         : null
