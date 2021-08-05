@@ -33,8 +33,8 @@ type Action =
             data: Info
         }
     |   {
-        type: "updateDisplay",
-        data: Info
+            type: "updateDisplay",
+            data: Info
         }
     |   {
             type: "reset",
