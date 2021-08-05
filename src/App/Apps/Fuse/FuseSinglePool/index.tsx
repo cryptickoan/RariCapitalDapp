@@ -3,6 +3,7 @@ import {  useFusePoolData } from '../../../../hooks/useFusePoolData'
 
 // Dependencies
 import { useParams } from "react-router"
+import { useSelector } from 'react-redux'
 
 // Styled Components
 import { SpacingContainer} from '../../../components'
@@ -11,6 +12,7 @@ import { SpacingContainer} from '../../../components'
 import FusePoolInfo from './FusePoolInfo'
 import TokenArea from './TokenArea'
 import GraphArea from './GraphArea'
+import DepositWithdraw from './DepositWithdraw'
 
 // Icons 
 import Spinner from "../../../components/Icons/Spinner"
@@ -21,10 +23,8 @@ const FuseSinglePool = () => {
     const { id } = useParams()
     
     const fusePools = useFusePools(null)
-
+    
     const { data: poolInfo }  = useFusePoolData(id)
-    console.log(poolInfo)
-
     return (
         <>
         { poolInfo && fusePools 
@@ -40,8 +40,8 @@ const FuseSinglePool = () => {
                                 comptrollerAddress={poolInfo?.comptroller}
                                 />
                     
-
-                            <GraphArea/>
+                            <Middle />
+                            
 
                             <TokenArea action="borrow" 
                                 assets={poolInfo?.assets} 
@@ -60,3 +60,15 @@ const FuseSinglePool = () => {
 }
 
 export default FuseSinglePool
+
+
+const Middle = () => {
+    const state = useSelector(state => state)
+    let display = Object.keys(state).includes("display")
+    
+    return (
+        <>
+        {display ? <DepositWithdraw/> : <GraphArea/>}
+        </>
+    )
+}
