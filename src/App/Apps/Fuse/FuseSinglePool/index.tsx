@@ -64,6 +64,9 @@ export default FuseSinglePool
 
 const Middle = () => {
     const state = useSelector(state => state)
+
+    // If display is in state then user is depositing, withdrawing or staking
+    // If it isnt then user is looking at the simulation graph
     let display = Object.keys(state).includes("display")
     
     return (
