@@ -1,5 +1,6 @@
 import { createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData'
 
 type Info = {
     // APY or APR depending on the action a user is taking
@@ -15,27 +16,21 @@ type Info = {
     action: string
 }
 
-type Display = Info & {
-    // Has user supplied anything at all?
-    membership: boolean
-
-    // APR
-    apr: number
-
-    // pools Comptroller 
-    comptroller: string
-
-    // Balances
-    supplyBalanceUSD: number
-    borrowBalanceUSD: number
+type Display = {
+    asset: USDPricedFuseAsset
+    icon: string | undefined
+    action: string
+    assets: USDPricedFuseAsset[]
 }
+
+
 
 // Key can be a token symbol, or display. 
 // If display is present it means user is trying to deposit/withdraw/stake
 // In any case all keys will hold tokens general info.
 // If display then it'll hold all necessary info to generate the DepositWithdraw action section/component
 export type GraphState =  {
-    [name: string]: Info | Display
+    [name: string]: Display | Info
 }
 
 
@@ -54,8 +49,12 @@ type Action =
         }
     |   {
             type: "reset",
-            data: GraphState
+            data: {}
         }
+    |  {
+            type: "removeDisplay",
+            data: {}
+    }
 
 
 const reducer = (state:GraphState = {}, action: Action): GraphState | {} => {
@@ -69,6 +68,9 @@ const reducer = (state:GraphState = {}, action: Action): GraphState | {} => {
             return {...state, [(action.token + action.actionType)]: action.data}
         case "updateDisplay":
             return {...state, display: action.data}
+        case "removeDisplay":
+            const { display: remove, ...rest} = state
+            return { ...rest }
         case "reset":
             return action.data
         default: return state
@@ -76,21 +78,13 @@ const reducer = (state:GraphState = {}, action: Action): GraphState | {} => {
 }
 
 
-type UpdateDisplayProps = Display
 
 // When this is triggered, the button from where it was triggered will send token and action (deposit/withdraw). 
-export const updateDisplay = ({apy, token, action, membership, apr, supplyBalanceUSD, borrowBalanceUSD, comptroller }: UpdateDisplayProps): Action => {
+export const updateDisplay = ({props}: {props: Display}): Action => {
     return {
         type: "updateDisplay",
         data: {
-                token: token,
-                action: action,
-                apy: apy,
-                apr: apr,
-                membership: membership,
-                supplyBalanceUSD: supplyBalanceUSD,
-                borrowBalanceUSD: borrowBalanceUSD,
-                comptroller: comptroller
+                ...props
             }
     }
 }
@@ -111,6 +105,13 @@ export const updateGraph = ({token, apy, icon, action}: UpdateGraphProps): Actio
 export const resetGraph = (): Action => {
     return {
         type: "reset",
+        data: {}
+    }
+}
+
+export const removeDisplay = (): Action => {
+    return {
+        type: 'removeDisplay',
         data: {}
     }
 }
