@@ -49,10 +49,10 @@ export const RariContextProvider = ({children}: {children: ReactNode}) => {
     const setRariAndAddressFromModal = useCallback(
       async (modalProvider: any) => {
         const rariInstance = new Rari(chooseBestWeb3Provider())
-        const fuseInstance = new Fuse(modalProvider)
+        const fuseInstance = initFuseWithProviders(modalProvider)
 
-        // const addresses = await rariInstance.web3.eth.getAccounts()
-        const address = "0x907206d1fb31aeb9e36fdc98ce09f5b088be56bf"
+        const addresses = await rariInstance.web3.eth.getAccounts()
+        const address = addresses[0]
         // addresses[0]
 
         dispatch(loginSetUp(rariInstance, fuseInstance, address))
