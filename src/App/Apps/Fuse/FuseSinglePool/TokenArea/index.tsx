@@ -52,6 +52,7 @@ const TokenList = ({assets, action, comptrollerAddress}: {action: string, assets
                             comptrollerAddress={comptrollerAddress} 
                             key={asset.underlyingToken} 
                             asset={asset} 
+                            assets={assets}
                             action={action}
                         />
                     )
@@ -62,11 +63,11 @@ const TokenList = ({assets, action, comptrollerAddress}: {action: string, assets
 }
 
 
-const MarketBars = ({comptrollerAddress, asset, action }: {comptrollerAddress: string, asset: USDPricedFuseAsset, action: string}) => {
+const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAddress: string, asset: USDPricedFuseAsset, assets: USDPricedFuseAsset[], action: string}) => {
     // Redux store dispatch and state
     const dispatch = useDispatch()
     const  storeState = useSelector((state: any)  => state)
-    
+
     // Rari, address, fuse, isAuthed
     const { state } = useRari()
 
@@ -125,7 +126,14 @@ const MarketBars = ({comptrollerAddress, asset, action }: {comptrollerAddress: s
 
 
     const handleManageClick = () => {
-        dispatch(updateDisplay({apy:(isLend ? supplyApy : borrowAPR), token: asset.underlyingSymbol, action: action }))
+        dispatch(updateDisplay({
+            props: {
+                asset: {...asset, supplyRatePerBlock: supplyApy, borrowRatePerBlock: borrowAPR },
+                icon: tokenData?.logoURL,
+                action: action,
+                assets: assets
+            }
+        }))
     }
 
 
