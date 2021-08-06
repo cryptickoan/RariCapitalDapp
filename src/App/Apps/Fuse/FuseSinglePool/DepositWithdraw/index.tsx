@@ -27,6 +27,8 @@ import { convertMantissaToAPR, convertMantissaToAPY } from '../../../../../utils
 import Exit from '../../../../components/Icons/Exit'
 import Spinner from '../../../../components/Icons/Spinner';
 import { smallUsdFormatter } from '../../../../../utils/formatter';
+import useAlert from './hooks/useAlert';
+import useIsAmountValid from './hooks/useIsAmountValid';
 
 // Types
 enum UserAction {
@@ -157,12 +159,15 @@ const TokenInfo = ({state}: any) => {
     )
 }
 
-const ActionSection = ({action, setAction, amount, setAmount}: {action: string, setAction: any, amount: any, setAmount: any}) => {
+const ActionSection = ({action, setAction, amount, setAmount}: {action: string, setAction: any, amount: BigNumber | null, setAmount: any}) => {
     const state = useSelector((state: any) => state.display)
 
     // Used to give buttons info to display, depending on what the user is doing
     const buttonOne = state.action === 'lend'  ? 'Supply' : 'Borrow'
     const buttonTwo = state.action === 'lend'  ? 'Withdraw' : 'Repay'
+
+    const isAmountValid = useIsAmountValid(amount, action, state.asset, state.asset.comptrollerAddress)
+    const buttonAlert = useAlert(amount, action)
 
     return (
         <SpacingContainer height="55%" width="70%"  direction="column" justifyContent="space-around">
@@ -193,11 +198,12 @@ const ActionSection = ({action, setAction, amount, setAmount}: {action: string, 
             <Stats amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0} action={action}/>
 
             <SpacingContainer height="10%">
-                <ConfirmationButton width="40%" height="100%" onClick={() => null}>hey</ConfirmationButton>
+                <ConfirmationButton width="40%" height="100%" onClick={() => null}>{buttonAlert}</ConfirmationButton>
             </SpacingContainer>
         </SpacingContainer>
     )
 }
+
 const Stats = ({amount, action}: any) => {
     const { state: RariState } = useRari()
     const state = useSelector((state: any) => state.display)
