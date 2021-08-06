@@ -21,6 +21,9 @@ interface SpacingContainerProps {
     margin?: string
     padding?: string
     
+    position?: string
+    top?: string
+
     overflowY?: string
     overflowX?: string
 
@@ -55,6 +58,9 @@ export const SpacingContainer = styled.div<SpacingContainerProps>`
     margin-bottom: ${props => props.marginBottom ?? "0"};
     margin: ${props => props.margin};
     padding: ${props => props.padding};
+
+    position: ${props => props.position};
+    top: ${props => props.top};
 
     cursor: ${props => props.cursor};
 `
@@ -119,7 +125,7 @@ export const StyledP = styled.p<PProps>`
     margin: ${props => props.margin};
 
     text-shadow: ${props => props.glow ? props.theme.light ? "2px 0 10px #B8FF71, 2px 0 5px #B8FF71, 0 2px 6px #B8FF71" : "0 0 18px #B8FF71" : ""};
-    font-family: ${props => props.neuropolNova ? "neuropol-nova" : ""}
+    font-family: ${props => props.neuropolNova ? "neuropol-nova" : ""};
 
     opacity: ${props => props.opacity};
 
