@@ -2,9 +2,10 @@ import styled from 'styled-components'
 
 // Types
 interface ButtonProps {
-    readonly name?: string; 
-    readonly action?: string;
+    readonly name?: string
+    readonly action?: string
     readonly error: string
+    readonly width?: boolean
 };
 
 interface InputProps {
@@ -13,9 +14,9 @@ interface InputProps {
 
 // WithdrawDepositButton
 export const ActionButton = styled.button<ButtonProps>`
-    width: 30%;
+    width: ${props => props.width ? "100%" : "30%" };
     height: 30px;
-    border: none;
+    border: none; 
 
     font-family: 'Orbitron';
     font-size: 12px;
@@ -30,7 +31,7 @@ export const ActionButton = styled.button<ButtonProps>`
 
     ${props => props.action === props.name ? 
                     props.error.length > 2 ? "box-shadow: 0 0 20px 10px red; border: none !important; color: red !important;" :
-                    "box-shadow: 0 0 20px 10px #B8FF71 ; border: none !important;" : ""
+                    "box-shadow: 0 0 10px #B8FF71 ; border: none !important;" : ""
     }
 `
 
@@ -84,10 +85,15 @@ export const ConfirmationSpan = styled.div`
     align-items: center;
 `
 
-export const ConfirmationButton = styled.button`
+type ConfirmationButtonProps = {
+    width?: string
+    height?: string
+}
+
+export const ConfirmationButton = styled.button<ConfirmationButtonProps>`
     font: 400 15px 'Orbitron';
-    height: 35px;
-    width: 80px;
+    height: ${props => props.height ?? "35px"};
+    width: ${props => props.width ?? "80px" };
     border: 1px solid;
     border-radius: 8px;
 
