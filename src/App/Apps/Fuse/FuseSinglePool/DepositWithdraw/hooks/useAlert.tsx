@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 
-const useAlert = (amount: BigNumber | null, action: string) => {
+const useAlert = (amount: BigNumber | null, action: string, isAmountValid: boolean | undefined, symbol: string) => {
     let depositOrWithdrawAlert = null;
 
     
@@ -19,6 +19,33 @@ const useAlert = (amount: BigNumber | null, action: string) => {
                 depositOrWithdrawAlert = "Enter a valid amount to repay."
                 break
         }
+    } 
+    
+    else if (isAmountValid === undefined) {
+        depositOrWithdrawAlert = `Loading your balance of ${symbol}`
+    } 
+    
+    else if (!isAmountValid) {
+        switch (action) {
+            case "Supply":
+                depositOrWithdrawAlert = `You don't have enough ${symbol}`
+                break;
+            case "Borrow":
+                depositOrWithdrawAlert = `You cannot borrow this much!`
+                break
+            case "Repay":
+                depositOrWithdrawAlert = `You don't have enough ${symbol}, or you're over-paying`
+                break
+            case "Withdraw":
+                depositOrWithdrawAlert = `You cannot withdraw this much`
+                break
+            default:
+                break;
+        }
+    }
+    
+    else {
+        depositOrWithdrawAlert = null
     }
 
     return depositOrWithdrawAlert
