@@ -17,7 +17,7 @@ export type InfoBarProps =  {
     diffOnHover?: boolean
 }
 
-const InfoBar: FC<InfoBarProps> = ({data, onClick, width, height, diffOnHover}: InfoBarProps) => {
+export const InfoBar: FC<InfoBarProps> = ({data, onClick, width, height, diffOnHover}: InfoBarProps) => {
     return (
         <Card onClick={onClick} width={width} height={height} justifyContent="space-around" cursor={diffOnHover ? "pointer" : undefined} borderRadius="15px" diffOnHover={diffOnHover ?? undefined}>
 
@@ -35,5 +35,3 @@ const InfoBar: FC<InfoBarProps> = ({data, onClick, width, height, diffOnHover}: 
         </Card>
     )
 }
-
-export default InfoBar  

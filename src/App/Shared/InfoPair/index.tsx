@@ -1,4 +1,5 @@
-import { SpacingContainer, StyledP } from ".."
+import { StyledP } from '../StyledP'
+import { SpacingContainer } from '../SpacingContainer'
 
 // Type
 interface InfoPairProps {
@@ -18,7 +19,7 @@ interface InfoPairProps {
     margin?: string
 }
 
-const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, justifyContent, number, numberSize, alt, altSize, main, secondary, margin}: InfoPairProps) => {
+export const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, justifyContent, number, numberSize, alt, altSize, main, secondary, margin}: InfoPairProps) => {
     return (
         <SpacingContainer 
             margin={margin} 
@@ -43,5 +44,3 @@ const InfoPair = ({ direction, flexBasis, glow, width, marginBottom, height, jus
         </SpacingContainer>
     )
 }
-
-export default InfoPair

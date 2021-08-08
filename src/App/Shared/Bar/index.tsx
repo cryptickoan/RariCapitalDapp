@@ -3,7 +3,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import { SpacingContainer } from '../index'
 import { TotalBar, FillKey, FillKeyNumbers, Fill, Type } from './styles'
 
-const Bar = ({tokenAllocation, type}: {tokenAllocation: {[token: string]: number}, type: string}) => {
+export const Bar = ({tokenAllocation, type}: {tokenAllocation: {[token: string]: number}, type: string}) => {
     const filteredData = Object.keys(tokenAllocation).filter((key) => tokenAllocation[key] > 0 && key !== "total")
     const length = filteredData.length
 
@@ -35,5 +35,3 @@ const Bar = ({tokenAllocation, type}: {tokenAllocation: {[token: string]: number
         </SpacingContainer>
     )
 }
-
-export default Bar
