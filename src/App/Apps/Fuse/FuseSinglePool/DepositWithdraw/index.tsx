@@ -1,5 +1,5 @@
 // Rari
-import { useRari } from '../../../../../context/RariProvider';
+import { useRari } from '../../../../../context/RariProvider'
 
 // React
 import { useState, useEffect } from 'react'
@@ -9,8 +9,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { removeDisplay } from '../redux/reducer'
 
 // Dependencies
-import { useQuery } from 'react-query';
-import BigNumber from "bignumber.js";
+import { useQuery, useQueryClient } from 'react-query'
+import BigNumber from "bignumber.js"
 
 // Styled Components
 import { SpacingContainer, Card, StyledP }from '../../../../components'
@@ -19,16 +19,23 @@ import { SimulationInput } from '../GraphArea/styles'
 import InfoPair from '../../../../components/InfoPair'
 
 // Hooks
-import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData';
-import { useBorrowLimit } from '../../../../../hooks/Fuse/useMaxBorrow';
-import { convertMantissaToAPR, convertMantissaToAPY } from '../../../../../utils/APY';
+import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData'
+import { useBorrowLimit } from '../../../../../hooks/Fuse/useBorrowLimit'
+import { ETH_TOKEN_DATA } from '../../../../../hooks/useTokenData'
+import useAlert from './hooks/useAlert'
+import useIsAmountValid from './hooks/useIsAmountValid'
+
+// Utils
+import { convertMantissaToAPR, convertMantissaToAPY } from '../../../../../utils/APY'
+import { createComptroller } from '../../../../../utils/createComptroller'
+import { fetchGasForCall, testForCTokenErrorAndSend }from '../../../../../utils/fetchGasForCall'
+import { smallUsdFormatter } from '../../../../../utils/formatter'
 
 // Icons
 import Exit from '../../../../components/Icons/Exit'
-import Spinner from '../../../../components/Icons/Spinner';
-import { smallUsdFormatter } from '../../../../../utils/formatter';
-import useAlert from './hooks/useAlert';
-import useIsAmountValid from './hooks/useIsAmountValid';
+import Spinner from '../../../../components/Icons/Spinner'
+import { APYDisplayer } from '../../../../components/PoolAPY/styles'
+import { OnOffButton } from './styles'
 
 // Types
 enum UserAction {
@@ -39,6 +46,9 @@ enum UserAction {
 // Rendered after user clicks manage button
 // It can come from the Lending or Borrowing side
 const DepositWithdraw = () => {
+    // RariState
+    const { state: RariState } = useRari()
+
     // Brings all info needed to render this section
     // Info should be of type Display
     const state = useSelector((state: any) => state.display)
@@ -50,13 +60,17 @@ const DepositWithdraw = () => {
     // Supply, Borrow, Repay or Withdraw
     const [action, setAction] = useState('')
     
-    // The amount the user is using in the action, as a BigNumber for contracts and hooks
+    // The amount being used in the action, as a BigNumber for contracts and hooks
     const [amount, _setAmount] = useState<BigNumber | null>(() => new BigNumber(0));
 
     // The amount the user entered as a plain number in a string
     const [userEnteredAmount, _setUserEnteredAmount] = useState("")
-    
-    console.log(action, amount, userEnteredAmount)
+
+    const showEnableAsCollateral = !state.asset.membership && action === "Supply";
+    const [enableAsCollateral, setEnableAsCollateral] = useState( showEnableAsCollateral );
+
+    // QueryClient to refetch after action
+    const queryClient = useQueryClient();
 
     // Will set action to a default value, depending on where the manage button was pressed. i.e lending or borrowing side.
     // It will also reset amount and userEnteredAmount
@@ -88,14 +102,185 @@ const DepositWithdraw = () => {
         setUserAction(UserAction.NO_ACTION);
       };
     
+    const onConfirm = async () => {
+    try {
+        setUserAction(UserAction.WAITING_FOR_TRANSACTIONS);
+
+        const isETH = state.asset.underlyingToken === ETH_TOKEN_DATA.address;
+        const isRepayingMax =
+        amount!.eq(state.asset.borrowBalance) && !isETH && action === "Repay";
+
+        isRepayingMax && console.log("Using max repay!");
+
+        const max = new BigNumber(2).pow(256).minus(1).toFixed(0);
+
+        const amountBN = RariState.fuse.web3.utils.toBN(amount!.toFixed(0));
+
+        const cToken = new RariState.fuse.web3.eth.Contract(
+        isETH
+            ? JSON.parse(
+                RariState.fuse.compoundContracts[
+                "contracts/CEtherDelegate.sol:CEtherDelegate"
+                ].abi
+            )
+            : JSON.parse(
+                RariState.fuse.compoundContracts[
+                "contracts/CErc20Delegate.sol:CErc20Delegate"
+                ].abi
+            ),
+        state.asset.cToken
+        );
+
+        if (action === "Supply" || action === "Repay") {
+        if (!isETH) {
+            const token = new RariState.fuse.web3.eth.Contract(
+            JSON.parse(
+                RariState.fuse.compoundContracts[
+                "contracts/EIP20Interface.sol:EIP20Interface"
+                ].abi
+            ),
+            state.asset.underlyingToken
+            );
+
+            const hasApprovedEnough = RariState.fuse.web3.utils
+            .toBN(
+                await token.methods
+                .allowance(RariState.address, cToken.options.address)
+                .call()
+            )
+            .gte(amountBN);
+
+            if (!hasApprovedEnough) {
+            await token.methods
+                .approve(cToken.options.address, max)
+                .send({ from: RariState.address });
+            }
+        }
+
+        if (action === "Supply") {
+            // If they want to enable as collateral now, enter the market:
+            if (enableAsCollateral) {
+            const comptroller = createComptroller(state.asset.comptrollerAddress, RariState.fuse);
+            // Don't await this, we don't care if it gets executed first!
+            comptroller.methods
+                .enterMarkets([state.asset.cToken])
+                .send({ from: RariState.address });
+            }
+
+            if (isETH) {
+            const call = cToken.methods.mint();
+
+            if (
+                // If they are supplying their whole balance:
+                amountBN.toString() === (await RariState.fuse.web3.eth.getBalance(RariState.address))
+            ) {
+                // Subtract gas for max ETH
+                const { gasWEI, gasPrice, estimatedGas } = await fetchGasForCall(
+                call,
+                amountBN,
+                RariState.fuse,
+                RariState.address
+                );
+
+                await call.send({
+                from: RariState.address,
+                value: amountBN.sub(gasWEI),
+
+                gasPrice,
+                gas: estimatedGas,
+                });
+            } else {
+                await call.send({
+                from: RariState.address,
+                value: amountBN,
+                });
+            }
+            } else {
+            await testForCTokenErrorAndSend(
+                cToken.methods.mint(amountBN),
+                RariState.address,
+                "Cannot deposit this amount right now!"
+            );
+            }
+        } else if (action === "Repay") {
+            if (isETH) {
+            const call = cToken.methods.repayBorrow();
+
+            if (
+                // If they are repaying their whole balance:
+                amountBN.toString() === (await RariState.fuse.web3.eth.getBalance(RariState.address))
+            ) {
+                // Subtract gas for max ETH
+                const { gasWEI, gasPrice, estimatedGas } = await fetchGasForCall(
+                call,
+                amountBN,
+                RariState.fuse,
+                RariState.address
+                );
+
+                await call.send({
+                from: RariState.address,
+                value: amountBN.sub(gasWEI),
+
+                gasPrice,
+                gas: estimatedGas,
+                });
+            } else {
+                await call.send({
+                from: RariState.address,
+                value: amountBN,
+                });
+            }
+            } else {
+            await testForCTokenErrorAndSend(
+                cToken.methods.repayBorrow(isRepayingMax ? max : amountBN),
+                RariState.address,
+                "Cannot repay this amount right now!"
+            );
+            }
+        }
+        } else if (action === "Borrow") {
+        await testForCTokenErrorAndSend(
+            cToken.methods.borrow(amountBN),
+            RariState.address,
+            "Cannot borrow this amount right now!"
+        );
+        } else if (action === "Withdraw") {
+        await testForCTokenErrorAndSend(
+            cToken.methods.redeemUnderlying(amountBN),
+            RariState.address,
+            "Cannot withdraw this amount right now!"
+        );
+        }
+
+        queryClient.refetchQueries();
+
+        // Wait 2 seconds for refetch and then close modal.
+        // We do this instead of waiting the refetch because some refetches take a while or error out and we want to close now.
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+    } catch (e) {
+        console.log(e.message)
+        setUserAction(UserAction.NO_ACTION);
+    }
+    };
+
     return (
         <>
         <SpacingContainer width="50%" height="100%" margin="10px 0 0 0" direction="column" justifyContent="space-evenly">
-            <Card height="80%" width="95%" borderRadius="15px" position="relative" direction="column" justifyContent="space-evenly">
+            <Card height="90%" width="95%" borderRadius="15px" position="relative" direction="column" justifyContent="space-evenly">
 
                 <ExitButton />
                 <TokenInfo state={state}/>
-                <ActionSection action={action} setAction={setAction} amount={amount} setAmount={updateAmount}/>
+                <ActionSection 
+                    action={action} 
+                    setAction={setAction} 
+                    amount={amount} 
+                    setAmount={updateAmount} 
+                    showEnableAsCollateral={showEnableAsCollateral}
+                    enableAsCollateral={enableAsCollateral}
+                    setEnableAsCollateral={setEnableAsCollateral} 
+                    onConfirm={onConfirm}
+                />
 
             </Card>
         </SpacingContainer>
@@ -159,7 +344,7 @@ const TokenInfo = ({state}: any) => {
     )
 }
 
-const ActionSection = ({action, setAction, amount, setAmount}: {action: string, setAction: any, amount: BigNumber | null, setAmount: any}) => {
+const ActionSection = ({action, setAction, amount, setAmount, showEnableAsCollateral, enableAsCollateral, setEnableAsCollateral, onConfirm}: {action: string, setAction: any, amount: BigNumber | null, setAmount: any, showEnableAsCollateral: boolean, onConfirm: () => any, enableAsCollateral: boolean, setEnableAsCollateral: any}) => {
     const state = useSelector((state: any) => state.display)
 
     // Used to give buttons info to display, depending on what the user is doing
@@ -167,48 +352,53 @@ const ActionSection = ({action, setAction, amount, setAmount}: {action: string, 
     const buttonTwo = state.action === 'lend'  ? 'Withdraw' : 'Repay'
 
     const isAmountValid = useIsAmountValid(amount, action, state.asset, state.asset.comptrollerAddress)
-    const buttonAlert = useAlert(amount, action)
+    const buttonAlert = useAlert(amount, action, isAmountValid, state.asset.underlyingSymbol)
 
     return (
-        <SpacingContainer height="55%" width="70%"  direction="column" justifyContent="space-around">
+        <SpacingContainer height="55%" width="70%"  direction="column" justifyContent="space-evenly">
 
-            <SpacingContainer height="10%" color="black">
-                <ActionButton 
-                    name={buttonOne} 
-                    error='' 
-                    action={action} 
-                    onClick={() => setAction(buttonOne)}
-                >
-                    {buttonOne}
-                </ActionButton>
-                <ActionButton 
-                    name={buttonTwo}  
-                    error='' 
-                    action={action} 
-                    onClick={() => setAction(buttonTwo)}
-                >
-                    {buttonTwo}
-                </ActionButton>
+            <SpacingContainer height="25%"  direction="column" justifyContent="space-between">
+                <SpacingContainer height="30%" color="black">
+                    <ActionButton 
+                        name={buttonOne} 
+                        error='' 
+                        action={action} 
+                        onClick={() => setAction(buttonOne)}
+                    >
+                        {buttonOne}
+                    </ActionButton>
+                    <ActionButton 
+                        name={buttonTwo}  
+                        error='' 
+                        action={action} 
+                        onClick={() => setAction(buttonTwo)}
+                    >
+                        {buttonTwo}
+                    </ActionButton>
+                </SpacingContainer>
+
+                <SpacingContainer height="60%">
+                    <SimulationInput width="60%" type="number" placeholder="0.0" onChange={(e) => setAmount(e.target.value)}/>
+                </SpacingContainer>
             </SpacingContainer>
 
-            <SpacingContainer height="10%">
-                <SimulationInput width="60%" type="number" placeholder="0.0" onChange={(e) => setAmount(e.target.value)}/>
-            </SpacingContainer>
+            <Stats amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0} action={action} showEnableAsCollateral={showEnableAsCollateral}/>
+            
+            {showEnableAsCollateral 
+                ? <SpacingContainer height="8%">
+                    <OnOffButton width="30%" height="100%" active={enableAsCollateral} onClick={() => setEnableAsCollateral(!enableAsCollateral)}> {enableAsCollateral ? "Enabled as collateral" : "Enable as collateral"}</OnOffButton>
+                  </SpacingContainer> : null}
 
-            <Stats amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0} action={action}/>
-
-            <SpacingContainer height="10%">
-                <ConfirmationButton width="40%" height="100%" onClick={() => null}>{buttonAlert}</ConfirmationButton>
+            <SpacingContainer height="15%" direction="column">
+                <ConfirmationButton dark fontSize="0.7vw" width="50%" height="100%" onClick={onConfirm}>{buttonAlert}</ConfirmationButton>
             </SpacingContainer>
         </SpacingContainer>
     )
 }
 
-const Stats = ({amount, action}: any) => {
+const Stats = ({amount, action, showEnableAsCollateral}: {amount: number, action: string, showEnableAsCollateral: boolean}) => {
     const { state: RariState } = useRari()
     const state = useSelector((state: any) => state.display)
-
-    const showEnableAsCollateral = !state.asset.membership && action === "Supply";
 
     const { data: updatedAssetInfo } = useQuery(action + " " + state.asset.underlyingSymbol + " " + amount, async () => {
         const ethPrice: number = RariState.fuse.web3.utils.fromWei(
@@ -268,6 +458,7 @@ const Stats = ({amount, action}: any) => {
 
     const borrowLimit = useBorrowLimit(state.assets)   
     const updatedBorrowLimit = useBorrowLimit(updatedAssetInfo?.updatedAssets ?? [], showEnableAsCollateral ? { ignoreIsEnabledCheckFor: state.asset.cToken } : undefined)
+
     const updatedSupplyAPY = convertMantissaToAPY(
         updatedAsset?.supplyRatePerBlock ?? 0,
         365
@@ -281,10 +472,8 @@ const Stats = ({amount, action}: any) => {
     ? Math.abs(updatedSupplyAPY - state.asset.supplyAPY) > 0.1
     : Math.abs(updatedBorrowAPR - state.asset.borrowAPR) > 0.1
 
-    console.log(borrowLimit, updatedBorrowLimit)
-    console.log(updatedAsset)
     return (
-        <SpacingContainer height="40%" width="70%" justifyContent="space-around" direction="column">
+        <SpacingContainer height="30%" width="70%" justifyContent="space-around" direction="column">
             {updatedAsset ? 
             <>
                 <SpacingContainer flexBasis="20%" width="90%" justifyContent="space-between" >
