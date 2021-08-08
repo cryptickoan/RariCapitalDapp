@@ -35,6 +35,7 @@ export const PoolCards = styled.div.attrs(( ) => ({tabIndex: 0}))`
 
 export const PoolContent = styled.div`
     height: 100%;
+    width:80%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -100,6 +101,7 @@ export const OpenDiv = styled.div<PoolCardProps>`
 
 export const DepositWithdrawDiv = styled.div<PoolCardProps>`
     display: ${props => props.isOpen ? "" : "none"};
+    width: 100%;
 `
 
 
