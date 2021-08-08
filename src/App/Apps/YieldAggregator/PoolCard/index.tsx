@@ -1,15 +1,19 @@
 // Rari // 
 import { getInfo, usePool } from '../../../../context/PoolProvider'
 
-
 // React //
 import { useState } from 'react'
 
-// Dependencies //
+// React Router
 import { useNavigate } from 'react-router'
+
+// Styled Components
 import {PoolCards, PoolContent,  PoolHeader, PoolText, 
         OpenTitle, PoolTitle, PoolSub,  PoolDescription, 
         OpenDiv, DepositWithdrawDiv } from './styles'
+import { SpacingContainer } from '../../../Shared'
+
+// React Bootstrap
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
@@ -24,7 +28,6 @@ import Information from '../../../Shared/Icons/Information'
 
 // Styles for Icons //
 import './styles.css'
-import { SpacingContainer } from '../../../Shared'
 
 const PoolCard = () => {
     const [open, setOpen] = useState(false);

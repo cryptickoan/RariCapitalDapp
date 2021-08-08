@@ -7,13 +7,18 @@ import { useRef } from 'react'
 // Styles //
 import './styles.css' 
 
-// Dependencies //
+// React Router
 import { useNavigate } from 'react-router-dom'
+
+// Redux
 import {  useSelector } from 'react-redux'
+import { GraphState } from './redux/reducer'
+import { InitiatedGraph } from './redux/type'
 
 // Styled Components
 import { Graphs, Button, 
         GraphButton, GraphButtonGroup} from './styles'
+import { SpacingContainer, StyledP } from '../../../Shared'
 
 // Components //
 import PoolAPY from '../../../Shared/PoolAPY'
@@ -25,9 +30,6 @@ import PoolPrediction from './Graph'
 import Exit from '../../../Shared/Icons/Exit'
 import Logo from '../../../Shared/PoolIcons/Logo'
 import Spinner from '../../../Shared/Icons/Spinner'
-import { GraphState } from './redux/reducer'
-import { InitiatedGraph } from './redux/type'
-import { SpacingContainer, StyledP } from '../../../Shared'
 
 
 const PoolInformation = () => {   

@@ -5,12 +5,18 @@ import { usePool, getTokenAllocation, getAccountBalance } from '../../../../../c
 // React
 import React, { useEffect, useImperativeHandle} from 'react'
 
-// Dependencies 
+// React Query
 import { useQuery } from 'react-query'
-import useBalanceHistory from '../../../../../hooks/YieldAggregator/useBalanceHistory'
-import { Type } from '../../../../Shared/Bar/styles'
+
+// React ApexCharts
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
+
+// Hooks
+import useBalanceHistory from '../../../../../hooks/YieldAggregator/useBalanceHistory'
+
+// Styled Components
+import { Type } from '../../../../Shared/Bar/styles'
 
 // Icons
 import Spinner from '../../../../Shared/Icons/Spinner'

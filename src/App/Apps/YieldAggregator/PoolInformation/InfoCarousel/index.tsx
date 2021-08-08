@@ -2,16 +2,16 @@
 import { useRari } from '../../../../../context/RariProvider'
 import { usePool, getTokenAllocation, getPoolAllocation } from '../../../../../context/PoolProvider'
 
-// Dependencies
+// React Bootstrap
 import Carousel from 'react-bootstrap/Carousel'
+
+// React Query
 import { useQuery } from 'react-query'
 
 // Components
-import { Banner } from '../../../../Shared/index'
+import { Banner, Bar, InfoPair} from '../../../../Shared/index'
 import Open from '../../../../Shared/Icons/Open'
-import Bar from '../../../../Shared/Bar'
 import Spinner from '../../../../Shared/Icons/Spinner'
-import InfoPair from '../../../../Shared/InfoPair'
 import { StyledCarousel } from './styles'
 
 const InfoCarousel = () => {

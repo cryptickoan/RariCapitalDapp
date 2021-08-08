@@ -8,15 +8,16 @@ import { createComptroller } from '../../../../../utils/createComptroller'
 import {  useSelector, useDispatch } from 'react-redux'
 import { updateDisplay, updateGraph } from '../redux/reducer'
 import { useQueryClient } from 'react-query'
-import { useTokenData } from '../../../../../hooks/useTokenData'
 import { convertMantissaToAPR, convertMantissaToAPY } from '../../../../../utils/APY'
+
+// Hooks
+import { useTokenData } from '../../../../../hooks/useTokenData'
 import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData'
 
 // Styled Components
-import {  MarketBar, CollateralToggle } from "./styles"
+import {  MarketBar, CollateralToggle  } from "./styles"
 import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
-import { SpacingContainer, StyledP, Button } from '../../../../Shared'
-import InfoPair from '../../../../Shared/InfoPair'
+import { SpacingContainer, StyledP,  OnOffButton,  InfoPair } from '../../../../Shared'
 
 // Bootstrap
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
@@ -142,10 +143,18 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
     return (
         <MarketBar glow={used} >
                 {isLend
-                ?   <Button height="70%" onClick={handleTokenClick} active={active} borderRadius="5px" direction="column"  margin="0 10px 0 10px" flexBasis="25%">
+                ?   <OnOffButton 
+                        height="70%" 
+                        direction="column"  
+                        flexBasis="25%"
+                        borderRadius="5px" 
+                        margin="0 10px 0 10px" 
+                        active={active} 
+                        onClick={handleTokenClick} 
+                    >
                         <img width="35px" src={tokenData.logoURL} alt="tokenIcon"/>
                         <p>{tokenData.symbol}</p>
-                    </Button>
+                    </OnOffButton>
                 : null }
                 <SpacingContainer overflowY="hidden" overflowX="scroll" flexBasis="75%" margin={isLend ? "0 10px 0 0" : "0 0 0 10px"} justifyContent="flex-start">
                     <StyledCarousel
@@ -268,10 +277,10 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                     </StyledCarousel>
                 </SpacingContainer>
                 {!isLend
-                    ? <Button active={active} onClick={handleTokenClick} borderRadius="5px" height="70%" direction="column"  margin="0 10px 0 10px" flexBasis="25%">
+                    ? <OnOffButton active={active} onClick={handleTokenClick} borderRadius="5px" height="70%" direction="column"  margin="0 10px 0 10px" flexBasis="25%">
                         <img width="35px" src={tokenData.logoURL} alt="tokenIcon"/>
                         <p>{tokenData.symbol}</p>
-                      </Button>
+                      </OnOffButton>
                     : null }
         </MarketBar>
     )

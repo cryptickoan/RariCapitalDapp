@@ -1,27 +1,25 @@
 // React
 import { useEffect, useState } from 'react'
 
-// Fuse
+// Fuse Hooks
 import { useFuseTVL } from '../../../../hooks/useFuseTVL';
 import { MergedPool, useFusePools } from '../../../../hooks/useFusePool';
-import { usePoolRSS, getScore } from '../../../../hooks/useFuseRss';
+import { usePoolRSS } from '../../../../hooks/useFuseRss';
 
-// Dependencies
+// React Router
 import { useNavigate } from 'react-router';
+
+// Styled Components
 import { BarSpan, TopBar, PoolListDiv, SearchBar, 
          SearchBarInput, SearchBarIcon, SelectPool, TVL, 
          FusePool, FusePoolSpan} from './styles';
+import { SpacingContainer, InfoPair} from '../../../Shared';
          
-
 // Icons
 import Search from '../../../Shared/Icons/Search';
 import Spinner from '../../../Shared/Icons/Spinner';
 
 import './styles.css'
-
-// Components
-import InfoPair from '../../../Shared/InfoPair';
-import { SpacingContainer } from '../../../Shared';
 
 const FusePoolsDisplay = () => {
     // Filter

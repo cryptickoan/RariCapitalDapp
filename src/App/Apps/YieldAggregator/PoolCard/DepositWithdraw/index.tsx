@@ -10,16 +10,16 @@ import { useState } from 'react'
 // Styled Components
 import { Card, SpacingContainer } from '../../../../Shared'
 import Spinner from '../../../../Shared/Icons/Spinner'
-
-// Dependencies //
 import { ActionButton,
             ActionFormInput, ActionFormCurrencyButton, ConfirmationSpan, ConfirmationButton, 
             PoolWarning } from './styles'
-import BigNumber from "bignumber.js";
-import { AllTokens } from "rari-tokens-generator";
 import ErrorMessage from '../../../../Shared/ErrorMessage'
 
-// Images //
+// Dependencies //
+import BigNumber from "bignumber.js";
+import { AllTokens } from "rari-tokens-generator";
+
+// Icons
 import Exit from '../../../../Shared/Icons/Exit'
 import Tokens from "../../../../../static/tokens.json";
 

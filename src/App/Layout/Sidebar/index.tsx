@@ -5,13 +5,12 @@ import { useRef, useState, useEffect } from 'react'
 import { useRari } from '../../../context/RariProvider'
 import { Pool } from '../../../context/PoolProvider'
 
-// Dependencies
-import YieldAggregatorBalance from './YieldAggregatorBalance'
+// Styled Components
+import { SpacingContainer, StyledP,InfoBar } from '../../Shared'
 import { StyledOffcanvas, ProfileImage, Address} from './styles'
 
-// Images //
-import { SpacingContainer, StyledP } from '../../Shared'
-import InfoBar from '../../Shared/InfoBar'
+// Components
+import YieldAggregatorBalance from './YieldAggregatorBalance'
 
 export function shortenAddress(address: string) {
     return (

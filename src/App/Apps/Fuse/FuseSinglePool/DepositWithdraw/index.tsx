@@ -13,10 +13,9 @@ import { useQuery, useQueryClient } from 'react-query'
 import BigNumber from "bignumber.js"
 
 // Styled Components
-import { SpacingContainer, Card, StyledP }from '../../../../Shared'
+import { SpacingContainer, Card, StyledP, InfoPair, OnOffButton }from '../../../../Shared'
 import { ActionButton, ConfirmationButton } from '../../../YieldAggregator/PoolCard/DepositWithdraw/styles'
 import { SimulationInput } from '../GraphArea/styles'
-import InfoPair from '../../../../Shared/InfoPair'
 
 // Hooks
 import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData'
@@ -34,7 +33,6 @@ import { smallUsdFormatter } from '../../../../../utils/formatter'
 // Icons
 import Exit from '../../../../Shared/Icons/Exit'
 import Spinner from '../../../../Shared/Icons/Spinner'
-import { OnOffButton } from './styles'
 
 // Types
 enum UserAction {
@@ -383,10 +381,21 @@ const ActionSection = ({action, setAction, amount, setAmount, showEnableAsCollat
 
             <Stats amount={parseInt(amount?.toFixed(0) ?? "0") ?? 0} action={action} showEnableAsCollateral={showEnableAsCollateral}/>
             
-            {showEnableAsCollateral 
+            { showEnableAsCollateral 
                 ? <SpacingContainer height="8%">
-                    <OnOffButton width="30%" height="100%" active={enableAsCollateral} onClick={() => setEnableAsCollateral(!enableAsCollateral)}> {enableAsCollateral ? "Enabled as collateral" : "Enable as collateral"}</OnOffButton>
-                  </SpacingContainer> : null}
+                    <OnOffButton 
+                        width="30%" 
+                        height="100%" 
+                        borderRadius="15px" 
+                        fontSize="0.6vw" 
+                        active={enableAsCollateral}
+                        onClick={() => setEnableAsCollateral(!enableAsCollateral)}
+                    > 
+                        {enableAsCollateral ? "Enabled as collateral" : "Enable as collateral"}
+                    </OnOffButton>
+                  </SpacingContainer> 
+                : null
+            }
 
             <SpacingContainer height="15%" direction="column">
                 <ConfirmationButton dark fontSize="0.7vw" width="50%" height="100%" onClick={onConfirm}>{buttonAlert}</ConfirmationButton>

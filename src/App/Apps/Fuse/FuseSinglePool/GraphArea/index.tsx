@@ -8,8 +8,7 @@ import { LineChartOptions, getInterest, DataEntry, getCategories } from '../../.
 
 // Styled Components
 import { SimulationInput } from './styles'
-import { Card, Button, SpacingContainer } from '../../../../Shared'
-import InfoPair from '../../../../Shared/InfoPair'
+import { Card, OnOffButton, SpacingContainer, InfoPair} from '../../../../Shared'
 
 // Icons
 import Spinner from '../../../../Shared/Icons/Spinner'
@@ -74,7 +73,7 @@ const GraphArea = () => {
                         stateLenght > 0 
                         ? stateEntries.map((item, index) =>
 
-                                <Button active={true} margin="0 10px 0 0" height="100%" borderRadius="5px" direction="column" flexBasis="20%">
+                                <OnOffButton active={true} margin="0 10px 0 0" height="100%" borderRadius="5px" direction="column" flexBasis="20%">
                                     <SpacingContainer direction="row" height="50%">
                                         <img width="35px" src={item[1].icon} alt="tokenIcon"/>
                                         <InfoPair
@@ -88,7 +87,7 @@ const GraphArea = () => {
                                         />
                                     </SpacingContainer>
                                     <SimulationInput type="number" placeholder="0" onChange={(e) => updateNumber(index, item[1].token, item[1].action, graphData, e)}/>
-                                </Button>
+                                </OnOffButton>
                         )
                         : null
                     }

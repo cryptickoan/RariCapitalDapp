@@ -1,15 +1,19 @@
 // Rari //
 import { PoolContextProvider, Pool } from '../../../context/PoolProvider'
 
-// Dependencies //
+// Styled Components
 import styled from 'styled-components'
+
+// React Router
 import { Routes, Route } from 'react-router-dom'
+
+// Redux
+import { Provider } from 'react-redux'
+import { graphStore } from './PoolInformation/redux/reducer'
 
 // Components //
 import PoolCard from './PoolCard'
 import PoolInformation from './PoolInformation'
-import { Provider } from 'react-redux'
-import { graphStore } from './PoolInformation/redux/reducer'
 
 const PoolDisplayContainer = styled.div`
     width: 100%;

@@ -1,12 +1,13 @@
-// Fuse
-import {  useFusePoolData } from '../../../../hooks/useFusePoolData'
-
 // Dependencies
 import { useParams } from "react-router"
 import { useSelector } from 'react-redux'
 
+// Hooks
+import { useFusePools } from '../../../../hooks/useFusePool'
+import { useFusePoolData } from '../../../../hooks/useFusePoolData'
+
 // Styled Components
-import { SpacingContainer} from '../../../Shared'
+import { SpacingContainer } from '../../../Shared'
 
 // Components
 import FusePoolInfo from './FusePoolInfo'
@@ -16,7 +17,6 @@ import DepositWithdraw from './DepositWithdraw'
 
 // Icons 
 import Spinner from "../../../Shared/Icons/Spinner"
-import { useFusePools } from '../../../../hooks/useFusePool'
 
 const FuseSinglePool = () => {
     // Get pool info based on ID

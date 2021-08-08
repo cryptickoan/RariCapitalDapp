@@ -4,7 +4,7 @@ import { Pool } from "../../../../context/PoolProvider"
 // React
 import { useEffect } from "react"
 
-// Dependencies
+// React Router
 import { useNavigate } from "react-router"
 
 // Styled Components

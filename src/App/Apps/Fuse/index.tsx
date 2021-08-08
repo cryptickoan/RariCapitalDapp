@@ -1,6 +1,10 @@
-// Dependencies 
+// Styled Components
 import styled from 'styled-components'
+
+// React Router
 import { Routes, Route } from 'react-router'
+
+// Redux
 import { Provider } from 'react-redux'
 import { store } from './FuseSinglePool/redux/reducer'
 

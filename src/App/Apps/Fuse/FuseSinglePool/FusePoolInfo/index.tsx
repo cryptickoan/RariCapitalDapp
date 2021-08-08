@@ -1,13 +1,11 @@
 // Styles Components
-import Bar from '../../../../Shared/Bar'
-import InfoPair from '../../../../Shared/InfoPair'
-import { SpacingContainer } from "../../../../Shared"
+import styled from 'styled-components'
+import { SpacingContainer, InfoPair, Bar } from "../../../../Shared"
 import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
 
 // Dependencies
 import { shortenAddress } from '../../../../Layout/Sidebar'
 import Carousel from 'react-bootstrap/Carousel'
-import styled from 'styled-components'
 
 export const Title = styled.h1`
     font-size:50px;

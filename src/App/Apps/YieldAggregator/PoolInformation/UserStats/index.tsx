@@ -2,12 +2,11 @@
 import { usePool, getInterestAccrued, getAccountBalance, getPoolToken } from '../../../../../context/PoolProvider'
 import { useRari } from '../../../../../context/RariProvider'
 
-// Dependencies //
+// React Query
 import { useQuery } from 'react-query'
-import { Banner } from '../../../../Shared'
 
 // Components
-import InfoPair from '../../../../Shared/InfoPair'
+import { InfoPair, Banner } from '../../../../Shared'
 
 const millisecondsPerDay = 86400000
 
