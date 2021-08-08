@@ -11,8 +11,7 @@ import { useState } from 'react'
 import { Card, SpacingContainer } from '../../../../Shared'
 import Spinner from '../../../../Shared/Icons/Spinner'
 import { ActionButton,
-            ActionFormInput, ActionFormCurrencyButton, ConfirmationSpan, ConfirmationButton, 
-            PoolWarning } from './styles'
+            ActionFormInput, ActionFormCurrencyButton, ConfirmationSpan, ConfirmationButton } from './styles'
 import ErrorMessage from '../../../../Shared/ErrorMessage'
 
 // Dependencies //
@@ -169,7 +168,7 @@ const ActionForm = ({setOpen, action, setError}: any) => {
 
     return(
         <>
-            <SpacingContainer direction="column" margin="10px 0 0 0">
+            <SpacingContainer direction="column" margin="15px 0 0 0">
                 <SpacingContainer direction="column">
                     {   
                         // if User is viewing quote, display quote
@@ -188,7 +187,6 @@ const ActionForm = ({setOpen, action, setError}: any) => {
                         </SpacingContainer>
                     }   
                 </SpacingContainer>
-                <PoolWarning>You may experience divergence<br/> loss in this pool. Click for info.</PoolWarning>
             </SpacingContainer>
             <ConfirmationSpan>
                 <ConfirmationButton onClick={() => handleSubmit()}>{userAction === UserAction.NO_ACTION ? 'Review' : userAction === UserAction.VIEWING_QUOTE ? 'Confirm' : 'Loading...' }</ConfirmationButton>
@@ -215,7 +213,7 @@ const ChooseCurrency = ({tokens, selectToken}: any) => {
         <ActionFormInput input="search" type="text" placeholder="Choose your token" onChange={(e) => setSearchTerm(e.target.value)}/>
         <SpacingContainer maxHeight="10vh" direction="column" justifyContent="flex-start" overflowY="scroll">
             {Object.values(filteredTokens).map((token: any) => 
-            <Card width="80%" minHeight="50px">
+            <Card width="75%" minHeight="50px" cursor="pointer">
                 <SpacingContainer flexBasis="50%">
                     <img width="35px" src={token.logoURL} alt="tokenIcon"/>
                 </SpacingContainer>
