@@ -33,7 +33,8 @@ export const APYDisplayer = styled.div.attrs(( ) => ({tabIndex: 0}))<APYprops>`
                             } ;
     line-height: 12px;
     transitions: all 0.3s;
-
+    
+    cursor: ${props => props.card ? "" : 'pointer'};
 
     &:hover {
         box-shadow: inset ${({theme, glow}) =>  theme.light && glow ? 
