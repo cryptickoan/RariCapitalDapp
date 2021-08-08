@@ -14,7 +14,7 @@ interface InputProps {
 
 // WithdrawDepositButton
 export const ActionButton = styled.button<ButtonProps>`
-    width: ${props => props.width ? "100%" : "30%" };
+    width: ${props => props.width ? "100%" : "50%" };
     height: 30px;
     border: none; 
 
@@ -37,9 +37,9 @@ export const ActionButton = styled.button<ButtonProps>`
 
 // ActionForm //
 export const ActionFormInput = styled.input<InputProps>`
-    font: 400 20px 'Orbitron';
+    font: 400 1vw 'Orbitron';
     border: 1px solid;
-    max-width: ${props => props.input === "search" ? "70%" : "40%"};
+    max-width: ${props => props.input === "search" ? "70%" : "60%"};
     min-height: 40px;
     padding: 5px 15px;
     box-sizing: unset !important;
@@ -70,13 +70,6 @@ export const ActionFormCurrencyButton = styled.button<InputProps>`
     border-color: ${({ theme }) => theme.light ? "#C4C4C4" : "#404040" };
     color: ${({ theme }) => theme.light ? "black" : "white"}
 `
-
-export const PoolWarning = styled.p`
-    font-size: 13px;
-    opacity: .4;
-    margin-top: 8px;
-`
-
 // ConfirmationButton
 export const ConfirmationSpan = styled.div`
     margin-top: 15px;
