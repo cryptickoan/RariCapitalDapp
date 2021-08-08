@@ -26,7 +26,7 @@ export const ActionButton = styled.button<ButtonProps>`
     "border-radius: 0px 3px 3px 0px;" 
     : "border-radius: 3px 0px 0px 3px; "}
 
-    background-color: ${props => props.theme.light ?  "#F0F0F0" :"#000000"};
+    background-color: ${props => props.theme.light ?  "white" :"black"};
     color: ${props => props.theme.light ?  "black" : "white" };
 
     ${props => props.action === props.name ? 
@@ -88,16 +88,19 @@ export const ConfirmationSpan = styled.div`
 type ConfirmationButtonProps = {
     width?: string
     height?: string
+    fontSize?: string
+    dark?: boolean
 }
 
 export const ConfirmationButton = styled.button<ConfirmationButtonProps>`
-    font: 400 15px 'Orbitron';
+    font: 400 'Orbitron';
+    font-size: ${props => props.fontSize ?? "15px"};
     height: ${props => props.height ?? "35px"};
     width: ${props => props.width ?? "80px" };
-    border: 1px solid;
+    border: none;
     border-radius: 8px;
 
-    background-color: #B8FF71;
-    border-color: #B8FF71;
-    color: black;
+    background-color: ${props => props.dark ? props.theme.light ? "white" : "black" : "#B8FF71"};
+    color: ${props => props.dark ? props.theme.light ? "black" : "white" : "black"};
+    box-shadow: ${props => props.dark ? props.theme.light ? "0 0 18px #B8FF71" : "0 0 15px #B8FF71" : null}
 `
