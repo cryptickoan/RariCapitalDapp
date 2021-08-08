@@ -8,11 +8,11 @@ import { LineChartOptions, getInterest, DataEntry, getCategories } from '../../.
 
 // Styled Components
 import { SimulationInput } from './styles'
-import { Card, Button, SpacingContainer } from '../../../../components'
-import InfoPair from '../../../../components/InfoPair'
+import { Card, Button, SpacingContainer } from '../../../../Shared'
+import InfoPair from '../../../../Shared/InfoPair'
 
 // Icons
-import Spinner from '../../../../components/Icons/Spinner'
+import Spinner from '../../../../Shared/Icons/Spinner'
 
 const initialState = [
     {name: '', data: [0]},

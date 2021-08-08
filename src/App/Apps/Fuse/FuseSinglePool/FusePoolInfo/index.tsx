@@ -1,7 +1,7 @@
 // Styles Components
-import Bar from '../../../../components/Bar'
-import InfoPair from '../../../../components/InfoPair'
-import { SpacingContainer } from "../../../../components"
+import Bar from '../../../../Shared/Bar'
+import InfoPair from '../../../../Shared/InfoPair'
+import { SpacingContainer } from "../../../../Shared"
 import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
 
 // Dependencies

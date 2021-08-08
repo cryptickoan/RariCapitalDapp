@@ -13,10 +13,10 @@ import { useQuery, useQueryClient } from 'react-query'
 import BigNumber from "bignumber.js"
 
 // Styled Components
-import { SpacingContainer, Card, StyledP }from '../../../../components'
+import { SpacingContainer, Card, StyledP }from '../../../../Shared'
 import { ActionButton, ConfirmationButton } from '../../../YieldAggregator/PoolCard/DepositWithdraw/styles'
 import { SimulationInput } from '../GraphArea/styles'
-import InfoPair from '../../../../components/InfoPair'
+import InfoPair from '../../../../Shared/InfoPair'
 
 // Hooks
 import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData'
@@ -32,9 +32,8 @@ import { fetchGasForCall, testForCTokenErrorAndSend }from '../../../../../utils/
 import { smallUsdFormatter } from '../../../../../utils/formatter'
 
 // Icons
-import Exit from '../../../../components/Icons/Exit'
-import Spinner from '../../../../components/Icons/Spinner'
-import { APYDisplayer } from '../../../../components/PoolAPY/styles'
+import Exit from '../../../../Shared/Icons/Exit'
+import Spinner from '../../../../Shared/Icons/Spinner'
 import { OnOffButton } from './styles'
 
 // Types

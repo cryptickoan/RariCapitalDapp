@@ -10,14 +10,14 @@ import styled from 'styled-components'
 
 // Images //
 import logo from '../../../static/logo.jpg'
-import Menu from '../../components/Icons/Menu'
+import Menu from '../../Shared/Icons/Menu'
 
 // Components
 import Sidebar from '../Sidebar'
 import AccountModal from '../AccountModal'
 
 // import AccountModal from '../AccountModal'
-import { Card, SpacingContainer, StyledP } from '../../components'
+import { Card, SpacingContainer, StyledP } from '../../Shared'
 
 
 const NavigationBar = () => {

@@ -6,7 +6,7 @@ import { useParams } from "react-router"
 import { useSelector } from 'react-redux'
 
 // Styled Components
-import { SpacingContainer} from '../../../components'
+import { SpacingContainer} from '../../../Shared'
 
 // Components
 import FusePoolInfo from './FusePoolInfo'
@@ -15,7 +15,7 @@ import GraphArea from './GraphArea'
 import DepositWithdraw from './DepositWithdraw'
 
 // Icons 
-import Spinner from "../../../components/Icons/Spinner"
+import Spinner from "../../../Shared/Icons/Spinner"
 import { useFusePools } from '../../../../hooks/useFusePool'
 
 const FuseSinglePool = () => {

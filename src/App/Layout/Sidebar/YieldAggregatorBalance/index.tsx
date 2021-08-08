@@ -8,8 +8,8 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router"
 
 // Styled Components
-import { Card, StyledP } from "../../../components"
-import Spinner from "../../../components/Icons/Spinner"
+import { Card, StyledP } from "../../../Shared"
+import Spinner from "../../../Shared/Icons/Spinner"
 
 // Hooks
 import useInterestAccrued from "../../../../hooks/YieldAggregator/useInterestAccrued"

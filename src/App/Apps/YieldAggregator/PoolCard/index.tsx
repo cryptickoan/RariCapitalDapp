@@ -15,16 +15,16 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 // Components //
 import DepositWithdraw from './DepositWithdraw'
-import PoolAPY from '../../../components/PoolAPY'
+import PoolAPY from '../../../Shared/PoolAPY'
 
 // Icons //
-import Logo from '../../../components/PoolIcons/Logo'
-import Open from '../../../components/Icons/Open'
-import Information from '../../../components/Icons/Information'
+import Logo from '../../../Shared/PoolIcons/Logo'
+import Open from '../../../Shared/Icons/Open'
+import Information from '../../../Shared/Icons/Information'
 
 // Styles for Icons //
 import './styles.css'
-import { SpacingContainer } from '../../../components'
+import { SpacingContainer } from '../../../Shared'
 
 const PoolCard = () => {
     const [open, setOpen] = useState(false);

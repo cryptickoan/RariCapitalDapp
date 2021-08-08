@@ -7,10 +7,10 @@ import { useQuery } from 'react-query'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 
 // Icons //
-import Gas from '../../components/Icons/Gas'
-import Block from '../../components/Icons/Block'
-import Spinner from '../../components/Icons/Spinner'
-import { SpacingContainer } from '../../components'
+import Gas from '../../Shared/Icons/Gas'
+import Block from '../../Shared/Icons/Block'
+import Spinner from '../../Shared/Icons/Spinner'
+import { SpacingContainer } from '../../Shared'
 
 const getGas = async () => {
     const gasRaw = await fetch(

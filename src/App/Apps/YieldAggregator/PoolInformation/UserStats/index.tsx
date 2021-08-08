@@ -4,10 +4,10 @@ import { useRari } from '../../../../../context/RariProvider'
 
 // Dependencies //
 import { useQuery } from 'react-query'
-import { Banner } from '../../../../components'
+import { Banner } from '../../../../Shared'
 
 // Components
-import InfoPair from '../../../../components/InfoPair'
+import InfoPair from '../../../../Shared/InfoPair'
 
 const millisecondsPerDay = 86400000
 

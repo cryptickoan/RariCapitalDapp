@@ -8,12 +8,12 @@ import React, { useEffect, useImperativeHandle} from 'react'
 // Dependencies 
 import { useQuery } from 'react-query'
 import useBalanceHistory from '../../../../../hooks/YieldAggregator/useBalanceHistory'
-import { Type } from '../../../../components/Bar/styles'
+import { Type } from '../../../../Shared/Bar/styles'
 import Chart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
 
 // Icons
-import Spinner from '../../../../components/Icons/Spinner'
+import Spinner from '../../../../Shared/Icons/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { initiateDefault, GraphState, initiateBalanceHistory, timerangeChange } from '../redux/reducer'
 import { InitiatedGraph } from '../redux/type'

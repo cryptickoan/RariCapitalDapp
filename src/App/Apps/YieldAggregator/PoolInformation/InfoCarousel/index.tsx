@@ -7,11 +7,11 @@ import Carousel from 'react-bootstrap/Carousel'
 import { useQuery } from 'react-query'
 
 // Components
-import { Banner } from '../../../../components/index'
-import Open from '../../../../components/Icons/Open'
-import Bar from '../../../../components/Bar'
-import Spinner from '../../../../components/Icons/Spinner'
-import InfoPair from '../../../../components/InfoPair'
+import { Banner } from '../../../../Shared/index'
+import Open from '../../../../Shared/Icons/Open'
+import Bar from '../../../../Shared/Bar'
+import Spinner from '../../../../Shared/Icons/Spinner'
+import InfoPair from '../../../../Shared/InfoPair'
 import { StyledCarousel } from './styles'
 
 const InfoCarousel = () => {

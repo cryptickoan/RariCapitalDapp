@@ -14,14 +14,14 @@ import { BarSpan, TopBar, PoolListDiv, SearchBar,
          
 
 // Icons
-import Search from '../../../components/Icons/Search';
-import Spinner from '../../../components/Icons/Spinner';
+import Search from '../../../Shared/Icons/Search';
+import Spinner from '../../../Shared/Icons/Spinner';
 
 import './styles.css'
 
 // Components
-import InfoPair from '../../../components/InfoPair';
-import { SpacingContainer } from '../../../components';
+import InfoPair from '../../../Shared/InfoPair';
+import { SpacingContainer } from '../../../Shared';
 
 const FusePoolsDisplay = () => {
     // Filter

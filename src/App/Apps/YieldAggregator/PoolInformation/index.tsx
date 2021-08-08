@@ -16,18 +16,18 @@ import { Graphs, Button,
         GraphButton, GraphButtonGroup} from './styles'
 
 // Components //
-import PoolAPY from '../../../components/PoolAPY'
+import PoolAPY from '../../../Shared/PoolAPY'
 import UserStats from './UserStats'
 import InfoCarousel from './InfoCarousel'
 import PoolPrediction from './Graph'
 
 // Icons //
-import Exit from '../../../components/Icons/Exit'
-import Logo from '../../../components/PoolIcons/Logo'
-import Spinner from '../../../components/Icons/Spinner'
+import Exit from '../../../Shared/Icons/Exit'
+import Logo from '../../../Shared/PoolIcons/Logo'
+import Spinner from '../../../Shared/Icons/Spinner'
 import { GraphState } from './redux/reducer'
 import { InitiatedGraph } from './redux/type'
-import { SpacingContainer, StyledP } from '../../../components'
+import { SpacingContainer, StyledP } from '../../../Shared'
 
 
 const PoolInformation = () => {   

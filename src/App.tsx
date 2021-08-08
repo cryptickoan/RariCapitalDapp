@@ -10,10 +10,9 @@ import { ThemeProvider } from 'styled-components'
 
 // Components //
 import NavigationBar from './App/Layout/NavigationBar'
-import { SpacingContainer } from './App/components'
+import { SpacingContainer } from './App/Shared'
 import Footer from './App/Layout/Footer'
 import ContentContainer from './App/Layout/ContentContainer'
-
 
 
 function App() {

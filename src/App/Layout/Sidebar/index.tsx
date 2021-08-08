@@ -10,8 +10,8 @@ import YieldAggregatorBalance from './YieldAggregatorBalance'
 import { StyledOffcanvas, ProfileImage, Address} from './styles'
 
 // Images //
-import { SpacingContainer, StyledP } from '../../components'
-import InfoBar from '../../components/InfoBar'
+import { SpacingContainer, StyledP } from '../../Shared'
+import InfoBar from '../../Shared/InfoBar'
 
 export function shortenAddress(address: string) {
     return (

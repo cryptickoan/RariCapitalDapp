@@ -8,8 +8,8 @@ import { validateDeposit, depositToPool,
 import { useState } from 'react'
 
 // Styled Components
-import { Card, SpacingContainer } from '../../../../components'
-import Spinner from '../../../../components/Icons/Spinner'
+import { Card, SpacingContainer } from '../../../../Shared'
+import Spinner from '../../../../Shared/Icons/Spinner'
 
 // Dependencies //
 import { ActionButton,
@@ -17,10 +17,10 @@ import { ActionButton,
             PoolWarning } from './styles'
 import BigNumber from "bignumber.js";
 import { AllTokens } from "rari-tokens-generator";
-import ErrorMessage from '../../../../components/ErrorMessage'
+import ErrorMessage from '../../../../Shared/ErrorMessage'
 
 // Images //
-import Exit from '../../../../components/Icons/Exit'
+import Exit from '../../../../Shared/Icons/Exit'
 import Tokens from "../../../../../static/tokens.json";
 
 // Action type will define which function to use //

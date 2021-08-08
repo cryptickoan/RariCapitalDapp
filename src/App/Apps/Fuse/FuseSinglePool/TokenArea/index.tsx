@@ -15,8 +15,8 @@ import { USDPricedFuseAsset } from '../../../../../hooks/useFusePoolData'
 // Styled Components
 import {  MarketBar, CollateralToggle } from "./styles"
 import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
-import { SpacingContainer, StyledP, Button } from '../../../../components'
-import InfoPair from '../../../../components/InfoPair'
+import { SpacingContainer, StyledP, Button } from '../../../../Shared'
+import InfoPair from '../../../../Shared/InfoPair'
 
 // Bootstrap
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
@@ -24,7 +24,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import { Carousel } from 'react-bootstrap'
 
 // Icons
-import Spinner from '../../../../components/Icons/Spinner'
+import Spinner from '../../../../Shared/Icons/Spinner'
 
 
 const TokenArea = ({ action, assets, comptrollerAddress }: {action: string, assets: USDPricedFuseAsset[], comptrollerAddress: string}) => {
