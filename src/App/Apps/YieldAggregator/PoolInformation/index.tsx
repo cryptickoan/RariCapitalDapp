@@ -102,7 +102,7 @@ const PoolInformation = () => {
                                          onClick={state.isAuthed ? () => displayReturns() : () => login()}
                                      >
                                          Balance History
-                                     </GraphButton>: null 
+                                     </GraphButton>
                                  </GraphButtonGroup>
                             </Graphs>
                         </SpacingContainer>
