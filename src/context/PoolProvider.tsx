@@ -167,7 +167,7 @@ export const getTokenAllocation = async (pool: Pool, rari: Rari) => {
 }
 
 // Get Pool allocation //
-export const getPoolAllocation = async (pool: Pool, rari: Rari) => {
+export const getPoolAllocation = async (pool: Pool, rari: Rari): Promise<{[key:string]: number}>=> {
     const poolSDK = await getPoolSDK(pool, rari)
     const poolAllocation = await poolSDK.allocations.getRawPoolAllocations()
 

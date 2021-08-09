@@ -28,6 +28,7 @@ const FusePoolsDisplay = () => {
     // Search
     const [search, setSearch] = useState('')
 
+    // Change filter after user stops typing
     useEffect(() => {
         const delayDebounce = setTimeout(() => {
             setFilter(search)
@@ -41,8 +42,6 @@ const FusePoolsDisplay = () => {
 
     // Fuse pools 
     const filteredPools = useFusePools((filter === 'All' ? null : filter.toLocaleLowerCase()))
-    console.log(filteredPools)
-
     return (
             <>
             <PoolListDiv tablehead>

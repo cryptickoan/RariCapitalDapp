@@ -46,8 +46,6 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
         return parseFloat(state.rari.web3.utils.fromWei(balance))
     })
 
-    console.log(rsptBalance)
-
     const { data: exRate } = useQuery(title + " pool token exchange rate", async () => {
        const rate = await state.rari.pools.dai.rdpt.getExchangeRate()
        return state.rari.web3.utils.fromWei(rate)
