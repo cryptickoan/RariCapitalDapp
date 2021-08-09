@@ -49,13 +49,13 @@ const InfoCarousel = () => {
                     <Carousel.Item>
                         <InfoPair 
                             direction="column" 
-                            numberSize="35px"
+                            numberSize="2vw"
                             number={`$${total.toLocaleString()}`}
                             glow={true}
-                            altSize="15px"
+                            altSize="1vw"
                             alt="total funds in pool"
-                            main="40px"
-                            secondary="10px"
+                            main="2.5vw"
+                            secondary="0.5vw"
                             margin="0 0 10px 0"
                             />
                     </Carousel.Item>

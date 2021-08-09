@@ -53,9 +53,6 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
        return state.rari.web3.utils.fromWei(rate)
     })
 
-    console.log(interestEarned, accountAllocation, exRate)
-
-
     return (
         <>
         <Banner>
@@ -64,36 +61,36 @@ const UserStats = ({timeRange}: {timeRange: string}) => {
                 width="100%"
                 justifyContent="center"
                 glow={true}
-                numberSize="25px"
+                numberSize="1.7vw"
                 number={`$${accountAllocation?.toLocaleString()}`}
-                altSize="15px"
+                altSize="0.8vw"
                 alt="account balance"
-                main="30px"
-                secondary="10px"
+                main="1.7vw"
+                secondary="1vw"
                 />
             <InfoPair 
                 direction="column" 
                 width="100%"
                 justifyContent="center"
                 glow={true}
-                numberSize="35px"
+                numberSize="2.3vw"
                 number={`$${interestEarned?.toLocaleString()}`}
-                altSize="15px"
+                altSize="1vw"
                 alt={`interest earned last ${timeRange}`}
-                main="35px"
-                secondary="10px"
+                main="2vw"
+                secondary="1.2vw"
                 />
             <InfoPair 
                 direction="column" 
                 width="100%"
                 justifyContent="center"
                 glow={true}
-                numberSize="25px"
+                numberSize="1.7vw"
                 number={`${rsptBalance?.toLocaleString()}`}
-                altSize="15px"
+                altSize="0.8vw"
                 alt={title === 'DAI' ? 'RDPT balance' : title === 'USDC' ? 'RSPT balance' : 'REPT balance'}
-                main="30px"
-                secondary="10px"
+                main="1.7vw"
+                secondary="1vw"
                 />
         </Banner>
         </>

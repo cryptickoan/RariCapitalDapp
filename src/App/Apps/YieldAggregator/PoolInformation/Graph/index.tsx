@@ -27,6 +27,7 @@ import { InitiatedGraph } from '../redux/type'
 
 export const LineChartOptions: ApexOptions = {  
     chart: {
+      fontFamily: 'Orbitron',
       foreColor: "gray",
       animations: {
         enabled: false,
@@ -90,7 +91,7 @@ export const LineChartOptions: ApexOptions = {
         labels: {
             style: {
                 fontSize: "15px",
-                fontFamily: "neuropol-nova"
+                fontFamily: "Orbitron"
             },
         }
     },
@@ -202,8 +203,8 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
                         } }} 
                         series={[graphState.data]} 
                         type="line" 
-                        height={275} 
-                        width={770}/>
+                        height={'70%'} 
+                        width={'800px'}/>
                 
             </>
         )

@@ -16,9 +16,10 @@ export const Graphs = styled.div.attrs(( ) => ({tabIndex: 0}))`
     display: flex;
     flex-direction: column;
     align-content: center;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 
+    margin
 
 
     &:hover {
@@ -83,5 +84,5 @@ export const GraphButton = styled.button<GraphButtonProps>`
     background-color: ${props => props.theme.light ?  "#F0F0F0" :"#000000"};
     color: ${props => props.theme.light ?  "black" : "white" };
 
-    ${props => props.action === props.name ? "box-shadow: inset 0 0 18px -8px #B8FF71; border: none !important;" : ""}
+    ${props => props.action === props.name ? "box-shadow: inset 0 0 28px -8px #B8FF71; border: none !important;" : ""}
 `

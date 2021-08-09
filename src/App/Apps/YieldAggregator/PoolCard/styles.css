@@ -1,5 +1,5 @@
 .poolInfoButton {
-    width: 30px;
+    width: 2vw;
     align-self: flex-start;
     margin: 0 0 10px 10px;
     opacity: .7;
@@ -14,8 +14,8 @@
 }
 
 .PoolCards:hover .poolLogo {
-    height:110px;
-    width: 110px;
+    height:7.5vw;
+    width: 7.5vw;
 }
 
 .openPoolButton {
