@@ -16,7 +16,7 @@ export const StyledP = styled.p<PProps>`
     text-align: center;
     margin: ${props => props.margin};
 
-    text-shadow: ${props => props.glow ? props.theme.light ? "2px 0 10px #B8FF71, 2px 0 5px #B8FF71, 0 2px 6px #B8FF71" : "0 0 18px #B8FF71" : ""};
+    text-shadow: ${props => props.glow ? props.theme.light ? "0 0 14px #B8FF71, 2px 0 18px #B8FF71, 0px 0 5px black" : "0 0 18px #B8FF71" : ""};
     font-family: ${props => props.neuropolNova ? "neuropol-nova" : ""};
 
     opacity: ${props => props.opacity};
