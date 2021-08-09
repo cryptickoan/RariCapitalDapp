@@ -1,5 +1,6 @@
 // Rari //
 import { usePool } from '../../../../context/PoolProvider'
+import { useRari } from '../../../../context/RariProvider'
 
 // React //
 import { useRef } from 'react'
@@ -35,6 +36,7 @@ import Spinner from '../../../Shared/Icons/Spinner'
 const PoolInformation = () => {   
     const { title } = usePool() 
     const graphState = useSelector((state: GraphState) => state)
+    const { state, login } = useRari()
 
     // Go back to pool cards //
     const navigate = useNavigate()
@@ -97,10 +99,10 @@ const PoolInformation = () => {
                                      <GraphButton 
                                          name="balance history" 
                                          action={graphState.graphType} 
-                                         onClick={() => displayReturns() }
+                                         onClick={state.isAuthed ? () => displayReturns() : () => login()}
                                      >
-                                         Returns
-                                     </GraphButton>
+                                         Balance History
+                                     </GraphButton>: null 
                                  </GraphButtonGroup>
                             </Graphs>
                         </SpacingContainer>
@@ -139,7 +141,7 @@ const PoolInformation = () => {
                         { graphState.stage === "unstarted" ? <Spinner /> :
                         <>
                         <Button onClick={() => setActiveAllocationToPool()} active={graphState.allocation.type} types="pool" disabled={graphState.graphType === "balance history"}>Pool</Button>
-                        <Button onClick={() => setActiveAllocationToAccount()} active={graphState.allocation.type} types="account">Account</Button>
+                        <Button onClick={state.isAuthed ? () => setActiveAllocationToAccount() : () => login()} active={graphState.allocation.type} types="account">Account</Button>
                         </>
                         }   
                     </SpacingContainer>
