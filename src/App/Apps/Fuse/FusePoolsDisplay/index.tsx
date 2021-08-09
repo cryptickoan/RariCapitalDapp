@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router';
 import { BarSpan, TopBar, PoolListDiv, SearchBar, 
          SearchBarInput, SearchBarIcon, SelectPool, TVL, 
          FusePool, FusePoolSpan} from './styles';
-import { SpacingContainer, InfoPair} from '../../../Shared';
+import { SpacingContainer, InfoPair, StyledP } from '../../../Shared';
          
 // Icons
 import Search from '../../../Shared/Icons/Search';
@@ -61,13 +61,13 @@ const FusePoolsDisplay = () => {
                                 direction="column" 
                                 width="100%"
                                 justifyContent="center"
-                                numberSize="13px"
+                                numberSize="0.8vw"
                                 number="Total value supplied across fuse"
-                                altSize="30px"
+                                altSize="2vw"
                                 glow={true}
                                 alt={`$${fuseTVL?.toLocaleString()}`}
-                                main="10px"
-                                secondary="30px"
+                                main="0.8vw"
+                                secondary="2.1vw"
                                 />: <Spinner />
                             }
                         </TVL>
@@ -119,19 +119,19 @@ const FusePoolRow = ({pool}: {pool: MergedPool}) => {
     return (
         <FusePool key={pool.pool.name} onClick={openFuse}>
             <FusePoolSpan tablehead>
-                <p>{pool.pool.name}</p>
+                <StyledP size="0.8vw">{pool.pool.name}</StyledP>
             </FusePoolSpan>
             <FusePoolSpan>
-                <p>{pool.id}</p>
+                <StyledP size="0.8vw">{pool.id}</StyledP>
             </FusePoolSpan>
             <FusePoolSpan>
-                <p>${pool.suppliedUSD.toLocaleString()}</p>
+                <StyledP size="0.8vw">${pool.suppliedUSD.toLocaleString()}</StyledP>
             </FusePoolSpan>
             <FusePoolSpan>
-                <p>${pool.borrowedUSD.toLocaleString()}</p>
+                <StyledP size="0.8vw">${pool.borrowedUSD.toLocaleString()}</StyledP>
             </FusePoolSpan> 
             <FusePoolSpan>
-                {score}
+                <StyledP size="0.8vw">{score}</StyledP>
             </FusePoolSpan>
         </FusePool>
     )

@@ -32,6 +32,8 @@ export const FusePool = styled.div.attrs(( ) => ({tabIndex: 0}))<FusePoolProps>`
 
 export const FusePoolSpan = styled.div<FusePoolProps>`
     flex-basis: ${props => props.tablehead ? "40%" : "15%"};
+    font-size: 0.9vw;
+    font-family: Orbitron;
 `
 
 
