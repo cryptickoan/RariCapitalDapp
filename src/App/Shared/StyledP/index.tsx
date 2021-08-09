@@ -7,11 +7,14 @@ interface PProps {
     neuropolNova?: boolean
     margin?: string
     opacity?: string
+    color?: string
 }
 
 export const StyledP = styled.p<PProps>`
     font-size: ${props => props.size};
     line-height: ${props => props.separate};
+
+    color: ${props => props.color ?? props.theme.light ? 'black' : 'white'};
 
     text-align: center;
     margin: ${props => props.margin};

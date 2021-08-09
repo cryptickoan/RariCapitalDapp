@@ -152,8 +152,8 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                         active={active} 
                         onClick={handleTokenClick} 
                     >
-                        <img width="35px" src={tokenData.logoURL} alt="tokenIcon"/>
-                        <p>{tokenData.symbol}</p>
+                        <img width="55%" src={tokenData.logoURL} alt="tokenIcon"/>
+                        <StyledP size="0.8vw">{tokenData.symbol}</StyledP>
                     </OnOffButton>
                 : null }
                 <SpacingContainer overflowY="hidden" overflowX="scroll" flexBasis="75%" margin={isLend ? "0 10px 0 0" : "0 0 0 10px"} justifyContent="flex-start">
@@ -177,9 +177,9 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                                         width="10%"
                                         flexBasis="10%"
                                         justifyContent="center"
-                                        numberSize="10px"
+                                        numberSize="0.7vw"
                                         number={`${isLend ? "APY" : "APR"}`}
-                                        altSize="13px"
+                                        altSize="0.8vw"
                                         alt={`${isLend ? supplyApy.toFixed(2) : borrowAPR.toFixed(2)}%`}
                                         main="15px"
                                         secondary="15px"
@@ -199,9 +199,9 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                                             width="10%"
                                             flexBasis="10%"
                                             justifyContent="center"
-                                            numberSize="10px"
+                                            numberSize="0.7vw"
                                             number={`${isLend ? "LTV" : "Usage"}`}
-                                            altSize="13px"
+                                            altSize="0.8vw"
                                             alt={`${isLend ? (asset.collateralFactor / 1e16) : ((asset.liquidityUSD * 100) / asset.totalSupplyUSD).toFixed(2)}%`}
                                             main="15px"
                                             secondary="15px"
@@ -227,12 +227,12 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                                         width="10%"
                                         flexBasis="10%"
                                         justifyContent="center"
-                                        numberSize="10px"
+                                        numberSize="0.7vw"
                                         number={isLend ? "Supply" : "Liquidity"}
-                                        altSize="13px"
+                                        altSize="0.8vw"
                                         alt={`$${(isLend ? asset.liquidityUSD : asset.totalSupplyUSD).toLocaleString()}`}
-                                        main="15px"
-                                        secondary="15px"
+                                        main="0.9vw"
+                                        secondary="0.9vw"
                                         marginBottom="5px"
                                         glow={true}
                                     />
@@ -256,9 +256,9 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                                             width="10%"
                                             flexBasis="10%"
                                             justifyContent="center"
-                                            numberSize="10px"
+                                            numberSize="0.7vw"
                                             number="Balance"
-                                            altSize="13 px"
+                                            altSize="0.8vw"
                                             alt={`$${(isLend ? asset.supplyBalanceUSD : asset.borrowBalanceUSD).toLocaleString()}`}
                                             main="15px"
                                             secondary="15px"
@@ -267,7 +267,7 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                                         />
                                 </SpacingContainer> 
                                 <SpacingContainer flexBasis="50%" direction="column" margin="0 20px 0 0">
-                                    <StyledP>Manage</StyledP>
+                                    <StyledP size="0.7vw">Manage</StyledP>
                                     <CollateralToggle onClick={handleManageClick}/>
                                 </SpacingContainer>
 
@@ -278,8 +278,8 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
                 </SpacingContainer>
                 {!isLend
                     ? <OnOffButton active={active} onClick={handleTokenClick} borderRadius="5px" height="70%" direction="column"  margin="0 10px 0 10px" flexBasis="25%">
-                        <img width="35px" src={tokenData.logoURL} alt="tokenIcon"/>
-                        <p>{tokenData.symbol}</p>
+                        <img width="55%" src={tokenData.logoURL} alt="tokenIcon"/>
+                        <StyledP size="0.8vw">{tokenData.symbol}</StyledP>
                       </OnOffButton>
                     : null }
         </MarketBar>

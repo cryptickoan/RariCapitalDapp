@@ -2,6 +2,7 @@ import { ApexOptions } from "apexcharts";
 
 export const LineChartOptions: ApexOptions = {  
     chart: {
+      fontFamily: 'Orbitron',
       foreColor: "gray",
       animations: {
         enabled: true,
@@ -77,10 +78,10 @@ export const getCategories = (): string[] => {
   const now = new Date()
   const month = now.getMonth()
   let year = []
-  year[0] = new Date(0, month).toLocaleString('en-US',  {month: 'long'})
+  year[0] = new Date(0, month).toLocaleString('en-US',  {month: 'long'}).slice(0, 3)
   
   for (let i = 1; i < 13; i++) {
-    const months = month + i > 11 ? (month - i) * -1 : month + i
+    const months = month + i > 12 ? (month + i) - 12 : month + i
     const date = new Date(0, months).toLocaleString('en-US', {month: 'long'})
     year.push(date.slice(0, 3))
   }

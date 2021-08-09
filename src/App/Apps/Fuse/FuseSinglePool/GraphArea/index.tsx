@@ -8,7 +8,7 @@ import { LineChartOptions, getInterest, DataEntry, getCategories } from '../../.
 
 // Styled Components
 import { SimulationInput } from './styles'
-import { Card, OnOffButton, SpacingContainer, InfoPair} from '../../../../Shared'
+import { Card, OnOffButton, SpacingContainer, InfoPair, StyledP} from '../../../../Shared'
 
 // Icons
 import Spinner from '../../../../Shared/Icons/Spinner'
@@ -25,7 +25,7 @@ const GraphArea = () => {
     const state = useSelector(state => state)
     const year = getCategories()
 
-    let stateLenght = Object.keys(state).length
+    let stateLength = Object.keys(state).length
     let stateEntries = Object.entries(state).filter((entry) => entry[0] !== "display")
     
     // When in simulation this will hold all info used in graph
@@ -48,9 +48,13 @@ const GraphArea = () => {
 
     return (
         <SpacingContainer width="50%" height="100%" margin="10px 0 0 0" direction="column" justifyContent="space-evenly">
+               { stateLength === 0 ? 
+                        <StyledP size="0.9vw" opacity="0.4" separate="0.1vw">
+                            To start simulation click a token.
+                        </StyledP>
+                        : null}
                 <Card height="65%" width="95%" borderRadius="15px" direction="column">
-                    <SpacingContainer height="60%" color="black">
-
+                    <SpacingContainer height="60%" color="black" direction="column">
                     
                        { graphData.length > 0 
                        ? <Chart options={{
@@ -68,21 +72,31 @@ const GraphArea = () => {
                         } 
                     </SpacingContainer>
                 </Card>
+                <StyledP size="0.9vw" opacity="0.4" separate="0.1vw">
+                    { stateLength > 0 ? 
+                        "Enter an amount" 
+                        : graphData === initialState  ? 
+                        "This is a imulation using the tokens current APY/APR for the next 12 months."
+                        : null
+                    }
+                </StyledP>
                 <SpacingContainer height="20%" margin="0 0 0 0">
                     {
-                        stateLenght > 0 
+                        stateLength > 0 
                         ? stateEntries.map((item, index) =>
 
                                 <OnOffButton active={true} margin="0 10px 0 0" height="100%" borderRadius="5px" direction="column" flexBasis="20%">
-                                    <SpacingContainer direction="row" height="50%">
-                                        <img width="35px" src={item[1].icon} alt="tokenIcon"/>
+                                    <SpacingContainer direction="row" height="40%">
+                                        <SpacingContainer width="25%">
+                                            <img width="120%" src={item[1].icon} alt="tokenIcon"/>
+                                        </SpacingContainer>
                                         <InfoPair
                                             flexBasis="25%"
                                             direction="column" 
                                             number={item[1].token}
-                                            numberSize="10px"
+                                            numberSize="1.5vh"
                                             alt={item[1].action}
-                                            altSize="10px"
+                                            altSize="1.3vh"
                                             margin="0 0 0 10px"
                                         />
                                     </SpacingContainer>
