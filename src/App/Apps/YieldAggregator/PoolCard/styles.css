@@ -8,8 +8,8 @@
 
 .poolLogo {
     display: flex;
-    height: 100px;
-    width: 100px; 
+    height: 7vw;
+    width: 7vw; 
     transition: all 0.4s;
 }
 

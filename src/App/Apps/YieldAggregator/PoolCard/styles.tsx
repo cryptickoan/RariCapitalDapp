@@ -70,27 +70,28 @@ export const OpenTitle = styled.div<PoolCardProps>`
     flex-direction: ${props => props.isOpen ? "row" : "column"};
     align-items: center;
     margin: 0px;
-    font-size: 30px;
+    font-size: 4vw;
     line-height:  ${props => props.isOpen ? "40px" : "20px"};
 `
 
 export const PoolTitle = styled.p`
-    font-size: 50px;
-    line-height: 27px;
+    font-size: 4vw;
+    line-height: 2.2vw;
     margin: 0 !important;
     margin-bottom: 0 !important;
 `
 
 export const PoolSub = styled.p`
-    font-size: 20px;
+    font-size: 2vw;
+    line-height: 1.5vw;
     margin: 0;
 `
 
 export const PoolDescription = styled.p<PoolCardProps>`
     display: ${props => props.isOpen ? "" : "none"};
     opacity: 0.4;
-    line-height: 2px;
-    font-size: 18px;
+    line-height: 1vw;
+    font-size: 1.5vw;
     margin: 2px 0 10px;
 `
 
