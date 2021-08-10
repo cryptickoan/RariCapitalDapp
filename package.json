@@ -73,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-copy-to-clipboard": "^5.0.1",
     "@types/styled-components": "^5.1.11",
     "redux-devtools-extension": "^2.13.9"
   }
