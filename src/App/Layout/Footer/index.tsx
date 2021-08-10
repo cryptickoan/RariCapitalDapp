@@ -14,7 +14,7 @@ import { SpacingContainer } from '../../Shared'
 
 const getGas = async () => {
     const gasRaw = await fetch(
-        "https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key=215a01e387e8469239b02beb84e5b8d7c540c3f501171564ad19e50266b1"
+        `https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key=${process.env.REACT_APP_DEFI_PULSE_API_KEY}`
                                 ).then((res) => res.json())
     return gasRaw
 }
