@@ -29,7 +29,7 @@ const Footer = ({themeSwitcher}: {themeSwitcher: Function}) => {
     return (
         <SpacingContainer height="10%" margin="0px 20px 0px 20px" justifyContent="space-between">
             <SpacingContainer flexBasis="10%" justifyContent="space-evenly">
-                {isLoading ? <Spinner/> : <SpacingContainer width="35px"> <GasButton gas={gas}/> </SpacingContainer> }
+                {!gas ? <Spinner/> : <SpacingContainer width="35px"> <GasButton gas={gas}/> </SpacingContainer> }
             </SpacingContainer>
 
             <SpacingContainer flexBasis="30%" justifyContent="space-around">
@@ -47,7 +47,7 @@ const Footer = ({themeSwitcher}: {themeSwitcher: Function}) => {
             </SpacingContainer>
                 
             <SpacingContainer flexBasis="10%" justifyContent="space-evenly">
-                {isLoading ? <Spinner/> : <SpacingContainer width="35px" direction="column"> <BlockButton gas={gas}/> </SpacingContainer> }   
+                {!gas ? <Spinner/> : <SpacingContainer width="35px" direction="column"> <BlockButton gas={gas}/> </SpacingContainer> }   
             </SpacingContainer>
         </SpacingContainer>
     )
