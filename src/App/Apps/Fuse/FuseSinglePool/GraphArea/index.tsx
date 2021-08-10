@@ -77,7 +77,9 @@ const GraphArea = () => {
                 <StyledP size="0.9vw" opacity="0.4" separate="0.1vw">
                     { stateLength > 0 && graphData[0].name === "" ? 
                         "Enter an amount" 
-                        :  "This is a imulation using the tokens current APY/APR for the next 12 months."
+                        :  graphData[0].name !== "" 
+                        ? "This is a imulation using the tokens current APY/APR for the next 12 months."
+                        : null
                     }
                 </StyledP>
                 <SpacingContainer height="20%" margin="0 0 0 0">
