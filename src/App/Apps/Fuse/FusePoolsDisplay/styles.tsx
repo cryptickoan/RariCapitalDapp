@@ -131,9 +131,14 @@ export const SelectPool = styled.select.attrs(( ) => ({tabIndex: 0}))`
     }
 `
 
-export const TVL = styled.div.attrs(( ) => ({tabIndex: 0}))`
-    width: 80%;
-    height: 75%;
+type TVLProps = {
+    width?: string
+    height?: string
+} 
+
+export const TVL = styled.div.attrs(( ) => ({tabIndex: 0}))<TVLProps>`
+    width: ${props => props.width ?? "80%"};
+    height: ${props => props.height ?? "75%"};
 
     display: flex;
     align-content: center;
@@ -142,7 +147,7 @@ export const TVL = styled.div.attrs(( ) => ({tabIndex: 0}))`
     align-items: center;
 
     border-radius: 15px;
-    box-shadow: ${props => props.theme.light ? "inset 0 0 55px #B8FF71" : "inset 0 0 15px -3px #B8FF71"};
+    box-shadow: ${props => props.theme.light ? "inset 0 0 50px -8px #B8FF71" : "inset 0 0 15px -3px #B8FF71"};
 
     background-color: ${props => props.theme.light ? "white" : "black" };
     color: ${props => props.theme.light ? "black" : "white" };
