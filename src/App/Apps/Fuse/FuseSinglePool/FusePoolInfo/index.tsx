@@ -3,9 +3,16 @@ import styled from 'styled-components'
 import { SpacingContainer, InfoPair, Bar } from "../../../../Shared"
 import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
 
-// Dependencies
-import { shortenAddress } from '../../../../Layout/Sidebar'
+// React Bootstrap
 import Carousel from 'react-bootstrap/Carousel'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+
+// Copy to Clipboard
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
+// Utils
+import { shortenAddress } from '../../../../Layout/Sidebar'
 
 export const Title = styled.h1`
     font-size:50px;
@@ -13,6 +20,17 @@ export const Title = styled.h1`
     text-shadow:${props => props.theme.light ? "0 0 10px #B8FF71, 10px 0 13px black, 0 10px 10px #B8FF71": "0 0 10px #B8FF71"}; 
     color: ${props => props.theme.light ? "black": "white"};
     line-height: 50px;
+`
+
+const StyledSpan = styled.span.attrs(( ) => ({tabIndex: 0}))`
+    width: 50%;
+    height: 100%;
+    cursor: pointer;
+    transition: all 3s;
+
+    &: hover p {
+        text-shadow: 0 0 18px red;
+    }
 `
 
 const FusePoolInfo = ({creator, poolInfo}: any) => {
@@ -113,20 +131,32 @@ const GeneralInfo = ({poolInfo, creator}: any) => {
                 secondary="10px"
                 marginBottom="10px"
                 />
-
-            <InfoPair 
-                direction="column" 
-                width="30%"
-                justifyContent="center"
-                numberSize="30px"
-                glow={true}
-                number={shortenAddress(creator)}
-                altSize="15px"
-                alt="pool admin"
-                main="40px"
-                secondary="10px"
-                marginBottom="10px"
-                />
+            <SpacingContainer width="30%">
+                <CopyToClipboard text={creator}>
+                        <OverlayTrigger
+                            trigger={['click']}
+                            placement="bottom"
+                            delay={{show: 0, hide:100}}
+                            overlay={<Tooltip id={'tooltip-bottom'}>Copied!</Tooltip>}
+                        >
+                        <StyledSpan>
+                            <InfoPair 
+                                direction="column" 
+                                width="100%"
+                                justifyContent="center"
+                                numberSize="30px"
+                                glow={true}
+                                number={shortenAddress(creator)}
+                                altSize="15px"
+                                alt="pool admin"
+                                main="40px"
+                                secondary="10px"
+                                marginBottom="10px"
+                                />
+                        </StyledSpan>
+                    </OverlayTrigger>
+                </CopyToClipboard>
+            </SpacingContainer>
             <InfoPair 
                 direction="column" 
                 width="30%"
