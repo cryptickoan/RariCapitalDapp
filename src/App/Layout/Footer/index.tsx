@@ -36,14 +36,14 @@ const Footer = ({themeSwitcher}: {themeSwitcher: Function}) => {
 
             <SpacingContainer flexBasis="30%" justifyContent="space-around">
                 
-                <a href="/">
-                    Notion 
+                <a href="https://info.rari.capital/security/#smart-contract-audits" target="_blank" rel="noreferrer">
+                    Audits
                 </a>
 
                 <ThemeToggleButton onClick={() => themeSwitcher()}/>
             
-                <a href="/users">
-                    Docs
+                <a href="https://info.rari.capital/#overview">
+                    Learn
                 </a>
                 
             </SpacingContainer>
