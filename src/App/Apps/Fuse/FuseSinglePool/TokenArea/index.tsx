@@ -138,7 +138,7 @@ const MarketBars = ({comptrollerAddress, asset, assets, action }: {comptrollerAd
     }
 
 
-    if (typeof tokenData === "undefined") return <MarketBar glow={used} > <Spinner/> </MarketBar> 
+    if (typeof tokenData === "undefined") return <MarketBar> <Spinner/> </MarketBar> 
     
     return (
         <MarketBar glow={used} >
