@@ -1,9 +1,9 @@
 // Rari
-import { useRari } from "../context/RariProvider"
-import { Pool, getPoolAllocation } from "../context/PoolProvider"
+import { useRari } from "../../../../context/RariProvider"
+import { Pool, getPoolAllocation } from "../../../../context/PoolProvider"
 
 // Hooks
-import { useFuseTVL } from "./useFuseTVL"
+import { useFuseTVL } from "../../../../hooks/useFuseTVL"
 
 // React Query
 import { useQueries } from "react-query"
