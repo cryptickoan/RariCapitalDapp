@@ -25,6 +25,8 @@ const Footer = ({themeSwitcher}: {themeSwitcher: Function}) => {
         return getGas()
     })
 
+    console.log(gas)
+
 
     return (
         <SpacingContainer height="10%" margin="0px 20px 0px 20px" justifyContent="space-between">
