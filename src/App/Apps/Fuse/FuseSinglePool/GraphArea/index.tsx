@@ -31,6 +31,8 @@ const GraphArea = () => {
     // When in simulation this will hold all info used in graph
     const [ graphData, setGraphData ] = useState<{name: string, data: number[]}[]>(initialState)
 
+    console.log(graphData)
+
     // Number changes through input. We wait for user to stop typing, 
     // and then generate an array of objects that will be used as graph's data 
     const updateNumber = (tokenIndex: number, token: string, action: string, number: any, e: any) => {
@@ -73,11 +75,9 @@ const GraphArea = () => {
                     </SpacingContainer>
                 </Card>
                 <StyledP size="0.9vw" opacity="0.4" separate="0.1vw">
-                    { stateLength > 0 ? 
+                    { stateLength > 0 && graphData[0].name === "" ? 
                         "Enter an amount" 
-                        : graphData === initialState  ? 
-                        "This is a imulation using the tokens current APY/APR for the next 12 months."
-                        : null
+                        :  "This is a imulation using the tokens current APY/APR for the next 12 months."
                     }
                 </StyledP>
                 <SpacingContainer height="20%" margin="0 0 0 0">
@@ -85,7 +85,7 @@ const GraphArea = () => {
                         stateLength > 0 
                         ? stateEntries.map((item, index) =>
 
-                                <OnOffButton active={true} margin="0 10px 0 0" height="100%" borderRadius="5px" direction="column" flexBasis="20%">
+                                <OnOffButton key={item[1].token} active={true} margin="0 10px 0 0" height="100%" borderRadius="5px" direction="column" flexBasis="20%">
                                     <SpacingContainer direction="row" height="40%">
                                         <SpacingContainer width="25%">
                                             <img width="120%" src={item[1].icon} alt="tokenIcon"/>
