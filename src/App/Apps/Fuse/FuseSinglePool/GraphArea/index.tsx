@@ -78,7 +78,7 @@ const GraphArea = () => {
                     { stateLength > 0 && graphData[0].name === "" ? 
                         "Enter an amount" 
                         :  graphData[0].name !== "" 
-                        ? "This is a imulation using the tokens current APY/APR for the next 12 months."
+                        ? "This is a simulation using the tokens current APY/APR for the next 12 months."
                         : null
                     }
                 </StyledP>
