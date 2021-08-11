@@ -1,6 +1,5 @@
 // Styled Components
-import { SpacingContainer, StyledP, Card } from '../../Shared'
-import { TVL } from '../../Apps/Fuse/FusePoolsDisplay/styles'
+import { SpacingContainer } from '../../Shared'
 
 // Hooks
 import { useRariTVL } from './hooks/useRariTVL'
@@ -8,46 +7,27 @@ import { useRariTVL } from './hooks/useRariTVL'
 // Icons
 import Spinner from '../../Shared/Icons/Spinner'
 
+// Components
+import YieldAggregatorOverview from './components/YieldAggregatorOverview'
+import TVL from './components/TVL'
+import Governance from './components/Governance'
+import FuseOverview from './components/FuseOverview'
+
 const Rari = () => {
-    const TVLNumber = useRariTVL()
+    const {TVL: TVLNumber, YieldTVL, fuseTVL, formatedRGT: RGT } = useRariTVL()
     
+    if (!TVLNumber) return <Spinner />
+
     return (
-        <SpacingContainer width="80%" height="90%">
-                <SpacingContainer>
-                    <Card width="80%" borderRadius="15px" alignItems="flex-start" padding="5% 0 0 0">
-                        <TVL width="80%" height="15%">   
+        <SpacingContainer width="90%" height="90%">
+                <YieldAggregatorOverview YieldTVL={YieldTVL}/>
 
-                        </TVL>
-                    </Card>
-
-                </SpacingContainer>
                 <SpacingContainer direction="column">
-                    <SpacingContainer height="30%" alignItems="flex-start">
-                        <Card width="100%" height="80%" borderRadius="15px">
-                            <TVL width="100%" height="100%">  
-                            {TVLNumber ?
-                                    <>
-                                    <StyledP size="1vw" separate="1vw" glow>Total value locked</StyledP>
-                                    <StyledP size="2vw" separate="2vw" glow>${TVLNumber.toLocaleString()}</StyledP>
-                                    </> 
-                                : 
-                                    <Spinner/> }
-                            </TVL>
-                        </Card>
-                    </SpacingContainer>
-                    <Card borderRadius="15px" alignItems="flex-start" padding="5% 0 0 0">
-                        <TVL width="80%" height="15%">   
-
-                        </TVL>
-                    </Card>
+                    <TVL TVLNumber={TVLNumber}/>
+                    <Governance RGT={RGT}/>
                 </SpacingContainer>
-                <SpacingContainer>
-                    <Card width="80%" borderRadius="15px" alignItems="flex-start" padding="5% 0 0 0">
-                        <TVL width="80%" height="15%">   
-
-                        </TVL>
-                    </Card>
-                </SpacingContainer>
+                
+                <FuseOverview fuseTVL={fuseTVL}/>
         </SpacingContainer>
     )
 }
