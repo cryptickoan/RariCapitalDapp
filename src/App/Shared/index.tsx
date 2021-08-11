@@ -1,6 +1,6 @@
 export { SpacingContainer } from './SpacingContainer'
 export { Card } from './Card'
-export { StyledP } from './StyledP'
+export { StyledP, StyledSpan } from './StyledP'
 export { OnOffButton } from './Button'
 export { InfoPair } from './InfoPair'
 export { Banner } from './Banner'

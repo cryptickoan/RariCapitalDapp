@@ -23,6 +23,17 @@ export const StyledP = styled.p<PProps>`
     font-family: ${props => props.neuropolNova ? "neuropol-nova" : ""};
 
     opacity: ${props => props.opacity};
+`
 
+type StyledSpanProps = {
+    color?: string
+    opacity?: string
+    fontSize?: string 
+}
 
+export const StyledSpan = styled.span<StyledSpanProps>`
+    color: ${props => props.color};
+    opacity: ${props => props.opacity};
+    text-shadow: ${props => props.color ? `0 0 8px ${props.color}` : ''};
+    font-size: ${props => props.fontSize};
 `
