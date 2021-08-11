@@ -44,19 +44,25 @@ export const useRariTVL = () => {
     
     
     let TVL = undefined
+    let YieldTVL = undefined
+    let formatedRGT = undefined
+
     if (USDCTotal && ETHTotal && DAITotal && YieldTotal && RGTTotal) {
       
       //@ts-ignore
-      const formatedRGT = parseFloat(state.rari.web3.utils.fromWei(RGTTotal))
+      formatedRGT = parseFloat(state.rari.web3.utils.fromWei(RGTTotal))
 
       //@ts-ignore
       const formatedYield = parseFloat(state.rari.web3.utils.fromWei(YieldTotal))
 
       //@ts-ignore
-      TVL = USDCTotal.total + ETHTotal.total + DAITotal.total + fuseTVL + formatedYield + formatedRGT
+      YieldTVL = USDCTotal.total + ETHTotal.total + DAITotal.total + formatedYield
+
+      //@ts-ignore
+      TVL = YieldTVL + fuseTVL + formatedRGT
     }
     
 
-    return TVL
+    return { TVL: TVL, YieldTVL: YieldTVL, fuseTVL: fuseTVL, formatedRGT: formatedRGT }
 }
 
