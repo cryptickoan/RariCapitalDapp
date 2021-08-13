@@ -1,18 +1,33 @@
+// React Bootstrap
+import Carousel from 'react-bootstrap/Carousel'
+
 // Styled Components
 import { Card, SpacingContainer, StyledP, StyledSpan } from '../../../../Shared'
-import Spinner from '../../../../Shared/Icons/Spinner'
-import {TVL as SecondaryTVL} from '../../styles'
+import { StyledCarousel } from '../../../YieldAggregator/PoolInformation/InfoCarousel/styles'
+import { TVL as SecondaryTVL } from '../../styles'
 
-// Hooks
-import useGovernance from "./hooks/useGovernance"
+// Components
+import Proposals from './Proposals'
+import RGTInfo from './RGTInfo'
+
+// Icons
+import Spinner from '../../../../Shared/Icons/Spinner'
 
 const Governance = ({RGT}: {RGT: any}) => {
-    const Snap = useGovernance()
-
-    console.log('snap', Snap)
     return (
-        <Card borderRadius="15px" alignItems="flex-start" padding="5% 0 0 0">
-            <SecondaryTVL width="80%" height="20%">
+        <Card borderRadius="15px" justifyContent="flex-start" padding="5% 0 0 0" direction="column">
+            <TVL RGT={RGT} />
+            <InfoCarousel/>
+        </Card>
+    )
+}
+
+export default Governance
+
+
+const TVL = ({RGT}: {RGT:any}) => {
+    return (
+        <SecondaryTVL width="80%" height="20%">
             {RGT ?
                     <>
                     <SpacingContainer height="20%" width="65%" justifyContent="space-evenly">
@@ -27,9 +42,25 @@ const Governance = ({RGT}: {RGT: any}) => {
                     :
                     <Spinner/>
                 }
-            </SecondaryTVL>
-        </Card>
+        </SecondaryTVL>
     )
 }
 
-export default Governance
+const InfoCarousel = () => {
+    return (
+        <SpacingContainer height="75%">
+            <StyledCarousel
+                indicators={false}
+                interval={500000}
+            >
+                <Carousel.Item>
+                <RGTInfo/>
+                </Carousel.Item>
+
+                <Carousel.Item>
+                    <Proposals />
+                </Carousel.Item>
+            </StyledCarousel>
+        </SpacingContainer>
+    )
+}
