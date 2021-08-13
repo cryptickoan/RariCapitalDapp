@@ -24,12 +24,12 @@ export const GlobalStyle = createGlobalStyle`
   a {
       text-decoration: none;
       color: ${({ theme }) => theme.light ? "#000000" : "#FFFFFF"} !important;
-      opacity: 0.7;
+      opacity: 0.9;
   }
 
   a:hover, a:focus {
     opacity: 1;
-    text-shadow: 0px 2px 3px white, 2px 0px 3px white ;
+    text-shadow: ${props => props.theme.light ? "0px 2px 3px black ;" : "0px 2px 3px white, 2px 0px 3px white ;"} 
     color: ${({ theme }) => theme.light ? "#000000" : "#FFFFFF"} !important;
   }
 `   
