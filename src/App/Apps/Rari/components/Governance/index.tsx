@@ -9,9 +9,13 @@ import { TVL as SecondaryTVL } from '../../styles'
 // Components
 import Proposals from './Proposals'
 import RGTInfo from './RGTInfo'
+import RGTChart from './RGTChart'
 
 // Icons
 import Spinner from '../../../../Shared/Icons/Spinner'
+
+
+
 
 const Governance = ({RGT}: {RGT: any}) => {
     return (
@@ -51,16 +55,21 @@ const InfoCarousel = () => {
         <SpacingContainer height="75%">
             <StyledCarousel
                 indicators={false}
-                interval={500000}
+                interval={10000}
             >
                 <Carousel.Item>
-                <RGTInfo/>
+                    <RGTInfo/>
                 </Carousel.Item>
 
                 <Carousel.Item>
                     <Proposals />
                 </Carousel.Item>
+
+                <Carousel.Item>
+                    <RGTChart />
+                </Carousel.Item>
             </StyledCarousel>
         </SpacingContainer>
     )
 }
+
