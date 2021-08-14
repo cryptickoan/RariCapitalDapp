@@ -19,21 +19,18 @@ const useRGTInfo = () => {
     const {data: RGTInfo} = useQuery('RGT Info', async () => {
         const RGT = await axios.get('https://api.coingecko.com/api/v3/coins/rari-governance-token?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
         return RGT.data.market_data
-    }
-    )
-    console.log(RGTInfo)
+    })
     let RGTVol 
-    let RGTMarketCap
-    let RGTCirculatingSupply 
+    let RGTHigh
+    let RGTLow
+
     if(RGTInfo) {
         RGTVol = RGTInfo.total_volume.usd
-        RGTMarketCap = RGTInfo.market_cap
-        RGTCirculatingSupply = RGTInfo.circulating_supply
+        RGTHigh = RGTInfo.high_24h.usd
+        RGTLow = RGTInfo.low_24h.usd
     }
     
-    
-    console.log(RGTVol)
-    return { RGTPrice, RGTSupply, RGTVol, RGTMarketCap, RGTCirculatingSupply}
+    return { RGTPrice, RGTSupply, RGTVol, RGTHigh, RGTLow}
 }
 
 export default useRGTInfo
