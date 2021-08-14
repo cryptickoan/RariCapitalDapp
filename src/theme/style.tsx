@@ -18,13 +18,18 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
     margin: 0px !important;
     width: 100%;
-    height: 100% ;
+    height: 100%;
+    color: ${props => props.theme.light ? 'black' : 'white'};
   } 
 
   a {
       text-decoration: none;
       color: ${({ theme }) => theme.light ? "#000000" : "#FFFFFF"} !important;
       opacity: 0.9;
+      transition: ease-in 0.1s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }
 
   a:hover, a:focus {
