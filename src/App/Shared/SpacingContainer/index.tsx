@@ -19,6 +19,7 @@ interface SpacingContainerProps {
     marginBottom?: string
     margin?: string
     padding?: string
+    paddingBottom?: string
     
     position?: string
     top?: string
@@ -57,6 +58,7 @@ export const SpacingContainer = styled.div<SpacingContainerProps>`
     margin-bottom: ${props => props.marginBottom ?? "0"};
     margin: ${props => props.margin};
     padding: ${props => props.padding};
+    padding-bottom: ${props => props.paddingBottom};
 
     position: ${props => props.position};
     top: ${props => props.top};
