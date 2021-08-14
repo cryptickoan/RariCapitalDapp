@@ -2,9 +2,6 @@
 import { TVL as TVLContainer} from '../../../../Apps/Fuse/FusePoolsDisplay/styles'
 import { SpacingContainer, StyledP } from '../../../../Shared'
 
-// Icons
-import Spinner from '../../../../Shared/Icons/Spinner'
-
 const TVL = ({TVLNumber}: {TVLNumber: any}) => {
     return (
         <SpacingContainer height="30%" alignItems="flex-start">
