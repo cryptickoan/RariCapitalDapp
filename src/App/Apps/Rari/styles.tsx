@@ -20,13 +20,17 @@ export const TVL = styled(SpacingContainer).attrs(( ) => ({tabIndex: 0}))`
     }
 `
 
-export const ProposalContainer = styled(SpacingContainer)<StatusDivProps>`
-    border: ${props => props.theme.light ? '1px outset gray' : '1px outset #9d9c9c'};
-    padding: 5%;
-    padding-bottom: 2%;
-    border-radius: 15px;
+export const ProposalContainer = styled(SpacingContainer).attrs(( ) => ({tabIndex: 0}))<StatusDivProps>`
+    border: ${props => props.theme.light ? '3px inset #dbdbdb' : '2px inset #9d9c9c'};
+    border-radius: 15px/50%;
     justify-content: space-evenly;
-    box-shadow: ${props => props.active === 'active' ? "0 0 15px #B1E25E" : ' 0 0 8px #CB4242'};
+    box-shadow: ${props => props.active === 'active' ? "inset 0 0 4px #B1E25E" : 'inset 0 0 4px #CB4242'};
+    transition: ease-out 0.3s;
+
+    &: hover{
+        box-shadow: ${props => props.active === 'active' ? "inset 0 0 10px #B1E25E": "inset 0 0 10px #CB4242"};
+        border-radius: 15px/20%;
+    }
 `
 
 type StatusDivProps = {
