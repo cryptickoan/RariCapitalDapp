@@ -3,5 +3,14 @@
  *::-webkit-scrollbar {
     display: none;
   }
+
+ #proposalA {
+    display: flex;
+    background-color: red;
+  }
+
+  .carousel-inner, .carousel-item {
+    height: 100%
+  }
  
   @import url("https://use.typekit.net/rcu1rag.css");
