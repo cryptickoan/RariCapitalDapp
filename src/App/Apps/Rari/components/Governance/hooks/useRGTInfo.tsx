@@ -14,12 +14,13 @@ const useRGTInfo = () => {
         // @ts-ignore
         const rawRGTSupply = await state.rari.governance.contracts.RariGovernanceToken.methods.totalSupply().call()
         return (parseFloat(rawRGTSupply)/1e18)
-    })  
+    },{refetchOnMount: false})  
     
     const {data: RGTInfo} = useQuery('RGT Info', async () => {
         const RGT = await axios.get('https://api.coingecko.com/api/v3/coins/rari-governance-token?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
         return RGT.data.market_data
-    })
+    },{refetchOnMount: false})
+    
     let RGTVol 
     let RGTHigh
     let RGTLow
