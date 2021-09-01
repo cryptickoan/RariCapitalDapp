@@ -58,7 +58,7 @@ const InfoCarousel = () => {
                 interval={10000}
             >
                 <Carousel.Item>
-                    
+                    <Proposals/>
                 </Carousel.Item>
 
                 <Carousel.Item>
