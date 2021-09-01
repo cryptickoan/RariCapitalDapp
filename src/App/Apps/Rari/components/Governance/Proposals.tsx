@@ -19,7 +19,7 @@ const Proposals = () => {
     return (
         <>
         <SpacingContainer height="100%" maxHeight="22vw" margin="2% 0 2% 0" direction="column" justifyContent="flex-start" overflowY="scroll">
-            <StyledP size="1vw" opacity="0.4" margin="2% 0 2% 0"><strong>Recent Proposals</strong></StyledP>
+            <StyledP size="1vw" opacity="0.4" margin="2% 0 2% 0"><strong>Recent Governance Proposals</strong></StyledP>
             { !Snap ?( <SpacingContainer> <Spinner/> </SpacingContainer> ): Snap.proposals.map((proposal: any) => proposal.title === 'Hello World' ? null : <Proposal proposal={proposal}/>) }
         </SpacingContainer>
         </>
