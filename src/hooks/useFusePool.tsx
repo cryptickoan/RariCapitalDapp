@@ -45,9 +45,8 @@ const poolSort = (pools: MergedPool[]) => {
     })
 }
 
-export const fetchPools = async (
-    {rari, fuse, address, filter}: 
-    {rari: Rari, fuse: Fuse, address: string, filter: string | null})=> {
+export const fetchPools = async ( 
+    rari: Rari, fuse: Fuse, address: string, filter: string | null)=> {
     const isMyPools = filter === "my pools"
     const isCreatedPools = filter === "created pools"
 
@@ -77,6 +76,8 @@ export const fetchPools = async (
 
         rari.web3.utils.fromWei(await rari.getEthUsdPriceBN()),
     ])
+
+    console.log(ethPrice, "HERE")
 
     const merged: MergedPool[] = [];
     for (let id = 0; id < ids.length; id++) {
@@ -112,7 +113,7 @@ export const useFusePools = (filter: string | null): UseFusePoolsReturn => {
 
     const { data: pools } = useQuery(
         state.address + " fusePoolList" + (isMyPools || isCreatedPools ? filter : ""), 
-        async() => await fetchPools({rari, fuse, address, filter}) )
+        async() => await fetchPools(rari, fuse, address, filter))
 
     const filteredPools = useMemo(() => {
         if(!pools) return null
