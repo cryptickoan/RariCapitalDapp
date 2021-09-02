@@ -17,6 +17,7 @@ import useBalanceHistory from '../../../../../hooks/YieldAggregator/useBalanceHi
 
 // Styled Components
 import { Type } from '../../../../Shared/Bar/styles'
+import { SpacingContainer } from '../../../../Shared'
 
 // Icons
 import Spinner from '../../../../Shared/Icons/Spinner'
@@ -196,6 +197,7 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
                     : 
                     <Type>Balance history from last {graphState.timerange}</Type>
                 }
+                <SpacingContainer height="70%" width="95%" display="block" color="black">
                 <Chart options={{...LineChartOptions,
                         xaxis:{
                           type: "category",
@@ -203,11 +205,11 @@ const PoolPrediction = React.forwardRef((props, ref: any) => {
                         } }} 
                         series={[graphState.data]} 
                         type="line" 
-                        height={'70%'} 
-                        width={'800px'}/>
-                
-            </>
-        )
+                        height={'100%'} 
+                        width={'100%'}/>
+             </SpacingContainer>   
+             </>
+        ) 
     }
 
 )
