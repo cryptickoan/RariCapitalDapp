@@ -56,20 +56,23 @@ const GraphArea = () => {
                         </StyledP>
                         : null}
                 <Card height="65%" width="95%" borderRadius="15px" direction="column">
-                    <SpacingContainer height="60%" color="black" direction="column">
+                    <SpacingContainer height="100%" color="black" direction="column">
                     
                        { graphData.length > 0 
-                       ? <Chart options={{
-                            ...LineChartOptions,
-                            xaxis:{
-                                type : "category",
-                                categories: year
-                            }
-                            }}  
-                            series={graphData} // must be an array of objects
-                            type="line" 
-                            height={300} 
-                           width={575}/>  
+                       ? 
+                       <SpacingContainer height="90%" width="95%" display="block" color="black">
+                        <Chart options={{
+                                ...LineChartOptions,
+                                xaxis:{
+                                    type : "category",
+                                    categories: year
+                                }
+                                }}  
+                                series={graphData} // must be an array of objects
+                                type="line" 
+                                height={"100%"}
+                            width={"100%"}/> 
+                        </SpacingContainer> 
                            : <Spinner />
                         } 
                     </SpacingContainer>
