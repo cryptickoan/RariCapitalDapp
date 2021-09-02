@@ -91,16 +91,16 @@ const GraphArea = () => {
                         ? stateEntries.map((item, index) =>
 
                                 <OnOffButton key={item[1].token} active={true} margin="0 10px 0 0" height="100%" borderRadius="5px" direction="column" flexBasis="20%">
-                                    <SpacingContainer direction="row" height="40%">
+                                    <SpacingContainer direction="row" height="50%">
                                         <SpacingContainer width="25%">
                                             <img width="120%" src={item[1].icon} alt="tokenIcon"/>
                                         </SpacingContainer>
                                         <InfoPair
                                             flexBasis="25%"
                                             direction="column" 
-                                            number={item[1].token}
+                                            number={item[1].action}
                                             numberSize="1.5vh"
-                                            alt={item[1].action}
+                                            alt={`${item[1].apy.toFixed(1)}%`}
                                             altSize="1.3vh"
                                             margin="0 0 0 10px"
                                         />
