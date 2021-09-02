@@ -1,7 +1,6 @@
 import Fuse from "../sdk/fuse-sdk"
 
-export const infuraURL = `https://mainnet.infura.io/v3/bd74c68478354521921a1ac57614862b`;
-export const turboGethURL = `https://turbogeth.crows.sh`;
+export const turboGethURL = `https://eth-mainnet.alchemyapi.io/v2/I4TZi8QLjwehpJbFplMHTXjNkQVbqwA-`;
 
 export function chooseBestWeb3Provider() {
   if (typeof window === "undefined") {
