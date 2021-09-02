@@ -9,7 +9,7 @@ export const Bar = ({tokenAllocation, type}: {tokenAllocation: {[token: string]:
 
 
     return (    
-        <SpacingContainer height="50%" direction="column" margin="10px 0 0 0">
+        <SpacingContainer height="100%" direction="column" margin="10px 0 0 0">
             <TotalBar>
                 { filteredData.map((key) =>
 

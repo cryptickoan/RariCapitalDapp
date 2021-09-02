@@ -9,7 +9,7 @@ import Carousel from 'react-bootstrap/Carousel'
 import { useQuery } from 'react-query'
 
 // Components
-import { Banner, Bar, InfoPair} from '../../../../Shared/index'
+import { Banner, Bar, InfoPair, SpacingContainer} from '../../../../Shared/index'
 import Open from '../../../../Shared/Icons/Open'
 import Spinner from '../../../../Shared/Icons/Spinner'
 import { StyledCarousel } from './styles'
@@ -60,10 +60,14 @@ const InfoCarousel = () => {
                             />
                     </Carousel.Item>
                     <Carousel.Item>
-                        <Bar tokenAllocation={tokenAllocation} type={"token"}/>
+                        <SpacingContainer>
+                            <Bar tokenAllocation={tokenAllocation} type={"token"}/>
+                        </SpacingContainer>
                     </Carousel.Item>
                     <Carousel.Item>
-                        <Bar tokenAllocation={poolAllocation} type={"strategy"}/>
+                        <SpacingContainer>
+                            <Bar tokenAllocation={poolAllocation} type={"strategy"}/>
+                        </SpacingContainer>
                     </Carousel.Item>
                 </StyledCarousel>
             </Banner>
